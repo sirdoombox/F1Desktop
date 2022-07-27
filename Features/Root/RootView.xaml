@@ -1,12 +1,33 @@
-﻿<controls:AdonisWindow x:Class="F1Desktop.Features.Root.RootView"
+﻿<Window x:Class="F1Desktop.Features.Root.RootView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:F1Desktop.Features.Root"
         xmlns:controls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:s="https://github.com/canton7/Stylet"
+        x:Name="Root"
         mc:Ignorable="d"
-        Title="RootView" Height="450" Width="800">
-    <Grid>
-    </Grid>
-</controls:AdonisWindow>
+        d:DataContext="{d:DesignInstance local:RootViewModel}"
+        Height="0"
+        Width="0"
+        ShowActivated="False"
+        ShowInTaskbar="False"
+        WindowStyle="None">
+    <tb:TaskbarIcon>
+        <tb:TaskbarIcon.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Calendar" 
+                          s:View.ActionTarget="{Binding DataContext, ElementName=Root}"
+                          Command="{s:Action OpenWindow}" 
+                          CommandParameter="{Binding Calendar}"> 
+                    <MenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="Calendar"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </ContextMenu>
+        </tb:TaskbarIcon.ContextMenu>
+    </tb:TaskbarIcon>
+</Window>
