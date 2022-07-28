@@ -9,7 +9,18 @@
              d:DataContext="{d:DesignInstance local:RaceViewModel}"
              Style="{StaticResource {x:Type Expander}}">
     <Expander.Header>
-        <TextBlock Text="{Binding Name}" FontSize="16"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{Binding RaceNumber, StringFormat={}Race #{0}}"
+                       Grid.Column="0"/>
+            <TextBlock Text="{Binding Name}" 
+                       FontSize="16"
+                       Grid.Column="1"/>
+        </Grid>
     </Expander.Header>
-    <TextBlock Text="{Binding Test}" FontSize="20"/>
+    <Button Content="Test Button"/>
 </Expander>

@@ -2,7 +2,7 @@
 
 namespace F1Desktop.Models.ErgastAPI.Schedule;
 
-public class ScheduleData : MRData
+public class ScheduleData : MrData
 {
     public RaceTable RaceTable { get; set; }
 }

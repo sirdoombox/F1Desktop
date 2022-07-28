@@ -11,16 +11,18 @@ namespace F1Desktop.Services;
 [UsedImplicitly]
 public class ErgastAPIService
 {
-    private static readonly HttpClient _client;
+    private static readonly HttpClient Client;
+    private static readonly JsonSerializerOptions Options;
 
     private readonly IDataCacheService _cacheService;
 
     static ErgastAPIService()
     {
-        _client = new HttpClient
+        Client = new HttpClient
         {
             BaseAddress = new Uri("https://ergast.com/api/f1/")
         };
+        Options = new JsonSerializerOptions(JsonSerializerDefaults.Web);
     }
     
     public ErgastAPIService(IDataCacheService cacheService)
@@ -34,8 +36,8 @@ public class ErgastAPIService
         if (cache.cache is not null && cache.isValid && !invalidateCache) return cache.cache;
         try
         {
-            await using var data = await _client.GetStreamAsync("current.json");
-            var deserialized = await JsonSerializer.DeserializeAsync<ScheduleRoot>(data);
+            await using var data = await Client.GetStreamAsync("current.json");
+            var deserialized = await JsonSerializer.DeserializeAsync<ScheduleRoot>(data, Options);
             await _cacheService.WriteCacheToDisk(deserialized);
             return deserialized;
         }

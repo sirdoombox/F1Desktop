@@ -6,11 +6,11 @@ namespace F1Desktop.Features.Calendar;
 public class RaceViewModel : PropertyChangedBase
 {
     public string Name { get; }
-    public string Test { get; }
+    public int RaceNumber { get; }
     
     public RaceViewModel(Race raceModel)
     {
-        Test = raceModel.Time;
-        Name = raceModel.raceName;
+        RaceNumber = raceModel.Round;
+        Name = raceModel.RaceName;
     }
 }

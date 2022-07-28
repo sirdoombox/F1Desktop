@@ -7,8 +7,6 @@
         xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:s="https://github.com/canton7/Stylet"
-        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:controls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
         x:Name="Root"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:RootViewModel}"
@@ -22,11 +20,17 @@
         <tb:TaskbarIcon.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Calendar" 
-                          s:View.ActionTarget="{Binding DataContext, ElementName=Root}"
                           Command="{s:Action OpenWindow}" 
                           CommandParameter="{Binding Calendar}"> 
                     <MenuItem.Icon>
                         <iconPacks:PackIconMaterial Kind="Calendar"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Exit" 
+                          Command="{s:Action Exit}" > 
+                    <MenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="Close"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </ContextMenu>

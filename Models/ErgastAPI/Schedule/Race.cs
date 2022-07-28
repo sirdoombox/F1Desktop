@@ -1,11 +1,13 @@
-﻿namespace F1Desktop.Models.ErgastAPI.Schedule;
+﻿using System.Text.Json.Serialization;
+
+namespace F1Desktop.Models.ErgastAPI.Schedule;
 
 public class Race : Session
 {
-    public string season { get; set; }
-    public string round { get; set; }
-    public string url { get; set; }
-    public string raceName { get; set; }
+    public ushort Season { get; set; }
+    public ushort Round { get; set; }
+    public string Url { get; set; }
+    public string RaceName { get; set; }
     public Circuit Circuit { get; set; }
     public Session FirstPractice { get; set; }
     public Session SecondPractice { get; set; }
