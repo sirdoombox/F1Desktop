@@ -9,7 +9,7 @@
              d:DataContext="{d:DesignInstance local:RaceViewModel}"
              Style="{StaticResource {x:Type Expander}}">
     <Expander.Header>
-        <TextBlock Text="{Binding Name}" FontSize="15"/>
+        <TextBlock Text="{Binding Name}" FontSize="16"/>
     </Expander.Header>
     <TextBlock Text="{Binding Test}" FontSize="20"/>
 </Expander>
