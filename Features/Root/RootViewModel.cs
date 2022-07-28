@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using F1Desktop.Features.Calendar;
+using F1Desktop.Services;
 using JetBrains.Annotations;
 using Stylet;
 using Screen = Stylet.Screen;
@@ -13,10 +14,11 @@ public class RootViewModel : Conductor<IScreen>
 
     private readonly IWindowManager _wm;
     
-    public RootViewModel(IWindowManager wm, CalendarRootViewModel calendar)
+    public RootViewModel(IWindowManager wm, CalendarRootViewModel calendar, NewsRssService rss)
     {
         Calendar = calendar;
         _wm = wm;
+        rss.GetFeed().GetAwaiter().GetResult();
     }
     
     public void OpenWindow(Screen toOpen)

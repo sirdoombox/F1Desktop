@@ -11,11 +11,13 @@
     <ItemGroup>
       <PackageReference Include="AdonisUI" Version="1.17.1" />
       <PackageReference Include="AdonisUI.ClassicTheme" Version="1.17.1" />
+      <PackageReference Include="CodeHollow.FeedReader" Version="1.2.4" />
       <PackageReference Include="FluentScheduler" Version="5.5.1" />
       <PackageReference Include="H.NotifyIcon.Wpf" Version="2.0.58" />
       <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
       <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
       <PackageReference Include="Stylet" Version="1.3.6" />
+      <PackageReference Include="System.ServiceModel.Syndication" Version="7.0.0-preview.6.22324.4" />
     </ItemGroup>
 
     <ItemGroup>
