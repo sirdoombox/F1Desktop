@@ -5,7 +5,7 @@
         <TargetFramework>net6.0-windows</TargetFramework>
         <Nullable>disable</Nullable>
         <UseWPF>true</UseWPF>
-        <ApplicationIcon>f1.ico</ApplicationIcon>
+        <ApplicationIcon>Resources\f1.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
@@ -20,12 +20,22 @@
 
     <ItemGroup>
       <None Remove="f1.ico" />
-      <Resource Include="f1.ico" />
+      <None Remove="Fonts\Formula1-Bold.otf" />
+      <None Remove="Fonts\Formula1-Regular.otf" />
+      <None Remove="Fonts\Formula1-Wide.otf" />
+      <Resource Include="Resources\f1.ico" />
+      <None Remove="Resources\Fonts\Formula1-Bold.ttf" />
+      <Resource Include="Resources\Fonts\Formula1-Bold.ttf" />
+      <None Remove="Resources\Fonts\Formula1-Regular.ttf" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Controls" />
       <Folder Include="Converters" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="Resources\Fonts\Formula1-Regular.ttf" />
     </ItemGroup>
 
 </Project>

@@ -58,7 +58,7 @@ public class LocalDataService : IDataCacheService, IConfigService
         return await JsonSerializer.DeserializeAsync<T>(filestream);
     }
 
-    private static async Task WriteDataToFile<T>(string basePath, T data) where T : class ?
+    private static async Task WriteDataToFile<T>(string basePath, T data) where T : class
     {
         var filepath = GetFilePath<T>(basePath);
         await using var filestream = File.Create(filepath);

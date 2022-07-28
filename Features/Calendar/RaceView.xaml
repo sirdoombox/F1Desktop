@@ -1,37 +1,79 @@
 ﻿<Expander x:Class="F1Desktop.Features.Calendar.RaceView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:F1Desktop.Features.Calendar"
-             xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
-             mc:Ignorable="d"
-             d:DataContext="{d:DesignInstance local:RaceViewModel}"
-             Style="{StaticResource {x:Type Expander}}">
+          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+          xmlns:local="clr-namespace:F1Desktop.Features.Calendar"
+          xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+          xmlns:s="https://github.com/canton7/Stylet"
+          mc:Ignorable="d"
+          d:DataContext="{d:DesignInstance local:RaceViewModel}"
+          Style="{StaticResource {x:Type Expander}}"
+          IsExpanded="{Binding IsNextRace, Mode=OneTime}">
     <Expander.Header>
-        <Grid>
+        <Grid Margin="0 10 0 10"
+              HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource AncestorType=ContentPresenter}, Mode=OneWayToSource}">
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="16" />
+                    <Setter Property="FontFamily" Value="{StaticResource F1Regular}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsNextRace}" Value="True">
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource {x:Static adonisUi:Brushes.AlertBrush}}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsNextRace}" Value="False">
+                            <Setter Property="FontWeight" Value="Regular" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Resources>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Text="{Binding RaceNumber, StringFormat={}Race #{0}}"
-                       Grid.Column="0"/>
-            <TextBlock Text="{Binding Name}" 
-                       FontSize="16"
-                       Grid.Column="1"/>
+            <TextBlock Text="{Binding Name}"
+                       Grid.Column="0" />
+            <TextBlock Text="{Binding DateTime.LocalDateTime, StringFormat={}{0:ddd\, d MMMM}}"
+                       HorizontalAlignment="Stretch"
+                       TextAlignment="Center"
+                       Grid.Column="1" />
+            <TextBlock HorizontalAlignment="Stretch"
+                       TextAlignment="Center"
+                       Grid.Column="2">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}Round {0} of {1}">
+                        <Binding Path="RaceNumber" />
+                        <Binding Path="TotalRaces" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
         </Grid>
     </Expander.Header>
-    <ItemsControl ItemsSource="{Binding Sessions}">
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <StackPanel/>
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-        <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <TextBlock Text="{Binding Name}"/>
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-    </ItemsControl>
+    <Grid Margin="10"
+          Background="{DynamicResource {x:Static adonisUi:Brushes.Layer2BackgroundBrush}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <ItemsControl ItemsSource="{Binding Sessions}"
+                      Grid.Column="0">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <StackPanel Grid.Column="1">
+            <Button Content="Open Wiki" Command="{s:Action OpenWiki}" />
+            <Button Content="Open Maps" Command="{s:Action OpenMaps}" />
+        </StackPanel>
+    </Grid>
 </Expander>

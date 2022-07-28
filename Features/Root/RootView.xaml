@@ -16,21 +16,24 @@
         ShowActivated="False"
         ShowInTaskbar="False"
         WindowStyle="None">
-    <tb:TaskbarIcon IconSource="pack://application:,,,/f1.ico">
+    <tb:TaskbarIcon IconSource="pack://application:,,,/Resources/f1.ico"
+                    ToolTip="F1 Desktop"
+                    MenuActivation="LeftOrRightClick"
+                    NoLeftClickDelay="True">
         <tb:TaskbarIcon.ContextMenu>
             <ContextMenu>
-                <MenuItem Header="Calendar" 
-                          Command="{s:Action OpenWindow}" 
-                          CommandParameter="{Binding Calendar}"> 
+                <MenuItem Header="Calendar"
+                          Command="{s:Action OpenWindow}"
+                          CommandParameter="{Binding Calendar}">
                     <MenuItem.Icon>
-                        <iconPacks:PackIconMaterial Kind="Calendar"/>
+                        <iconPacks:PackIconMaterial Kind="Calendar" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <Separator/>
-                <MenuItem Header="Exit" 
-                          Command="{s:Action Exit}" > 
+                <Separator />
+                <MenuItem Header="Exit"
+                          Command="{s:Action Exit}">
                     <MenuItem.Icon>
-                        <iconPacks:PackIconMaterial Kind="Close"/>
+                        <iconPacks:PackIconMaterial Kind="Close" />
                     </MenuItem.Icon>
                 </MenuItem>
             </ContextMenu>
