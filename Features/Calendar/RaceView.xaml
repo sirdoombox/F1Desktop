@@ -22,5 +22,16 @@
                        Grid.Column="1"/>
         </Grid>
     </Expander.Header>
-    <Button Content="Test Button"/>
+    <ItemsControl ItemsSource="{Binding Sessions}">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel/>
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Name}"/>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
 </Expander>

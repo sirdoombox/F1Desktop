@@ -17,7 +17,7 @@ public abstract class FeatureRootBase : Screen
     public void FocusLost(object sender, EventArgs e)
     {
         if (sender is not Window win) return;
-        win.Close();
+        win?.Close();
     }
 
     protected override void OnActivate()
