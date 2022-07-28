@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ServiceModel.Syndication;
 using System.Threading.Tasks;
 using System.Xml;
-using CodeHollow.FeedReader;
 using JetBrains.Annotations;
 
 namespace F1Desktop.Services;

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace F1Desktop.Models.ErgastAPI.Schedule;
+﻿namespace F1Desktop.Models.ErgastAPI.Schedule;
 
 public class RaceTable
 {

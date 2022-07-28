@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace F1Desktop.Misc;
+﻿namespace F1Desktop.Misc;
 
 public static class Constants
 {

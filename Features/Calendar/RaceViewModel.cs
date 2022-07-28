@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using F1Desktop.Misc;
 using F1Desktop.Models.ErgastAPI.Schedule;
 using Stylet;
