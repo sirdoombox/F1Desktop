@@ -7,6 +7,7 @@ using Stylet;
 
 namespace F1Desktop.Features.Base;
 
+[UsedImplicitly(ImplicitUseTargetFlags.WithInheritors)]
 public abstract class FeatureRootBase : Screen
 {
     [DllImport("user32.dll", SetLastError = true)]

@@ -25,7 +25,7 @@ public class LocalDataService : IDataCacheService, IConfigService
         Directory.CreateDirectory(_configPath);
     }
 
-    public async Task<(T?, bool)> TryGetCacheAsync<T>() where T : CachedDataBase
+    public async Task<(T, bool)> TryGetCacheAsync<T>() where T : CachedDataBase
     {
         var data = await TryReadDataFromFile<T>(_cachePath);
         if (data is null) return (null, false);
@@ -34,7 +34,7 @@ public class LocalDataService : IDataCacheService, IConfigService
         return (data, validUntil >= DateTimeOffset.Now);
     }
 
-    public async Task WriteCacheToDisk<T>(T cache) where T : CachedDataBase?
+    public async Task WriteCacheToDisk<T>(T cache) where T : CachedDataBase
     {
         if (cache is null) return;
         cache.CacheTime = DateTimeOffset.Now;
@@ -50,7 +50,7 @@ public class LocalDataService : IDataCacheService, IConfigService
     public Task WriteConfigToDisk<T>(T config) where T : ConfigBase, new() =>
         WriteDataToFile(_configPath, config);
 
-    private static async Task<T?> TryReadDataFromFile<T>(string basePath) where T : class
+    private static async Task<T> TryReadDataFromFile<T>(string basePath) where T : class
     {
         var filepath = GetFilePath<T>(basePath);
         if (!File.Exists(filepath)) return null;
