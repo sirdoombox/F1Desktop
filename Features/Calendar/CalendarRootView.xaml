@@ -5,12 +5,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:F1Desktop.Features.Calendar"
         xmlns:controls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
+        xmlns:s="https://github.com/canton7/Stylet"
         mc:Ignorable="d"
         Title="Calendar" 
         Height="450" 
         Width="800"
         ShowActivated="False"
-        ShowInTaskbar="False">
+        ShowInTaskbar="False"
+        Focusable="True"
+        Deactivated="{s:Action FocusLost}"
+        ResizeMode="NoResize">
     <Grid>
         
     </Grid>

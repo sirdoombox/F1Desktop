@@ -28,8 +28,10 @@ public class LocalDataService : IDataCacheService, IConfigService
     public async Task<(T?, bool)> TryGetCacheAsync<T>() where T : CachedDataBase
     {
         var data = await TryReadDataFromFile<T>(_cachePath);
+        if (data is null) return (null, false);
         var attrib = typeof(T).GetAttribute<CacheDurationAttribute>();
-        return (data, DateTimeOffset.Now + attrib.CacheValidFor < DateTimeOffset.Now);
+        var validUntil = data.CacheTime + attrib.CacheValidFor;
+        return (data, validUntil >= DateTimeOffset.Now);
     }
 
     public async Task WriteCacheToDisk<T>(T cache) where T : CachedDataBase?

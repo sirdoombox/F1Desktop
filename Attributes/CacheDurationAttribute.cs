@@ -9,6 +9,6 @@ public class CacheDurationAttribute : Attribute
 
     public CacheDurationAttribute(int days = 0, int hours = 0, int minutes = 0)
     {
-        CacheValidFor = new TimeSpan(days,hours,minutes);
+        CacheValidFor = new TimeSpan(days, hours, minutes, 0);
     }
 }

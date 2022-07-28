@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using F1Desktop.Models.ErgastAPI;
+using F1Desktop.Models.ErgastAPI.Schedule;
 using F1Desktop.Services.Interfaces;
 
 namespace F1Desktop.Services;
@@ -26,12 +27,12 @@ public class ErgastAPIService
         _cacheService = cacheService;
     }
     
-    public async Task<ScheduleData?> GetSchedule(bool invalidateCache = false)
+    public async Task<ScheduleRoot?> GetScheduleAsync(bool invalidateCache = false)
     {
-        var cache = await _cacheService.TryGetCacheAsync<ScheduleData>();
+        var cache = await _cacheService.TryGetCacheAsync<ScheduleRoot>();
         if (cache.cache is not null && cache.isValid && !invalidateCache) return cache.cache;
         await using var data = await _client.GetStreamAsync("current.json");
-        var deserialized = await JsonSerializer.DeserializeAsync<ScheduleData>(data);
+        var deserialized = await JsonSerializer.DeserializeAsync<ScheduleRoot>(data);
         await _cacheService.WriteCacheToDisk(deserialized);
         return deserialized;
     }

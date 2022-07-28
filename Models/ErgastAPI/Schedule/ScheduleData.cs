@@ -1,12 +1,8 @@
-﻿using System;
-using F1Desktop.Attributes;
-using F1Desktop.Models.Base;
+﻿using F1Desktop.Models.ErgastAPI.Shared;
 
-namespace F1Desktop.Models.ErgastAPI;
+namespace F1Desktop.Models.ErgastAPI.Schedule;
 
-[Filename("Schedule.dat")]
-[CacheDuration(days:7)]
-public class ScheduleData : CachedDataBase
+public class ScheduleData : MRData
 {
-    public MRData MRData { get; set; }
+    public RaceTable RaceTable { get; set; }
 }
