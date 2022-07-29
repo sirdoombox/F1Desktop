@@ -4,14 +4,12 @@ using Stylet;
 
 namespace F1Desktop.Features.Calendar;
 
-public class SessionViewModel : PropertyChangedBase
+public class SessionViewModel : SessionViewModelBase
 {
     public string Name { get; }
-    public DateTimeOffset DateTime { get; }
-    
-    public SessionViewModel(string name, Session session)
+
+    public SessionViewModel(string name, Session session) : base(session.DateTime)
     {
         Name = name;
-        DateTime = session.DateTime;
     }
 }

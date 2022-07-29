@@ -9,11 +9,12 @@
                        xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
                        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                        xmlns:extensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
+                       xmlns:myControls="clr-namespace:F1Desktop.Controls"
                        mc:Ignorable="d"
                        d:DataContext="{d:DesignInstance local:CalendarRootViewModel}"
                        Title="Calendar"
-                       Height="450"
-                       Width="800"
+                       Height="600"
+                       Width="1200"
                        ShowActivated="False"
                        ShowInTaskbar="False"
                        Focusable="True"
@@ -30,54 +31,85 @@
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter Property="Content">
                                     <Setter.Value>
-                                        <iconPacks:PackIconMaterial Kind="Rewind"/>
+                                        <iconPacks:PackIconMaterial Kind="Rewind" />
                                     </Setter.Value>
                                 </Setter>
-                                <Setter Property="ToolTip" Value="Hide Previous Races"/>
+                                <Setter Property="ToolTip" Value="Hide Previous Races" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="False">
                                 <Setter Property="Content">
                                     <Setter.Value>
-                                        <iconPacks:PackIconMaterial Kind="RewindOutline"/>
+                                        <iconPacks:PackIconMaterial Kind="RewindOutline" />
                                     </Setter.Value>
                                 </Setter>
-                                <Setter Property="ToolTip" Value="Show Previous Races"/>
+                                <Setter Property="ToolTip" Value="Show Previous Races" />
                             </Trigger>
                         </Style.Triggers>
                     </Style>
                 </ToggleButton.Style>
             </ToggleButton>
         </StackPanel>
-        
     </controls:AdonisWindow.TitleBarContent>
-    <ItemsControl ItemsSource="{Binding Races}">
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <VirtualizingStackPanel />
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-        <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <Border x:Name="Border"
-                        BorderThickness="0"
-                        Margin="0 5 0 5"
-                        Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBrush}}">
-                    <ContentControl s:View.Model="{Binding}" />
-                </Border>
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-        <ItemsControl.Template>
-            <ControlTemplate TargetType="ItemsControl">
-                <Border BorderThickness="{TemplateBinding BorderThickness}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        Background="{TemplateBinding Background}">
-                    <ScrollViewer CanContentScroll="False"
-                                  Padding="{TemplateBinding Padding}"
-                                  Focusable="False">
-                        <ItemsPresenter />
-                    </ScrollViewer>
-                </Border>
-            </ControlTemplate>
-        </ItemsControl.Template>
-    </ItemsControl>
+    <controls:AdonisWindow.Resources>
+        <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="{StaticResource F1Font}"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+    </controls:AdonisWindow.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <DockPanel Grid.Column="0">
+                <Label DockPanel.Dock="Top" 
+                       Content="Next Race - Hungarian Grand Prix" />
+                <myControls:CountdownControl DockPanel.Dock="Bottom"
+                                             TimeRemaining="{Binding TimeUntilNextRace}" />
+            </DockPanel>
+            <DockPanel Grid.Column="1">
+                <Label DockPanel.Dock="Top" 
+                       Content="Next Session - Free Practice 3, Hungarian Grand Prix"/>
+                <myControls:CountdownControl DockPanel.Dock="Bottom"
+                                             TimeRemaining="{Binding TimeUntilNextSession}" />
+            </DockPanel>
+        </Grid>
+        <ItemsControl ItemsSource="{Binding Races}" Grid.Row="1">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel VirtualizationMode="Recycling"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border x:Name="Border"
+                            BorderThickness="0"
+                            Margin="0 5 0 5"
+                            Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBrush}}">
+                        <ContentControl s:View.Model="{Binding}" />
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.Template>
+                <ControlTemplate TargetType="ItemsControl">
+                    <Border BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}">
+                        <ScrollViewer CanContentScroll="True"
+                                      Padding="{TemplateBinding Padding}"
+                                      Focusable="False">
+                            <ItemsPresenter />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </ItemsControl.Template>
+        </ItemsControl>
+    </Grid>
+
 </controls:AdonisWindow>

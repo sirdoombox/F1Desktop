@@ -12,6 +12,7 @@
       <PackageReference Include="AdonisUI" Version="1.17.1" />
       <PackageReference Include="AdonisUI.ClassicTheme" Version="1.17.1" />
       <PackageReference Include="CodeHollow.FeedReader" Version="1.2.4" />
+      <PackageReference Include="Expression.Blend.Sdk" Version="1.0.2" />
       <PackageReference Include="FluentScheduler" Version="5.5.1" />
       <PackageReference Include="H.NotifyIcon.Wpf" Version="2.0.58" />
       <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
@@ -29,11 +30,6 @@
       <None Remove="Resources\Fonts\Formula1-Bold.ttf" />
       <Resource Include="Resources\Fonts\Formula1-Bold.ttf" />
       <None Remove="Resources\Fonts\Formula1-Regular.ttf" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Controls" />
-      <Folder Include="Converters" />
     </ItemGroup>
 
     <ItemGroup>

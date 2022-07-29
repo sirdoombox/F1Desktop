@@ -16,6 +16,7 @@ public abstract class FeatureRootBase : Screen
     [UsedImplicitly]
     public void FocusLost(object sender, EventArgs e)
     {
+        return;
         if (sender is not Window win) return;
         try
         {
