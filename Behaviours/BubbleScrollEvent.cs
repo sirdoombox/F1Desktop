@@ -18,11 +18,13 @@ public sealed class BubbleScrollEvent : Behavior<UIElement>
         base.OnDetaching();
     }
 
-    void AssociatedObject_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    private void AssociatedObject_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
     {
         e.Handled = true;
-        var e2 = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
-        e2.RoutedEvent = UIElement.MouseWheelEvent;
+        var e2 = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
+        {
+            RoutedEvent = UIElement.MouseWheelEvent
+        };
         AssociatedObject.RaiseEvent(e2);
     }
 }

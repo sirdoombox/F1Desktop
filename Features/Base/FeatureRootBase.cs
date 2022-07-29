@@ -1,36 +1,32 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using System.Windows;
-using System.Windows.Interop;
+﻿using F1Desktop.Models.Base;
+using F1Desktop.Services;
 using JetBrains.Annotations;
-using Stylet;
 
 namespace F1Desktop.Features.Base;
 
 [UsedImplicitly(ImplicitUseTargetFlags.WithInheritors)]
-public abstract class FeatureRootBase : Screen
+public abstract class FeatureRootBase<T> : FeatureWindowBase where T : ConfigBase, new()
 {
-    [DllImport("user32.dll", SetLastError = true)]
-    public static extern IntPtr SetForegroundWindow(IntPtr hWnd);
+    protected T Config { get; private set; }
+    private readonly ConfigService _configService;
 
-    [UsedImplicitly]
-    public void FocusLost(object sender, EventArgs e)
+    public FeatureRootBase(ConfigService configService)
     {
-        return;
-        if (sender is not Window win) return;
-        try
-        {
-            win.Close();
-        }
-        catch
-        {
-            // ignored
-        }
+        _configService = configService;
     }
 
-    protected override void OnActivate()
+    protected sealed override async void OnInitialActivate()
     {
-        if (View is not Window win) return;
-        SetForegroundWindow(new WindowInteropHelper(win).EnsureHandle());
+        Config = await _configService.GetConfigAsync<T>();
+        OnConfigLoaded();
+        OnActivationComplete();
     }
+
+    protected override async void OnClose()
+    {
+        await _configService.WriteConfigAsync<T>();
+    }
+    
+    protected virtual void OnConfigLoaded() {}
+    protected virtual void OnActivationComplete() {}
 }

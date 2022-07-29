@@ -14,7 +14,13 @@ public class LocalDataService : IDataCacheService, IConfigService
 {
     private readonly string _cachePath;
     private readonly string _configPath;
+    private static readonly JsonSerializerOptions JsonOptions;
 
+    static LocalDataService()
+    {
+        JsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.General);
+    }
+    
     public LocalDataService()
     {
         var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -41,13 +47,10 @@ public class LocalDataService : IDataCacheService, IConfigService
         await WriteDataToFile(_cachePath, cache);
     }
 
-    public async Task<T> GetConfigAsync<T>() where T : ConfigBase, new()
-    {
-        var config = await TryReadDataFromFile<T>(_configPath);
-        return config ?? new T();
-    }
+    public Task<T> TryGetConfigAsync<T>() where T : ConfigBase => 
+        TryReadDataFromFile<T>(_configPath);
 
-    public Task WriteConfigToDisk<T>(T config) where T : ConfigBase, new() =>
+    public Task WriteConfigToDisk<T>(T config) where T : ConfigBase =>
         WriteDataToFile(_configPath, config);
 
     private static async Task<T> TryReadDataFromFile<T>(string basePath) where T : class
@@ -58,11 +61,12 @@ public class LocalDataService : IDataCacheService, IConfigService
         return await JsonSerializer.DeserializeAsync<T>(filestream);
     }
 
-    private static async Task WriteDataToFile<T>(string basePath, T data) where T : class
+    private static async Task WriteDataToFile<T>(string basePath, T data, bool writeIndented = false) where T : class
     {
         var filepath = GetFilePath<T>(basePath);
         await using var filestream = File.Create(filepath);
-        await JsonSerializer.SerializeAsync(filestream, data);
+        JsonOptions.WriteIndented = writeIndented;
+        await JsonSerializer.SerializeAsync(filestream, data, JsonOptions);
     }
 
     private static string GetFilePath<T>(string basePath)

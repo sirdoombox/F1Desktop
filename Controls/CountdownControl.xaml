@@ -12,7 +12,6 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
-                            <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <controls:CountdownElement Grid.Column="0"
                                                    DisplayText="Days"
@@ -23,9 +22,6 @@
                         <controls:CountdownElement Grid.Column="2"
                                                    DisplayText="Minutes"
                                                    CountdownValue="{Binding TimeRemaining.Minutes, RelativeSource={RelativeSource TemplatedParent}}" />
-                        <controls:CountdownElement Grid.Column="3"
-                                                   DisplayText="Seconds"
-                                                   CountdownValue="{Binding TimeRemaining.Seconds, RelativeSource={RelativeSource TemplatedParent}}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

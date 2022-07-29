@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using F1Desktop.Misc;
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.ErgastAPI.Schedule;
@@ -21,13 +20,12 @@ public class RaceViewModel : SessionViewModelBase
 
     private readonly Race _race;
 
-    public RaceViewModel(Race race, int totalRaces, bool isNextRace) : base(race.DateTime)
+    public RaceViewModel(Race race, int totalRaces) : base(race.DateTime)
     {
         _race = race;
         RaceNumber = race.Round;
         Name = race.RaceName;
         TotalRaces = totalRaces;
-        IsNext = isNextRace;
         SetupWeekend(race.IsSprintWeekend ? race.SprintWeekend : race.NormalWeekend);
     }
 

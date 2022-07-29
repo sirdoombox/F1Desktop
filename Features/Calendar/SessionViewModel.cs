@@ -1,6 +1,4 @@
-﻿using System;
-using F1Desktop.Models.ErgastAPI.Schedule;
-using Stylet;
+﻿using F1Desktop.Models.ErgastAPI.Schedule;
 
 namespace F1Desktop.Features.Calendar;
 

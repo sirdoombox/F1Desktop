@@ -1,16 +1,17 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Data;
 using F1Desktop.Features.Base;
 using F1Desktop.Misc.Extensions;
-using F1Desktop.Models.ErgastAPI.Schedule;
+using F1Desktop.Models.Config;
 using F1Desktop.Services;
 using FluentScheduler;
 using Stylet;
 
 namespace F1Desktop.Features.Calendar;
 
-public class CalendarRootViewModel : FeatureRootBase
+public class CalendarRootViewModel : FeatureRootBase<CalendarConfig>
 {
     public BindableCollection<RaceViewModel> Races { get; } = new();
 
@@ -21,6 +22,7 @@ public class CalendarRootViewModel : FeatureRootBase
         set
         {
             SetAndNotify(ref _showPreviousRaces, value);
+            Config.ShowPreviousRaces = value;
             _racesView.Refresh();
         }
     }
@@ -44,14 +46,14 @@ public class CalendarRootViewModel : FeatureRootBase
     private readonly ErgastAPIService _api;
     private readonly ICollectionView _racesView;
 
-    public CalendarRootViewModel(ErgastAPIService api)
+    public CalendarRootViewModel(ErgastAPIService api, ConfigService configService) : base(configService)
     {
         _api = api;
         _racesView = CollectionViewSource.GetDefaultView(Races);
         _racesView.Filter = FilterRaces;
         _racesView.SortDescriptions.Clear();
         _racesView.SortDescriptions.Add(new SortDescription("RaceNumber", ListSortDirection.Ascending));
-        JobManager.AddJob(UpdateTimers, s => s.ToRunNow().AndEvery(1).Seconds());
+        JobManager.AddJob(UpdateTimers, s => s.ToRunEvery(10).Seconds());
     }
 
     private void UpdateTimers()
@@ -69,25 +71,20 @@ public class CalendarRootViewModel : FeatureRootBase
         TimeUntilNextSession = _nextRace.NextSession.SessionTime - DateTimeOffset.Now;
     }
 
-    protected override async void OnInitialActivate()
+    protected override void OnConfigLoaded()
+    {
+        ShowPreviousRaces = Config.ShowPreviousRaces;
+    }
+
+    protected override async void OnActivationComplete()
     {
         Races.Clear();
         var data = await _api.GetScheduleAsync();
         if (data is null) return;
-        Race prev = null;
-        foreach (var race in data.ScheduleData.RaceTable.Races)
-        {
-            var isNextRace = (prev is not null 
-                                && prev.DateTime < DateTimeOffset.Now 
-                                && race.DateTime > DateTimeOffset.Now)
-                             || (prev is null
-                                && race.DateTime > DateTimeOffset.Now);
-            var raceVm = new RaceViewModel(race, data.ScheduleData.Total, isNextRace);
-            Races.Add(raceVm);
-            if (isNextRace) _nextRace = raceVm;
-            prev = race;
-        }
-        ShowPreviousRaces = false;
+        Races.AddRange(data.ScheduleData.RaceTable.Races.Select(x => new RaceViewModel(x, data.ScheduleData.Total)));
+        _nextRace = Races.GetNextSession();
+        _racesView.Refresh();
+        UpdateTimers();
     }
 
     private bool FilterRaces(object obj)
