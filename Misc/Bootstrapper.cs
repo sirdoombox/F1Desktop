@@ -26,8 +26,10 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         var localDataService = new LocalDataService();
         builder.Bind<IConfigService>().ToInstance(localDataService);
         builder.Bind<IDataCacheService>().ToInstance(localDataService);
+        
         builder.Bind<ErgastAPIService>().ToSelf().InSingletonScope();
         builder.Bind<NewsRssService>().ToSelf().InSingletonScope();
+        builder.Bind<NotificationService>().ToFactory(_ => new NotificationService(_icon)).InSingletonScope();
     }
 
     public override void Dispose()

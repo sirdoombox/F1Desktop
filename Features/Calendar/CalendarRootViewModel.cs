@@ -40,8 +40,13 @@ public class CalendarRootViewModel : FeatureRootBase<CalendarConfig>
         get => _timeUntilNextRace;
         set => SetAndNotify(ref _timeUntilNextRace, value);
     }
-
+    
     private RaceViewModel _nextRace;
+    public RaceViewModel NextRace
+    {
+        get => _nextRace;
+        private set => SetAndNotify(ref _nextRace, value);
+    }
     
     private readonly ErgastAPIService _api;
     private readonly ICollectionView _racesView;
@@ -59,16 +64,16 @@ public class CalendarRootViewModel : FeatureRootBase<CalendarConfig>
     private void UpdateTimers()
     {
         if (Races.Count <= 0) return;
-        if (_nextRace is null)
-            _nextRace = Races.GetNextSession();
-        else if (DateTimeOffset.Now >= _nextRace.SessionTime)
+        if (NextRace is null)
+            NextRace = Races.GetNextSession();
+        else if (DateTimeOffset.Now >= NextRace.SessionTime)
         {
-            _nextRace.IsNext = false;
-            _nextRace = Races.GetNextSession();
+            NextRace.IsNext = false;
+            NextRace = Races.GetNextSession();
         }
-        _nextRace.UpdateNextSession();
-        TimeUntilNextRace = _nextRace.SessionTime - DateTimeOffset.Now;
-        TimeUntilNextSession = _nextRace.NextSession.SessionTime - DateTimeOffset.Now;
+        NextRace.UpdateNextSession();
+        TimeUntilNextRace = NextRace.SessionTime - DateTimeOffset.Now;
+        TimeUntilNextSession = NextRace.NextSession.SessionTime - DateTimeOffset.Now;
     }
 
     protected override void OnConfigLoaded()
@@ -82,7 +87,7 @@ public class CalendarRootViewModel : FeatureRootBase<CalendarConfig>
         var data = await _api.GetScheduleAsync();
         if (data is null) return;
         Races.AddRange(data.ScheduleData.RaceTable.Races.Select(x => new RaceViewModel(x, data.ScheduleData.Total)));
-        _nextRace = Races.GetNextSession();
+        NextRace = Races.GetNextSession();
         _racesView.Refresh();
         UpdateTimers();
     }

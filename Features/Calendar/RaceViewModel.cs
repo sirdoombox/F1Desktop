@@ -16,8 +16,13 @@ public class RaceViewModel : SessionViewModelBase
     
     public BindableCollection<SessionViewModel> Sessions { get; } = new();
     
-    public SessionViewModel NextSession { get; private set; }
-
+    private SessionViewModel _nextSession;
+    public SessionViewModel NextSession
+    {
+        get => _nextSession;
+        private set => SetAndNotify(ref _nextSession, value);
+    }
+    
     private readonly Race _race;
 
     public RaceViewModel(Race race, int totalRaces) : base(race.DateTime)
@@ -26,15 +31,11 @@ public class RaceViewModel : SessionViewModelBase
         RaceNumber = race.Round;
         Name = race.RaceName;
         TotalRaces = totalRaces;
-        SetupWeekend(race.IsSprintWeekend ? race.SprintWeekend : race.NormalWeekend);
-    }
-
-    private void SetupWeekend(IReadOnlyDictionary<string,Session> sessions)
-    {
-        foreach (var session in sessions)
-        {
-            Sessions.Add(new SessionViewModel(session.Key, session.Value));
-        }
+        var weekendOrder = race.IsSprintWeekend 
+            ? Constants.SprintWeekendOrder 
+            : Constants.NormalWeekendOrder;
+        foreach (var session in weekendOrder)
+            Sessions.Add(new SessionViewModel(session.ToDisplayString(), race.Sessions[session]));
     }
 
     public void UpdateNextSession()
@@ -48,13 +49,9 @@ public class RaceViewModel : SessionViewModelBase
         }
     }
 
-    public void OpenWiki()
-    {
-        UrlHelper.Open(_race.Url);
-    }
+    public void OpenWiki() => UrlHelper.Open(_race.Url);
 
-    public void OpenMaps()
-    {
-        UrlHelper.Open(_race.Circuit);
-    }
+    public void OpenMaps() => UrlHelper.OpenMap(_race.Circuit);
+
+    public void OpenWeather() => UrlHelper.OpenWeather(Name);
 }

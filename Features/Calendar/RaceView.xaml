@@ -12,17 +12,16 @@
           d:DataContext="{d:DesignInstance local:RaceViewModel}"
           Style="{StaticResource {x:Type Expander}}"
           IsExpanded="{Binding IsNext, Mode=OneTime}">
+    <i:Interaction.Behaviors>
+        <behaviours:BubbleScrollEvent />
+    </i:Interaction.Behaviors>
     <Expander.Header>
         <Grid Margin="0 10 0 10"
               HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource AncestorType=ContentPresenter}, Mode=OneWayToSource}">
-            <!-- TODO: Fix this, for some reason the grid isn't bubbling events... -->
-            <i:Interaction.Behaviors>
-                <behaviours:BubbleScrollEvent/>
-            </i:Interaction.Behaviors>
             <Grid.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="FontSize" Value="16" />
-                    <Setter Property="FontFamily" Value="{StaticResource F1Font}"/>
+                    <Setter Property="FontFamily" Value="{StaticResource F1Font}" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsNext}" Value="True">
                             <Setter Property="FontWeight" Value="Bold" />
@@ -80,6 +79,7 @@
         <StackPanel Grid.Column="1">
             <Button Content="Open Wiki" Command="{s:Action OpenWiki}" />
             <Button Content="Open Maps" Command="{s:Action OpenMaps}" />
+            <Button Content="Open Weather" Command="{s:Action OpenWeather}" />
         </StackPanel>
     </Grid>
 </Expander>

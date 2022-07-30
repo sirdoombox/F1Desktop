@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using F1Desktop.Enums;
 
 namespace F1Desktop.Models.ErgastAPI.Schedule;
 
@@ -15,25 +16,17 @@ public class Race : Session
     public Session Qualifying { get; set; }
     public Session Sprint { get; set; }
 
+    [JsonIgnore]
     public bool IsSprintWeekend => Sprint is not null;
-    
+
     [JsonIgnore]
-    public IReadOnlyDictionary<string, Session> SprintWeekend => new Dictionary<string, Session>()
+    public IReadOnlyDictionary<SessionType, Session> Sessions => new Dictionary<SessionType, Session>
     {
-        { "First Practice", FirstPractice },
-        { "Qualifying", Qualifying },
-        { "Second Practice", SecondPractice },
-        { "Sprint", Sprint },
-        { "Race", this }
-    };
-    
-    [JsonIgnore]
-    public IReadOnlyDictionary<string, Session> NormalWeekend => new Dictionary<string, Session>()
-    {
-        { "First Practice", FirstPractice },
-        { "Second Practice", SecondPractice },
-        { "Third Practice", ThirdPractice },
-        { "Qualifying", Qualifying },
-        { "Race", this }
+        { SessionType.FirstPractice, FirstPractice },
+        { SessionType.SecondPractice, SecondPractice },
+        { SessionType.ThirdPractice, ThirdPractice },
+        { SessionType.Qualifying, Qualifying },
+        { SessionType.Sprint, Sprint },
+        { SessionType.Race, this }
     };
 }

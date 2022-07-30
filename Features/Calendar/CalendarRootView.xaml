@@ -69,13 +69,21 @@
             </Grid.ColumnDefinitions>
             <DockPanel Grid.Column="0">
                 <Label DockPanel.Dock="Top" 
-                       Content="Next Race - Hungarian Grand Prix" />
+                       Content="{Binding NextRace.Name}" ContentStringFormat="Next Race - {0}"/>
                 <myControls:CountdownControl DockPanel.Dock="Bottom"
                                              TimeRemaining="{Binding TimeUntilNextRace}" />
             </DockPanel>
             <DockPanel Grid.Column="1">
-                <Label DockPanel.Dock="Top" 
-                       Content="Next Session - Free Practice 3, Hungarian Grand Prix"/>
+                <Label DockPanel.Dock="Top">
+                    <TextBlock>
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}Next Session - {0}, {1}">
+                                <Binding Path="NextRace.NextSession.Name"/>
+                                <Binding Path="NextRace.Name"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Label>
                 <myControls:CountdownControl DockPanel.Dock="Bottom"
                                              TimeRemaining="{Binding TimeUntilNextSession}" />
             </DockPanel>
@@ -98,15 +106,12 @@
             </ItemsControl.ItemTemplate>
             <ItemsControl.Template>
                 <ControlTemplate TargetType="ItemsControl">
-                    <Border BorderThickness="{TemplateBinding BorderThickness}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            Background="{TemplateBinding Background}">
-                        <ScrollViewer CanContentScroll="True"
+                        <!-- Set CanContentScroll to True to enable virtualisation, has some side effects... -->
+                        <ScrollViewer CanContentScroll="False"
                                       Padding="{TemplateBinding Padding}"
                                       Focusable="False">
                             <ItemsPresenter />
                         </ScrollViewer>
-                    </Border>
                 </ControlTemplate>
             </ItemsControl.Template>
         </ItemsControl>
