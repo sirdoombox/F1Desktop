@@ -13,9 +13,12 @@ public abstract class SessionViewModelBase : PropertyChangedBase
     }
     
     public DateTimeOffset SessionTime { get; }
+    
+    public bool IsUpcoming { get; }
 
     public SessionViewModelBase(DateTimeOffset sessionTime)
     {
         SessionTime = sessionTime;
+        IsUpcoming = sessionTime > DateTimeOffset.Now;
     }
 }

@@ -2,9 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:F1Desktop.Controls">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/Controls/CountdownControl.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/Controls/CountdownElement.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Styles/CountdownControl.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Styles/CountdownElement.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Styles/HighlightableTextBlock.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     <Style BasedOn="{StaticResource Styles.CountdownElement}" TargetType="{x:Type controls:CountdownElement}"/>
     <Style BasedOn="{StaticResource Styles.CountdownControl}" TargetType="{x:Type controls:CountdownControl}"/>
+    <Style BasedOn="{StaticResource Styles.HighlightableTextBlock}" TargetType="{x:Type controls:HighlightableTextBlock}"/>
 </ResourceDictionary>

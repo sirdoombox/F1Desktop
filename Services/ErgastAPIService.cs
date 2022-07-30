@@ -43,7 +43,7 @@ public class ErgastAPIService
         }
         catch
         {
-            // return the cache regardless if there is no fallback.
+            // return the cache regardless as a fallback.
             return cache.cache;
         }
     }

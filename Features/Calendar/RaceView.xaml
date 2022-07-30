@@ -8,30 +8,38 @@
           xmlns:s="https://github.com/canton7/Stylet"
           xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
           xmlns:behaviours="clr-namespace:F1Desktop.Behaviours"
+          xmlns:controls="clr-namespace:F1Desktop.Controls"
+          xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+          xmlns:system="clr-namespace:System;assembly=System.Runtime"
           mc:Ignorable="d"
           d:DataContext="{d:DesignInstance local:RaceViewModel}"
           Style="{StaticResource {x:Type Expander}}"
-          IsExpanded="{Binding IsNext, Mode=OneTime}">
+          IsExpanded="{Binding IsNext, Mode=OneTime}"
+          Margin="10 0 10 0">
     <i:Interaction.Behaviors>
         <behaviours:BubbleScrollEvent />
     </i:Interaction.Behaviors>
+    <Expander.Resources>
+        <system:Double x:Key="IconSize">25</system:Double>
+        <Style TargetType="iconPacks:PackIconMaterial" x:Key="ButtonIconStyle">
+            <Setter Property="Width" Value="{StaticResource IconSize}" />
+            <Setter Property="Height" Value="{StaticResource IconSize}" />
+        </Style>
+        <Style TargetType="Button" BasedOn="{StaticResource {x:Static adonisUi:Styles.AccentButton}}">
+            <Setter Property="ToolTipService.InitialShowDelay" Value="0" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
+    </Expander.Resources>
     <Expander.Header>
         <Grid Margin="0 10 0 10"
               HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource AncestorType=ContentPresenter}, Mode=OneWayToSource}">
             <Grid.Resources>
-                <Style TargetType="TextBlock">
+                <Style TargetType="controls:HighlightableTextBlock"
+                       BasedOn="{StaticResource {x:Type controls:HighlightableTextBlock}}">
                     <Setter Property="FontSize" Value="16" />
-                    <Setter Property="FontFamily" Value="{StaticResource F1Font}" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsNext}" Value="True">
-                            <Setter Property="FontWeight" Value="Bold" />
-                            <Setter Property="Foreground"
-                                    Value="{DynamicResource {x:Static adonisUi:Brushes.AlertBrush}}" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsNext}" Value="False">
-                            <Setter Property="FontWeight" Value="Regular" />
-                        </DataTrigger>
-                    </Style.Triggers>
+                    <Setter Property="IsHighlighted" Value="{Binding IsNext}" />
+                    <Setter Property="HighlightBrush" Value="{DynamicResource {x:Static adonisUi:Brushes.AlertBrush}}" />
+                    <Setter Property="IsEnabled" Value="{Binding IsUpcoming}" />
                 </Style>
             </Grid.Resources>
             <Grid.ColumnDefinitions>
@@ -39,29 +47,28 @@
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Text="{Binding Name}"
-                       Grid.Column="0" />
-            <TextBlock Text="{Binding SessionTime.LocalDateTime, StringFormat={}{0:ddd\, d MMMM}}"
-                       HorizontalAlignment="Stretch"
-                       TextAlignment="Center"
-                       Grid.Column="1" />
-            <TextBlock HorizontalAlignment="Stretch"
-                       TextAlignment="Center"
-                       Grid.Column="2">
-                <TextBlock.Text>
+            <controls:HighlightableTextBlock Grid.Column="0"
+                                             Text="{Binding Name}" />
+            <controls:HighlightableTextBlock Grid.Column="1"
+                                             Text="{Binding SessionTime.LocalDateTime, StringFormat={}{0:ddd\, d MMMM}}"
+                                             HorizontalAlignment="Stretch"
+                                             TextAlignment="Center" />
+            <controls:HighlightableTextBlock Grid.Column="2"
+                                             HorizontalAlignment="Right"
+                                             TextAlignment="Center">
+                <controls:HighlightableTextBlock.Text>
                     <MultiBinding StringFormat="{}Round {0} of {1}">
                         <Binding Path="RaceNumber" />
                         <Binding Path="TotalRaces" />
                     </MultiBinding>
-                </TextBlock.Text>
-            </TextBlock>
+                </controls:HighlightableTextBlock.Text>
+            </controls:HighlightableTextBlock>
         </Grid>
     </Expander.Header>
-    <Grid Margin="10"
-          Background="{DynamicResource {x:Static adonisUi:Brushes.Layer2BackgroundBrush}}">
+    <Grid Margin="10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*" />
-            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <ItemsControl ItemsSource="{Binding Sessions}"
                       Grid.Column="0">
@@ -72,14 +79,60 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}" />
+                    <DataTemplate.Resources>
+                        <Style TargetType="controls:HighlightableTextBlock"
+                               BasedOn="{StaticResource {x:Type controls:HighlightableTextBlock}}">
+                            <Setter Property="IsEnabled" Value="{Binding IsUpcoming}" />
+                            <Setter Property="IsHighlighted" Value="{Binding IsNext}" />
+                            <Setter Property="HighlightBrush"
+                                    Value="{DynamicResource {x:Static adonisUi:Brushes.AlertBrush}}" />
+                            <Setter Property="FontSize" Value="15" />
+                        </Style>
+                    </DataTemplate.Resources>
+                    <Grid Margin="10 0 10 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0"
+                                Height="1"
+                                Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BorderBrush}}"
+                                x:Name="Border" />
+                        <Grid Grid.Row="1" Margin="0 10 0 10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <controls:HighlightableTextBlock Grid.Column="0"
+                                                             Text="{Binding Name}" />
+                            <controls:HighlightableTextBlock Grid.Column="1"
+                                                             HorizontalAlignment="Right"
+                                                             Text="{Binding SessionTime.LocalDateTime}"
+                                                             ToolTip="{Binding SessionTime, StringFormat={}Local Time: {0}}"/>
+                        </Grid>
+
+                    </Grid>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
+                            <Setter TargetName="Border" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
         <StackPanel Grid.Column="1">
-            <Button Content="Open Wiki" Command="{s:Action OpenWiki}" />
-            <Button Content="Open Maps" Command="{s:Action OpenMaps}" />
-            <Button Content="Open Weather" Command="{s:Action OpenWeather}" />
+            <StackPanel.Resources>
+                <Style TargetType="iconPacks:PackIconMaterial" BasedOn="{StaticResource ButtonIconStyle}" />
+            </StackPanel.Resources>
+            <Button ToolTip="Open Wikipedia" Command="{s:Action OpenWiki}">
+                <iconPacks:PackIconMaterial Kind="Wikipedia" />
+            </Button>
+            <Button ToolTip="Open Google Maps" Command="{s:Action OpenMaps}">
+                <iconPacks:PackIconMaterial Kind="GoogleMaps" />
+            </Button>
+            <Button ToolTip="Open Weather" Command="{s:Action OpenWeather}">
+                <iconPacks:PackIconMaterial Kind="WeatherPartlyCloudy" />
+            </Button>
         </StackPanel>
     </Grid>
 </Expander>

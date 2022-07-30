@@ -14,12 +14,13 @@
                        d:DataContext="{d:DesignInstance local:CalendarRootViewModel}"
                        Title="Calendar"
                        Height="600"
-                       Width="1200"
+                       Width="900"
                        ShowActivated="False"
                        ShowInTaskbar="False"
                        Focusable="True"
                        Deactivated="{s:Action FocusLost}"
-                       ResizeMode="NoResize">
+                       ResizeMode="NoResize"
+                       FontFamily="{StaticResource F1Font}">
     <controls:AdonisWindow.TitleBarContent>
         <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
             <ToggleButton IsChecked="{Binding ShowPreviousRaces}"
@@ -53,16 +54,16 @@
     <controls:AdonisWindow.Resources>
         <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="FontFamily" Value="{StaticResource F1Font}"/>
             <Setter Property="FontSize" Value="14"/>
         </Style>
     </controls:AdonisWindow.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" Margin="0 10 0 10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -74,21 +75,14 @@
                                              TimeRemaining="{Binding TimeUntilNextRace}" />
             </DockPanel>
             <DockPanel Grid.Column="1">
-                <Label DockPanel.Dock="Top">
-                    <TextBlock>
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}Next Session - {0}, {1}">
-                                <Binding Path="NextRace.NextSession.Name"/>
-                                <Binding Path="NextRace.Name"/>
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </Label>
+                <Label DockPanel.Dock="Top" 
+                       Content="{Binding NextRace.NextSession.Name}" ContentStringFormat="Next Session - {0}"/>
                 <myControls:CountdownControl DockPanel.Dock="Bottom"
                                              TimeRemaining="{Binding TimeUntilNextSession}" />
             </DockPanel>
         </Grid>
-        <ItemsControl ItemsSource="{Binding Races}" Grid.Row="1">
+        <Separator Grid.Row="1"/>
+        <ItemsControl ItemsSource="{Binding Races}" Grid.Row="2">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel VirtualizationMode="Recycling"/>
@@ -98,8 +92,9 @@
                 <DataTemplate>
                     <Border x:Name="Border"
                             BorderThickness="0"
-                            Margin="0 5 0 5"
-                            Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBrush}}">
+                            Margin="10 5 0 5"
+                            CornerRadius="8"
+                            Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}">
                         <ContentControl s:View.Model="{Binding}" />
                     </Border>
                 </DataTemplate>

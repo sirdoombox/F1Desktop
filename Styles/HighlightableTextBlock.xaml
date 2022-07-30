@@ -1,0 +1,42 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:F1Desktop.Controls"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+                    mc:Ignorable="d">
+    <Style x:Key="Styles.HighlightableTextBlock"
+           TargetType="controls:HighlightableTextBlock">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:HighlightableTextBlock">
+                    <TextBlock x:Name="PART_TextBlock"
+                               FontSize="{TemplateBinding FontSize}"
+                               Text="{TemplateBinding Text}"
+                               TextAlignment="{TemplateBinding TextAlignment}"
+                               Foreground="{TemplateBinding Foreground}"
+                               FontFamily="{TemplateBinding FontFamily}"/>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsHighlighted" Value="True">
+                            <Setter TargetName="PART_TextBlock" Property="FontWeight" Value="Bold" />
+                            <Setter TargetName="PART_TextBlock" Property="Foreground"
+                                    Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HighlightBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsHighlighted" Value="False">
+                            <Setter TargetName="PART_TextBlock" Property="FontWeight" Value="Regular" />
+                            <Setter TargetName="PART_TextBlock" Property="Foreground"
+                                    Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Foreground}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="True">
+                            <Setter TargetName="PART_TextBlock" Property="TextDecorations" Value="{x:Null}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="PART_TextBlock" Property="TextDecorations" Value="Strikethrough"/>
+                            <Setter TargetName="PART_TextBlock" Property="Foreground" Value="{StaticResource {x:Static adonisUi:Brushes.DisabledForegroundBrush}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

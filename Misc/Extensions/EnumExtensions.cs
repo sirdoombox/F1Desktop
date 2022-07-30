@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using F1Desktop.Enums;
 
 namespace F1Desktop.Misc.Extensions;
 

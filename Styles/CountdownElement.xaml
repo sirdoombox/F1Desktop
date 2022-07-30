@@ -13,7 +13,6 @@
             <Style TargetType="TextBlock">
                 <Setter Property="HorizontalAlignment" Value="Center"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="FontFamily" Value="{StaticResource F1Font}"/>
                 <Setter Property="Grid.Column" Value="1"/>
             </Style>
         </Style.Resources>
@@ -72,9 +71,11 @@
                                 <RowDefinition Height="1*"/>
                             </Grid.RowDefinitions>
                             <TextBlock Text="{Binding CountdownValue, RelativeSource={RelativeSource TemplatedParent}}" 
-                                       Grid.Row="1"/>
+                                       Grid.Row="1"
+                                       Grid.Column="1"/>
                             <TextBlock Text="{Binding DisplayText, RelativeSource={RelativeSource TemplatedParent}}"
-                                       Grid.Row="2"/>
+                                       Grid.Row="2"
+                                       Grid.Column="1"/>
                         </Grid>
                     </Grid>
                 </ControlTemplate>

@@ -15,7 +15,7 @@
                 <ResourceDictionary Source="pack://application:,,,/AdonisUI;component/ColorSchemes/Dark.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/AdonisUI.ClassicTheme;component/Resources.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources/Resources.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Controls/Controls.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Styles/Styles.xaml"/>
                 <ResourceDictionary>
                     <converters:IntThresholdConverter x:Key="IntThreshold"/>
                 </ResourceDictionary>
