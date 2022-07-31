@@ -8,7 +8,7 @@
                        xmlns:controls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
                        xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
                        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-                       xmlns:extensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
+                       xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
                        xmlns:myControls="clr-namespace:F1Desktop.Controls"
                        mc:Ignorable="d"
                        d:DataContext="{d:DesignInstance local:CalendarRootViewModel}"
@@ -23,32 +23,11 @@
                        FontFamily="{StaticResource F1Font}">
     <controls:AdonisWindow.TitleBarContent>
         <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
-            <ToggleButton IsChecked="{Binding ShowPreviousRaces}"
-                          ToolTipService.InitialShowDelay="0">
-                <ToggleButton.Style>
-                    <Style TargetType="{x:Type ToggleButton}"
-                           BasedOn="{StaticResource {x:Static adonisUi:Styles.WindowToggleButton}}">
-                        <Style.Triggers>
-                            <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Content">
-                                    <Setter.Value>
-                                        <iconPacks:PackIconMaterial Kind="Rewind" />
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter Property="ToolTip" Value="Hide Previous Races" />
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="False">
-                                <Setter Property="Content">
-                                    <Setter.Value>
-                                        <iconPacks:PackIconMaterial Kind="RewindOutline" />
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter Property="ToolTip" Value="Show Previous Races" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </ToggleButton.Style>
-            </ToggleButton>
+            <myControls:WindowIconToggleButton IsChecked="{Binding ShowPreviousRaces}"
+                                               OnIconKind="Rewind"
+                                               OffIconKind="RewindOutline"
+                                               OffTooltip="Show Previous Races"
+                                               OnTooltip="Hide Previous Races"/>
         </StackPanel>
     </controls:AdonisWindow.TitleBarContent>
     <controls:AdonisWindow.Resources>
@@ -104,7 +83,8 @@
                         <!-- Set CanContentScroll to True to enable virtualisation, has some side effects... -->
                         <ScrollViewer CanContentScroll="False"
                                       Padding="{TemplateBinding Padding}"
-                                      Focusable="False">
+                                      Focusable="False"
+                                      adonisExtensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="NeverExpand">
                             <ItemsPresenter />
                         </ScrollViewer>
                 </ControlTemplate>

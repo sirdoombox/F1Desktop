@@ -19,6 +19,9 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         JobManager.Initialize();
         JobManager.Start();
         _icon = Application.MainWindow.GetChildOfType<TaskbarIcon>();
+        // TODO: notifications aren't working for some reason...
+        // Except sometimes they do...
+        _icon.ShowNotification("test", "test");
     }
 
     protected override void ConfigureIoC(IStyletIoCBuilder builder)
@@ -29,7 +32,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         
         builder.Bind<ErgastAPIService>().ToSelf().InSingletonScope();
         builder.Bind<NewsRssService>().ToSelf().InSingletonScope();
-        builder.Bind<NotificationService>().ToFactory(_ => new NotificationService(_icon)).InSingletonScope();
+        builder.Bind<NotificationService>().ToFactory(_ => new NotificationService(() => _icon)).InSingletonScope();
     }
 
     public override void Dispose()

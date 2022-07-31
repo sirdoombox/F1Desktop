@@ -48,12 +48,17 @@ public class CalendarRootViewModel : FeatureRootBase<CalendarConfig>
         private set => SetAndNotify(ref _nextRace, value);
     }
     
+    private bool _hasNotifiedOfNextSession;
+    
     private readonly ErgastAPIService _api;
     private readonly ICollectionView _racesView;
+    private readonly NotificationService _notifications;
 
-    public CalendarRootViewModel(ErgastAPIService api, ConfigService configService) : base(configService)
+    public CalendarRootViewModel(ErgastAPIService api, NotificationService notifications, ConfigService configService) 
+        : base(configService)
     {
         _api = api;
+        _notifications = notifications;
         _racesView = CollectionViewSource.GetDefaultView(Races);
         _racesView.Filter = FilterRaces;
         _racesView.SortDescriptions.Clear();
@@ -71,9 +76,14 @@ public class CalendarRootViewModel : FeatureRootBase<CalendarConfig>
             NextRace.IsNext = false;
             NextRace = Races.GetNextSession();
         }
-        NextRace.UpdateNextSession();
+        _hasNotifiedOfNextSession = !NextRace.UpdateNextSession();
         TimeUntilNextRace = NextRace.SessionTime - DateTimeOffset.Now;
         TimeUntilNextSession = NextRace.NextSession.SessionTime - DateTimeOffset.Now;
+        if (!_hasNotifiedOfNextSession && TimeUntilNextSession <= TimeSpan.FromMinutes(30))
+        {
+            _notifications.ShowNotification(NextRace.Name, $"{NextRace.NextSession.Name} starts in 30 minutes.");
+            _hasNotifiedOfNextSession = true;
+        }
     }
 
     protected override void OnConfigLoaded()

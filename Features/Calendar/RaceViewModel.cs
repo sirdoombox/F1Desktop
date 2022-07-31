@@ -38,15 +38,17 @@ public class RaceViewModel : SessionViewModelBase
             Sessions.Add(new SessionViewModel(session.ToDisplayString(), race.Sessions[session]));
     }
 
-    public void UpdateNextSession()
+    public bool UpdateNextSession()
     {
         if (NextSession is null)
-            NextSession = Sessions.GetNextSession();
-        else if (NextSession.SessionTime >= DateTimeOffset.Now)
         {
-            NextSession.IsNext = false;
             NextSession = Sessions.GetNextSession();
+            return true;
         }
+        if (NextSession.SessionTime < DateTimeOffset.Now) return false;
+        NextSession.IsNext = false;
+        NextSession = Sessions.GetNextSession();
+        return true;
     }
 
     public void OpenWiki() => UrlHelper.Open(_race.Url);

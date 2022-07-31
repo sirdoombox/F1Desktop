@@ -1,0 +1,45 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:F1Desktop.Controls"
+                    xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+                    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks">
+    <Style x:Key="Styles.WindowIconToggleButton"
+           TargetType="controls:WindowIconToggleButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:WindowIconToggleButton">
+                    <ToggleButton x:Name="PART_ToggleButton"
+                                  ToolTipService.InitialShowDelay="0"
+                                  IsChecked="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                  Style="{StaticResource {x:Static adonisUi:Styles.WindowToggleButton}}">
+                    </ToggleButton>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="PART_ToggleButton" Property="Content">
+                                <Setter.Value>
+                                    <!-- TODO: No idea why the binding isn't working. -->
+                                    <iconPacks:PackIconMaterial
+                                        Kind="{Binding OnIconKind, RelativeSource={RelativeSource TemplatedParent}}" />
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="PART_ToggleButton"
+                                    Property="ToolTip"
+                                    Value="{Binding OnTooltip, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter TargetName="PART_ToggleButton" Property="Content">
+                                <Setter.Value>
+                                    <iconPacks:PackIconMaterial
+                                        Kind="{Binding OffIconKind, RelativeSource={RelativeSource TemplatedParent}}" />
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="PART_ToggleButton"
+                                    Property="ToolTip"
+                                    Value="{Binding OffTooltip, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

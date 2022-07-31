@@ -107,10 +107,8 @@
                                                              Text="{Binding Name}" />
                             <controls:HighlightableTextBlock Grid.Column="1"
                                                              HorizontalAlignment="Right"
-                                                             Text="{Binding SessionTime.LocalDateTime}"
-                                                             ToolTip="{Binding SessionTime, StringFormat={}Local Time: {0}}"/>
+                                                             Text="{Binding SessionTime.LocalDateTime}" />
                         </Grid>
-
                     </Grid>
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">

@@ -11,8 +11,8 @@ public class FeatureWindowBase : Screen
 {
     [DllImport("user32.dll", SetLastError = true)]
     public static extern IntPtr SetForegroundWindow(IntPtr hWnd);
-    
-    protected bool CloseWindowOnFocusLost { get; set; }
+
+    protected bool CloseWindowOnFocusLost { get; set; } = true;
 
     [UsedImplicitly]
     public void FocusLost(object sender, EventArgs e)

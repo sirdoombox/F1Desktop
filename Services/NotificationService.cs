@@ -1,18 +1,21 @@
-﻿using H.NotifyIcon;
+﻿using System;
+using H.NotifyIcon;
 
 namespace F1Desktop.Services;
 
 public class NotificationService
 {
-    private readonly TaskbarIcon _icon;
+    private TaskbarIcon _icon;
+    private readonly Func<TaskbarIcon> _tryGetIcon;
     
-    public NotificationService(TaskbarIcon icon)
+    public NotificationService(Func<TaskbarIcon> tryGetIcon)
     {
-        _icon = icon;
+        _tryGetIcon = tryGetIcon;
     }
 
     public void ShowNotification(string title, string message)
     {
-        _icon.ShowNotification(title,message);
+        _icon ??= _tryGetIcon();
+        _icon?.ShowNotification(title,message);
     }
 }

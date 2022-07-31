@@ -14,11 +14,17 @@ public class LocalDataService : IDataCacheService, IConfigService
 {
     private readonly string _cachePath;
     private readonly string _configPath;
-    private static readonly JsonSerializerOptions JsonOptions;
+    
+    private static readonly JsonSerializerOptions IndentedJsonOptions;
+    private static readonly JsonSerializerOptions DefaultJsonOptions;
 
     static LocalDataService()
     {
-        JsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.General);
+        IndentedJsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.General)
+        {
+            WriteIndented = true,
+        };
+        DefaultJsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.General);
     }
     
     public LocalDataService()
@@ -65,8 +71,7 @@ public class LocalDataService : IDataCacheService, IConfigService
     {
         var filepath = GetFilePath<T>(basePath);
         await using var filestream = File.Create(filepath);
-        JsonOptions.WriteIndented = writeIndented;
-        await JsonSerializer.SerializeAsync(filestream, data, JsonOptions);
+        await JsonSerializer.SerializeAsync(filestream, data, writeIndented ? IndentedJsonOptions : DefaultJsonOptions);
     }
 
     private static string GetFilePath<T>(string basePath)
