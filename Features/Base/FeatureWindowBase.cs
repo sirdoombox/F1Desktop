@@ -7,7 +7,7 @@ using Stylet;
 
 namespace F1Desktop.Features.Base;
 
-public class FeatureWindowBase : Screen
+public abstract class FeatureWindowBase : Screen
 {
     [DllImport("user32.dll", SetLastError = true)]
     public static extern IntPtr SetForegroundWindow(IntPtr hWnd);

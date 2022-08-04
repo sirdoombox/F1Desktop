@@ -1,4 +1,5 @@
 ﻿using System;
+using F1Desktop.Features.Base;
 using F1Desktop.Features.Root;
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Services;

@@ -29,6 +29,13 @@
                         <iconPacks:PackIconMaterial Kind="Calendar" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem Header="News"
+                          Command="{s:Action OpenWindow}"
+                          CommandParameter="{Binding News}">
+                    <MenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="Newspaper"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator />
                 <MenuItem Header="Exit"
                           Command="{s:Action Exit}">

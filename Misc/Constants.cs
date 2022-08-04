@@ -8,7 +8,7 @@ public static class Constants
 
     public static readonly IReadOnlyDictionary<string, string> BaseNewsFeeds = new Dictionary<string, string>
     {
-        { "Formula 1", "https://www.formula1.com/content/fom-website/en/latest/all.xml" },
+        // { "Formula 1", "https://www.formula1.com/content/fom-website/en/latest/all.xml" }, // - Leave this one out for now (no publish time)
         { "WTF1", "https://wtf1.com/feed/" },
         { "Racer", "https://racer.com/f1/feed/" }
     };

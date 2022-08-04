@@ -2,6 +2,7 @@
 using System.ServiceModel.Syndication;
 using System.Threading.Tasks;
 using System.Xml;
+using F1Desktop.Misc;
 using JetBrains.Annotations;
 
 namespace F1Desktop.Services;
@@ -9,15 +10,32 @@ namespace F1Desktop.Services;
 [UsedImplicitly]
 public class NewsRssService
 {
-    public async Task GetFeed()
+    public Task<SyndicationFeed> GetFeedAsync()
+    {
+        return Task.Run(GetFeed);
+    }
+
+    public Task<IEnumerable<SyndicationFeed>> GetFeedsAsync()
+    {
+        return Task.Run(GetFeeds);
+    }
+
+    private SyndicationFeed GetFeed()
     {
         var url = "https://wtf1.com/feed/";
         using var reader = XmlReader.Create(url);
-        var feed = SyndicationFeed.Load(reader);
+        return SyndicationFeed.Load(reader);
+    }
 
-        foreach (var item in feed.Items)
+    private IEnumerable<SyndicationFeed> GetFeeds()
+    {
+        var feeds = new List<SyndicationFeed>();
+        foreach (var item in Constants.BaseNewsFeeds)
         {
-            Console.WriteLine(item.Content);
+            using var reader = XmlReader.Create(item.Value);
+            feeds.Add(SyndicationFeed.Load(reader));
         }
+
+        return feeds;
     }
 }
