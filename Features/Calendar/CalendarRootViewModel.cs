@@ -2,9 +2,11 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
+using F1Desktop.Enums;
 using F1Desktop.Features.Base;
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.Config;
+using F1Desktop.Models.ErgastAPI.Schedule;
 using F1Desktop.Services;
 using FluentScheduler;
 using Stylet;
@@ -48,17 +50,21 @@ public class CalendarRootViewModel : FeatureRootBase<CalendarConfig>
         private set => SetAndNotify(ref _nextRace, value);
     }
     
-    private bool _hasNotifiedOfNextSession;
-    
     private readonly ErgastAPIService _api;
     private readonly ICollectionView _racesView;
     private readonly NotificationService _notifications;
+    
+    private static readonly TimeSpan NotificationTime = TimeSpan.FromMinutes(30);
 
-    public CalendarRootViewModel(ErgastAPIService api, NotificationService notifications, ConfigService configService) 
+    public CalendarRootViewModel(ErgastAPIService api, 
+        NotificationService notifications, 
+        ConfigService configService, 
+        TickService tick) 
         : base(configService)
     {
         _api = api;
         _notifications = notifications;
+        tick.TenSeconds += UpdateTimers;
         _racesView = CollectionViewSource.GetDefaultView(Races);
         _racesView.Filter = FilterRaces;
         _racesView.SortDescriptions.Clear();
@@ -69,20 +75,36 @@ public class CalendarRootViewModel : FeatureRootBase<CalendarConfig>
     private void UpdateTimers()
     {
         if (Races.Count <= 0) return;
+        bool hasNextRaceChanged = false, hasNextSessionChanged = false;
         if (NextRace is null)
+        {
             NextRace = Races.GetNextSession();
+            hasNextRaceChanged = true;
+        }
         else if (DateTimeOffset.Now >= NextRace.SessionTime)
         {
             NextRace.IsNext = false;
             NextRace = Races.GetNextSession();
+            hasNextRaceChanged = true;
         }
-        _hasNotifiedOfNextSession = !NextRace.UpdateNextSession();
+
+        if (NextRace.UpdateNextSession()) 
+            hasNextSessionChanged = true;
+        
         TimeUntilNextRace = NextRace.SessionTime - DateTimeOffset.Now;
         TimeUntilNextSession = NextRace.NextSession.SessionTime - DateTimeOffset.Now;
-        if (!_hasNotifiedOfNextSession && TimeUntilNextSession <= TimeSpan.FromMinutes(30))
+
+        if (hasNextRaceChanged)
         {
-            _notifications.ShowNotification(NextRace.Name, $"{NextRace.NextSession.Name} starts in 30 minutes.");
-            _hasNotifiedOfNextSession = true;
+            _notifications.ScheduleNotification(NextRace.SessionTime - NotificationTime, 
+                NextRace.Name, 
+                "Lights Out In 30 Minutes.");
+        }
+        if (hasNextSessionChanged && NextRace.NextSession.Type != SessionType.Race)
+        {
+            _notifications.ScheduleNotification(NextRace.NextSession.SessionTime - NotificationTime, 
+                NextRace.Name, 
+                $"{NextRace.NextSession.Name} Starts In 30 Minutes.");
         }
     }
 

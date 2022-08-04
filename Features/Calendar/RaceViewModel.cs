@@ -35,9 +35,13 @@ public class RaceViewModel : SessionViewModelBase
             ? Constants.SprintWeekendOrder 
             : Constants.NormalWeekendOrder;
         foreach (var session in weekendOrder)
-            Sessions.Add(new SessionViewModel(session.ToDisplayString(), race.Sessions[session]));
+            Sessions.Add(new SessionViewModel(session, race.Sessions[session]));
     }
-
+    
+    /// <summary>
+    /// Checks to see if the next session should change.
+    /// </summary>
+    /// <returns>True if the next session has changed.</returns>
     public bool UpdateNextSession()
     {
         if (NextSession is null)

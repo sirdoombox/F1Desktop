@@ -33,6 +33,7 @@
                     <iconPacks:PackIconMaterial Kind="RewindOutline" />
                 </controls:WindowIconToggleButton.OffContent>
             </controls:WindowIconToggleButton>
+            
         </StackPanel>
     </adonis:AdonisWindow.TitleBarContent>
     <adonis:AdonisWindow.Resources>

@@ -1,13 +1,18 @@
-﻿using F1Desktop.Models.ErgastAPI.Schedule;
+﻿using F1Desktop.Enums;
+using F1Desktop.Misc.Extensions;
+using F1Desktop.Models.ErgastAPI.Schedule;
 
 namespace F1Desktop.Features.Calendar;
 
 public class SessionViewModel : SessionViewModelBase
 {
     public string Name { get; }
+    
+    public SessionType Type { get; }
 
-    public SessionViewModel(string name, Session session) : base(session.DateTime)
+    public SessionViewModel(SessionType type, Session session) : base(session.DateTime)
     {
-        Name = name;
+        Type = type;
+        Name = type.ToDisplayString();
     }
 }
