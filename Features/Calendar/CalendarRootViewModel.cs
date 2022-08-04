@@ -7,7 +7,7 @@ using Stylet;
 
 namespace F1Desktop.Features.Calendar;
 
-public class CalendarRootViewModel : FeatureRootBase<CalendarConfig>
+public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
 {
     public BindableCollection<RaceViewModel> Races { get; } = new();
 
@@ -52,7 +52,7 @@ public class CalendarRootViewModel : FeatureRootBase<CalendarConfig>
         NotificationService notifications, 
         ConfigService configService, 
         TickService tick) 
-        : base(configService)
+        : base("Calendar", configService)
     {
         _api = api;
         _notifications = notifications;

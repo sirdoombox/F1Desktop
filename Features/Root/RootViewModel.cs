@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using F1Desktop.Features.Base;
 using F1Desktop.Features.Calendar;
 using F1Desktop.Features.News;
 using JetBrains.Annotations;
@@ -8,23 +9,20 @@ using Screen = Stylet.Screen;
 namespace F1Desktop.Features.Root;
 
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-public class RootViewModel : Conductor<IScreen>
+public class RootViewModel : Conductor<IScreen>.Collection.OneActive
 {
-    public CalendarRootViewModel Calendar { get; }
-    public NewsRootViewModel News { get; }
-
     private readonly IWindowManager _wm;
-    
-    public RootViewModel(IWindowManager wm, CalendarRootViewModel calendar, NewsRootViewModel news)
+
+    public RootViewModel(IWindowManager wm, IEnumerable<FeatureBase> featureBases)
     {
-        Calendar = calendar;
-        News = news;
+        Items.AddRange(featureBases);
         _wm = wm;
     }
-    
-    public void OpenWindow(Screen toOpen)
+
+    public void OpenWindow(Type toOpen)
     {
-        _wm.ShowWindow(toOpen);
+        _wm.ShowWindow(this);
+        ActivateItem(Items.First(x => x.GetType() == toOpen));
     }
 
     public void Exit() => Application.Current.Shutdown();

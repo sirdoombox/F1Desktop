@@ -1,4 +1,5 @@
-﻿using F1Desktop.Features.Root;
+﻿using F1Desktop.Features.Base;
+using F1Desktop.Features.Root;
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Services;
 using F1Desktop.Services.Interfaces;
@@ -32,6 +33,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         builder.Bind<NewsRssService>().ToSelf().InSingletonScope();
         builder.Bind<NotificationService>().ToFactory(_ => new NotificationService(() => _icon)).InSingletonScope();
         builder.Bind<IRssProvider>().ToAllImplementations();
+        builder.Bind<FeatureBase>().ToAllImplementations();
     }
 
     public override void Dispose()

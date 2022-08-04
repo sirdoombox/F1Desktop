@@ -8,13 +8,13 @@ using Stylet;
 namespace F1Desktop.Features.News;
 
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-public class NewsRootViewModel : FeatureRootBase<NewsConfig>
+public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
 {
     public BindableCollection<NewsItemViewModel> NewsItems { get; } = new();
 
     private readonly NewsRssService _rss;
     
-    public NewsRootViewModel(ConfigService cfg, NewsRssService rss) : base(cfg)
+    public NewsRootViewModel(ConfigService cfg, NewsRssService rss) : base("News", cfg)
     {
         _rss = rss;
     }
