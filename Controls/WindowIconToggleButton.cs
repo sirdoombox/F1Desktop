@@ -6,26 +6,26 @@ namespace F1Desktop.Controls;
 
 public class WindowIconToggleButton : ToggleButton
 {
-    public static readonly DependencyProperty OnIconKindProperty = DependencyProperty.Register(
-        "OnIconKind", typeof(PackIconMaterialKind), typeof(WindowIconToggleButton), new PropertyMetadata(default(PackIconMaterialKind)));
+    public static readonly DependencyProperty OnContentProperty = DependencyProperty.Register(
+        nameof(OnContent), typeof(object), typeof(WindowIconToggleButton), new PropertyMetadata(default(object)));
 
-    public PackIconMaterialKind OnIconKind
+    public object OnContent
     {
-        get => (PackIconMaterialKind)GetValue(OnIconKindProperty);
-        set => SetValue(OnIconKindProperty, value);
+        get => (object)GetValue(OnContentProperty);
+        set => SetValue(OnContentProperty, value);
     }
 
-    public static readonly DependencyProperty OffIconKindProperty = DependencyProperty.Register(
-        "OffIconKind", typeof(PackIconMaterialKind), typeof(WindowIconToggleButton), new PropertyMetadata(default(PackIconMaterialKind)));
+    public static readonly DependencyProperty OffContentProperty = DependencyProperty.Register(
+        nameof(OffContent), typeof(object), typeof(WindowIconToggleButton), new PropertyMetadata(default(object)));
 
-    public PackIconMaterialKind OffIconKind
+    public object OffContent
     {
-        get => (PackIconMaterialKind)GetValue(OffIconKindProperty);
-        set => SetValue(OffIconKindProperty, value);
+        get => (object)GetValue(OffContentProperty);
+        set => SetValue(OffContentProperty, value);
     }
 
     public static readonly DependencyProperty OnTooltipProperty = DependencyProperty.Register(
-        "OnTooltip", typeof(string), typeof(WindowIconToggleButton), new PropertyMetadata(default(string)));
+        nameof(OnTooltip), typeof(string), typeof(WindowIconToggleButton), new PropertyMetadata(default(string)));
 
     public string OnTooltip
     {
@@ -34,7 +34,7 @@ public class WindowIconToggleButton : ToggleButton
     }
 
     public static readonly DependencyProperty OffTooltipProperty = DependencyProperty.Register(
-        "OffTooltip", typeof(string), typeof(WindowIconToggleButton), new PropertyMetadata(default(string)));
+        nameof(OffTooltip), typeof(string), typeof(WindowIconToggleButton), new PropertyMetadata(default(string)));
 
     public string OffTooltip
     {

@@ -19,9 +19,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         JobManager.Initialize();
         JobManager.Start();
         _icon = Application.MainWindow.GetChildOfType<TaskbarIcon>();
-        // TODO: notifications aren't working for some reason...
-        // Except sometimes they do...
-        _icon.ShowNotification("test", "test");
+        // Sometimes notifications don't work... but they mostly seem to now so ?
+        // _icon.ShowNotification("test", "test");
     }
 
     protected override void ConfigureIoC(IStyletIoCBuilder builder)

@@ -1,45 +1,50 @@
-﻿<controls:AdonisWindow x:Class="F1Desktop.Features.Calendar.CalendarRootView"
-                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                       xmlns:local="clr-namespace:F1Desktop.Features.Calendar"
-                       xmlns:s="https://github.com/canton7/Stylet"
-                       xmlns:controls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
-                       xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
-                       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-                       xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
-                       xmlns:myControls="clr-namespace:F1Desktop.Controls"
-                       mc:Ignorable="d"
-                       d:DataContext="{d:DesignInstance local:CalendarRootViewModel}"
-                       Title="Calendar"
-                       Height="600"
-                       Width="900"
-                       ShowActivated="False"
-                       ShowInTaskbar="False"
-                       Focusable="True"
-                       Deactivated="{s:Action FocusLost}"
-                       ResizeMode="NoResize"
-                       FontFamily="{StaticResource F1Font}">
-    <controls:AdonisWindow.TitleBarContent>
+﻿<adonis:AdonisWindow x:Class="F1Desktop.Features.Calendar.CalendarRootView"
+                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                     xmlns:local="clr-namespace:F1Desktop.Features.Calendar"
+                     xmlns:s="https://github.com/canton7/Stylet"
+                     xmlns:adonis="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
+                     xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+                     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                     xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
+                     xmlns:controls="clr-namespace:F1Desktop.Controls"
+                     mc:Ignorable="d"
+                     d:DataContext="{d:DesignInstance local:CalendarRootViewModel}"
+                     Title="Calendar"
+                     Height="600"
+                     Width="900"
+                     ShowActivated="False"
+                     ShowInTaskbar="False"
+                     Focusable="True"
+                     Deactivated="{s:Action FocusLost}"
+                     ResizeMode="NoResize"
+                     FontFamily="{StaticResource F1Font}">
+    <adonis:AdonisWindow.TitleBarContent>
         <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
-            <myControls:WindowIconToggleButton IsChecked="{Binding ShowPreviousRaces}"
-                                               OnIconKind="Rewind"
-                                               OffIconKind="RewindOutline"
-                                               OffTooltip="Show Previous Races"
-                                               OnTooltip="Hide Previous Races"/>
+            <controls:WindowIconToggleButton IsChecked="{Binding ShowPreviousRaces}"
+                                             OffTooltip="Show Previous Races"
+                                             OnTooltip="Hide Previous Races">
+                <controls:WindowIconToggleButton.OnContent>
+                    <iconPacks:PackIconMaterial Kind="Rewind" />
+                </controls:WindowIconToggleButton.OnContent>
+                <controls:WindowIconToggleButton.OffContent>
+                    <iconPacks:PackIconMaterial Kind="RewindOutline" />
+                </controls:WindowIconToggleButton.OffContent>
+            </controls:WindowIconToggleButton>
         </StackPanel>
-    </controls:AdonisWindow.TitleBarContent>
-    <controls:AdonisWindow.Resources>
+    </adonis:AdonisWindow.TitleBarContent>
+    <adonis:AdonisWindow.Resources>
         <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="14" />
         </Style>
-    </controls:AdonisWindow.Resources>
+    </adonis:AdonisWindow.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Margin="0 10 0 10">
@@ -48,23 +53,23 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <DockPanel Grid.Column="0">
-                <Label DockPanel.Dock="Top" 
-                       Content="{Binding NextRace.Name}" ContentStringFormat="Next Race - {0}"/>
-                <myControls:CountdownControl DockPanel.Dock="Bottom"
-                                             TimeRemaining="{Binding TimeUntilNextRace}" />
+                <Label DockPanel.Dock="Top"
+                       Content="{Binding NextRace.Name}" ContentStringFormat="Next Race - {0}" />
+                <controls:CountdownControl DockPanel.Dock="Bottom"
+                                           TimeRemaining="{Binding TimeUntilNextRace}" />
             </DockPanel>
             <DockPanel Grid.Column="1">
-                <Label DockPanel.Dock="Top" 
-                       Content="{Binding NextRace.NextSession.Name}" ContentStringFormat="Next Session - {0}"/>
-                <myControls:CountdownControl DockPanel.Dock="Bottom"
-                                             TimeRemaining="{Binding TimeUntilNextSession}" />
+                <Label DockPanel.Dock="Top"
+                       Content="{Binding NextRace.NextSession.Name}" ContentStringFormat="Next Session - {0}" />
+                <controls:CountdownControl DockPanel.Dock="Bottom"
+                                           TimeRemaining="{Binding TimeUntilNextSession}" />
             </DockPanel>
         </Grid>
-        <Separator Grid.Row="1"/>
+        <Separator Grid.Row="1" />
         <ItemsControl ItemsSource="{Binding Races}" Grid.Row="2">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <VirtualizingStackPanel VirtualizationMode="Recycling"/>
+                    <VirtualizingStackPanel VirtualizationMode="Recycling" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
@@ -80,16 +85,16 @@
             </ItemsControl.ItemTemplate>
             <ItemsControl.Template>
                 <ControlTemplate TargetType="ItemsControl">
-                        <!-- Set CanContentScroll to True to enable virtualisation, has some side effects... -->
-                        <ScrollViewer CanContentScroll="False"
-                                      Padding="{TemplateBinding Padding}"
-                                      Focusable="False"
-                                      adonisExtensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="NeverExpand">
-                            <ItemsPresenter />
-                        </ScrollViewer>
+                    <!-- Set CanContentScroll to True to enable virtualisation, has some side effects... -->
+                    <ScrollViewer CanContentScroll="False"
+                                  Padding="{TemplateBinding Padding}"
+                                  Focusable="False"
+                                  adonisExtensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="NeverExpand">
+                        <ItemsPresenter />
+                    </ScrollViewer>
                 </ControlTemplate>
             </ItemsControl.Template>
         </ItemsControl>
     </Grid>
 
-</controls:AdonisWindow>
+</adonis:AdonisWindow>
