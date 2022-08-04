@@ -1,5 +1,4 @@
-﻿using System;
-using System.ServiceModel.Syndication;
+﻿using System.ServiceModel.Syndication;
 using System.Threading.Tasks;
 using System.Xml;
 using F1Desktop.Misc;

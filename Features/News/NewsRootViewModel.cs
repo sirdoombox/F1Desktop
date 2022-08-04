@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using F1Desktop.Features.Base;
+﻿using F1Desktop.Features.Base;
 using F1Desktop.Models.Config;
 using F1Desktop.Services;
 using JetBrains.Annotations;
@@ -23,8 +22,8 @@ public class NewsRootViewModel : FeatureRootBase<NewsConfig>
     {
         var feeds = await _rss.GetFeedsAsync();
         var newsItems = feeds.SelectMany(feed =>
-            feed.Items.OrderByDescending(item => item.PublishDate)
-                .Select(item => new NewsItemViewModel(item, feed.ImageUrl.ToString())));
+            feed.Items.Select(item => new NewsItemViewModel(item, feed.ImageUrl.ToString())))
+            .OrderByDescending(x => x.Published);
         NewsItems.AddRange(newsItems);
     }
 }

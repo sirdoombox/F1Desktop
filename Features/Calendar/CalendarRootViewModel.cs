@@ -1,14 +1,8 @@
-﻿using System;
-using System.ComponentModel;
-using System.Linq;
-using System.Windows.Data;
-using F1Desktop.Enums;
+﻿using F1Desktop.Enums;
 using F1Desktop.Features.Base;
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.Config;
-using F1Desktop.Models.ErgastAPI.Schedule;
 using F1Desktop.Services;
-using FluentScheduler;
 using Stylet;
 
 namespace F1Desktop.Features.Calendar;
@@ -63,7 +57,6 @@ public class CalendarRootViewModel : FeatureRootBase<CalendarConfig>
         _api = api;
         _notifications = notifications;
         tick.TenSeconds += UpdateTimers;
-        JobManager.AddJob(UpdateTimers, s => s.ToRunEvery(10).Seconds());
     }
 
     private void UpdateTimers()

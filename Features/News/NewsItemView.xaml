@@ -11,7 +11,10 @@
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
-    <Image Grid.Column="0" Source="{Binding Url}" Width="50" Height="50"/>
+    <Image Grid.Column="0" Source="{Binding Image, Converter={StaticResource CachedUrlImage}, IsAsync=True}" 
+           Width="50" 
+           Height="50"
+           Margin="5"/>
     <Grid Grid.Column="1">
         <Grid.RowDefinitions>
             <RowDefinition/>

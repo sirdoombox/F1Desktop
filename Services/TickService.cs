@@ -1,5 +1,4 @@
-﻿using System;
-using FluentScheduler;
+﻿using FluentScheduler;
 
 namespace F1Desktop.Services;
 

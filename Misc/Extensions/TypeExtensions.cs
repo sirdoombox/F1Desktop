@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace F1Desktop.Misc.Extensions;
+﻿namespace F1Desktop.Misc.Extensions;
 
 public static class TypeExtensions
 {

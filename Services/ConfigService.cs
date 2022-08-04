@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using F1Desktop.Models.Base;
 using F1Desktop.Services.Interfaces;
 

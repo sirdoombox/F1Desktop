@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace F1Desktop.Attributes;
+﻿namespace F1Desktop.Attributes;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class CacheDurationAttribute : Attribute

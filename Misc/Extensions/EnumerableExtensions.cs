@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using F1Desktop.Features.Calendar;
+﻿using F1Desktop.Features.Calendar;
 using Stylet;
 
 namespace F1Desktop.Misc.Extensions;

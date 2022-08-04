@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace F1Desktop.Models.Base;
+﻿namespace F1Desktop.Models.Base;
 
 public abstract class CachedDataBase
 {

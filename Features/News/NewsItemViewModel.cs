@@ -10,6 +10,7 @@ public class NewsItemViewModel : PropertyChangedBase
     public string Text { get; }
     public string Url { get; }
     public string Image { get; }
+    public DateTimeOffset Published { get; }
 
     public NewsItemViewModel(SyndicationItem item, string logoUrl)
     {
@@ -17,5 +18,6 @@ public class NewsItemViewModel : PropertyChangedBase
         Text = HttpUtility.HtmlDecode(item.Summary.Text);
         Url = item.Id;
         Image = logoUrl;
+        Published = item.PublishDate;
     }
 }

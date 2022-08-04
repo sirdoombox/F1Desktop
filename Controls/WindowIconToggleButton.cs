@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls.Primitives;
-using MahApps.Metro.IconPacks;
 
 namespace F1Desktop.Controls;
 

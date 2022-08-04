@@ -1,5 +1,4 @@
-﻿using System;
-using FluentScheduler;
+﻿using FluentScheduler;
 using H.NotifyIcon;
 
 namespace F1Desktop.Services;
