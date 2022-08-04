@@ -2,8 +2,7 @@
 global using System;
 global using System.Linq;
 
-// TODO: Implement RSS Feature
-// TODO: Finish up calendar (UI + Next session countdown)
+// TODO: Finish up news UI
 // TODO: Implement WDC/WCC Standings
-// TODO: Implement calendar notifications
 // TODO: Implement user configuration
+// IMPORTANT: Move everything into a single window with the taskbar icon opening up the window to the correct tab.

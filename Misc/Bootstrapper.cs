@@ -2,6 +2,8 @@
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Services;
 using F1Desktop.Services.Interfaces;
+using F1Desktop.Services.Rss;
+using F1Desktop.Services.Rss.Providers;
 using FluentScheduler;
 using H.NotifyIcon;
 using Stylet;
@@ -29,6 +31,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         builder.Bind<ErgastAPIService>().ToSelf().InSingletonScope();
         builder.Bind<NewsRssService>().ToSelf().InSingletonScope();
         builder.Bind<NotificationService>().ToFactory(_ => new NotificationService(() => _icon)).InSingletonScope();
+        builder.Bind<IRssProvider>().ToAllImplementations();
     }
 
     public override void Dispose()

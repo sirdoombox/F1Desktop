@@ -1,6 +1,7 @@
 ﻿using F1Desktop.Features.Base;
 using F1Desktop.Models.Config;
 using F1Desktop.Services;
+using F1Desktop.Services.Rss;
 using JetBrains.Annotations;
 using Stylet;
 
@@ -20,9 +21,8 @@ public class NewsRootViewModel : FeatureRootBase<NewsConfig>
 
     protected override async void OnActivationComplete()
     {
-        var feeds = await _rss.GetFeedsAsync();
-        var newsItems = feeds.SelectMany(feed =>
-            feed.Items.Select(item => new NewsItemViewModel(item, feed.ImageUrl.ToString())))
+        var items = await _rss.GetNewsAsync();
+        var newsItems = items.Select(newsItem => new NewsItemViewModel(newsItem))
             .OrderByDescending(x => x.Published);
         NewsItems.AddRange(newsItems);
     }

@@ -1,5 +1,6 @@
 ﻿using System.ServiceModel.Syndication;
 using System.Web;
+using F1Desktop.Models.News;
 using Stylet;
 
 namespace F1Desktop.Features.News;
@@ -12,12 +13,12 @@ public class NewsItemViewModel : PropertyChangedBase
     public string Image { get; }
     public DateTimeOffset Published { get; }
 
-    public NewsItemViewModel(SyndicationItem item, string logoUrl)
+    public NewsItemViewModel(NewsItem item)
     {
-        Title = HttpUtility.HtmlDecode(item.Title.Text);;
-        Text = HttpUtility.HtmlDecode(item.Summary.Text);
-        Url = item.Id;
-        Image = logoUrl;
-        Published = item.PublishDate;
+        Title = HttpUtility.HtmlDecode(item.Title);;
+        Text = HttpUtility.HtmlDecode(item.Content);
+        Url = item.Url;
+        Image = item.ImageUrl;
+        Published = item.Published;
     }
 }
