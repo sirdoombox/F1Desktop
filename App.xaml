@@ -18,6 +18,7 @@
                 <ResourceDictionary Source="pack://application:,,,/Styles/Styles.xaml"/>
                 <ResourceDictionary>
                     <converters:IntThresholdConverter x:Key="IntThreshold"/>
+                    <converters:MultiBoolToVisibilityConverter x:Key="MultiBoolToVisibility"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

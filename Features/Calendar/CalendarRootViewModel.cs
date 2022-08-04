@@ -25,7 +25,6 @@ public class CalendarRootViewModel : FeatureRootBase<CalendarConfig>
         {
             SetAndNotify(ref _showPreviousRaces, value);
             Config.ShowPreviousRaces = value;
-            _racesView.Refresh();
         }
     }
 
@@ -51,7 +50,6 @@ public class CalendarRootViewModel : FeatureRootBase<CalendarConfig>
     }
     
     private readonly ErgastAPIService _api;
-    private readonly ICollectionView _racesView;
     private readonly NotificationService _notifications;
     
     private static readonly TimeSpan NotificationTime = TimeSpan.FromMinutes(30);
@@ -65,10 +63,6 @@ public class CalendarRootViewModel : FeatureRootBase<CalendarConfig>
         _api = api;
         _notifications = notifications;
         tick.TenSeconds += UpdateTimers;
-        _racesView = CollectionViewSource.GetDefaultView(Races);
-        _racesView.Filter = FilterRaces;
-        _racesView.SortDescriptions.Clear();
-        _racesView.SortDescriptions.Add(new SortDescription("RaceNumber", ListSortDirection.Ascending));
         JobManager.AddJob(UpdateTimers, s => s.ToRunEvery(10).Seconds());
     }
 
@@ -118,16 +112,8 @@ public class CalendarRootViewModel : FeatureRootBase<CalendarConfig>
         Races.Clear();
         var data = await _api.GetScheduleAsync();
         if (data is null) return;
-        Races.AddRange(data.ScheduleData.RaceTable.Races.Select(x => new RaceViewModel(x, data.ScheduleData.Total)));
+        Races.AddRange(data.ScheduleData.RaceTable.Races.OrderBy(x => x.DateTime).Select(x => new RaceViewModel(x, data.ScheduleData.Total)));
         NextRace = Races.GetNextSession();
-        _racesView.Refresh();
         UpdateTimers();
-    }
-
-    private bool FilterRaces(object obj)
-    {
-        if (ShowPreviousRaces) return true;
-        var race = (RaceViewModel)obj;
-        return race.SessionTime > DateTimeOffset.Now;
     }
 }

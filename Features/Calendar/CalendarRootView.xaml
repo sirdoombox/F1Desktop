@@ -80,6 +80,13 @@
                             Margin="10 5 0 5"
                             CornerRadius="8"
                             Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}">
+                        <Border.Visibility>
+                            <MultiBinding Converter="{StaticResource MultiBoolToVisibility}">
+                                <Binding RelativeSource="{RelativeSource AncestorType=adonis:AdonisWindow}" 
+                                         Path="DataContext.ShowPreviousRaces"/>
+                                <Binding Path="IsUpcoming"/>
+                            </MultiBinding>
+                        </Border.Visibility>
                         <ContentControl s:View.Model="{Binding}" />
                     </Border>
                 </DataTemplate>
