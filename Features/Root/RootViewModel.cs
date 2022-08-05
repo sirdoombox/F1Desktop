@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using F1Desktop.Features.Base;
 using JetBrains.Annotations;
 using Stylet;
 
@@ -20,7 +19,7 @@ public sealed class RootViewModel : Conductor<IScreen>.Collection.AllActive
     public void OpenWindow(Type toOpen)
     {
         _wm.ShowWindow(_window);
-        _window.ActiveItem = _window.Items.First(x => x.GetType() == toOpen);
+        _window.ActiveViewModel = _window.ViewModels.FirstOrDefault(x => x.GetType() == toOpen);
     }
 
     public void Exit() => Application.Current.Shutdown();

@@ -19,8 +19,8 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <ListBox Grid.Column="0"
-                 ItemsSource="{Binding Items}"
-                 SelectedItem="{Binding ActiveItem}"
+                 ItemsSource="{Binding ViewModels}"
+                 SelectedItem="{Binding ActiveViewModel}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  ScrollViewer.VerticalScrollBarVisibility="Disabled">
             <ListBox.ItemTemplate>
@@ -32,6 +32,6 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <ContentControl Grid.Column="1" 
-                        s:View.Model="{Binding ActiveItem}"/>
+                        s:View.Model="{Binding ActiveViewModel}"/>
     </Grid>
 </controls:AdonisWindow>

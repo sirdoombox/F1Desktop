@@ -48,7 +48,7 @@ public class RaceViewModel : SessionViewModelBase
             NextSession = Sessions.GetNextSession();
             return true;
         }
-        if (NextSession.SessionTime < DateTimeOffset.Now) return false;
+        if (DateTimeOffset.Now < NextSession.SessionTime) return false;
         NextSession.IsNext = false;
         NextSession = Sessions.GetNextSession();
         return true;

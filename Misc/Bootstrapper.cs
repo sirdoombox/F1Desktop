@@ -19,8 +19,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     protected override void OnLaunch()
     {
         _icon = Application.MainWindow.GetChildOfType<TaskbarIcon>();
-        // Sometimes notifications don't work... but they mostly seem to now so ?
-        // _icon.ShowNotification("test", "test");
     }
 
     protected override void ConfigureIoC(IStyletIoCBuilder builder)
@@ -29,10 +27,14 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         builder.Bind<IConfigService>().ToInstance(localDataService);
         builder.Bind<IDataCacheService>().ToInstance(localDataService);
         
+        builder.Bind<TaskbarIcon>().ToFactory(_ => _icon);
+        
         builder.Bind<ErgastAPIService>().ToSelf().InSingletonScope();
-        builder.Bind<NewsRssService>().ToSelf().InSingletonScope();
-        builder.Bind<NotificationService>().ToFactory(_ => new NotificationService(() => _icon)).InSingletonScope();
         builder.Bind<IRssProvider>().ToAllImplementations();
+        builder.Bind<NewsRssService>().ToSelf().InSingletonScope();
+        builder.Bind<NotificationService>().ToSelf().InSingletonScope();
+        builder.Bind<ThemeService>().ToSelf().InSingletonScope();
+        
         builder.Bind<FeatureBase>().ToAllImplementations();
     }
 

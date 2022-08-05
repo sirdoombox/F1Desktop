@@ -1,4 +1,6 @@
-﻿using F1Desktop.Enums;
+﻿using System.Windows;
+using AdonisUI;
+using F1Desktop.Enums;
 using F1Desktop.Features.Base;
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.Config;
@@ -19,6 +21,17 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         {
             SetAndNotify(ref _showPreviousRaces, value);
             Config.ShowPreviousRaces = value;
+        }
+    }
+    
+    private bool _enableNotifications;
+    public bool EnableNotifications
+    {
+        get => _enableNotifications;
+        set
+        {
+            SetAndNotify(ref _enableNotifications, value);
+            Config.EnableNotifications = value;
         }
     }
 
@@ -75,21 +88,45 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
             hasNextRaceChanged = true;
         }
 
-        if (NextRace.UpdateNextSession()) 
-            hasNextSessionChanged = true;
+        hasNextSessionChanged = NextRace.UpdateNextSession();
         
         TimeUntilNextRace = NextRace.SessionTime - DateTimeOffset.Now;
         TimeUntilNextSession = NextRace.NextSession.SessionTime - DateTimeOffset.Now;
+        RegisterNotifications(hasNextRaceChanged, hasNextSessionChanged);
+    }
 
-        if (hasNextRaceChanged)
+    public void ToggleShowPreviousRaces() => ShowPreviousRaces = !ShowPreviousRaces;
+
+    public void ToggleEnableNotifications()
+    {
+        EnableNotifications = !EnableNotifications;
+        if (EnableNotifications)
+            RegisterNotifications(true,true);
+        else
+            _notifications.CancelAllNotifications(this);
+    }
+
+    private bool _isDark = true;
+    public void TestSwitchTheme()
+    {
+        ResourceLocator.SetColorScheme(Application.Current.Resources, _isDark ? ResourceLocator.LightColorScheme : ResourceLocator.DarkColorScheme);
+        _isDark = !_isDark;
+        _notifications.ShowNotification($"Theme Changed", $"Theme Changed To {(_isDark ? "Dark" : "Light")}");
+    }
+
+    private void RegisterNotifications(bool raceChanged, bool sessionChanged)
+    {
+        if (raceChanged)
         {
-            _notifications.ScheduleNotification(NextRace.SessionTime - NotificationTime, 
+            _notifications.ScheduleNotification(this, 
+                NextRace.SessionTime - NotificationTime, 
                 NextRace.Name, 
                 "Lights Out In 30 Minutes.");
         }
-        if (hasNextSessionChanged && NextRace.NextSession.Type != SessionType.Race)
+        if (sessionChanged && NextRace.NextSession.Type != SessionType.Race)
         {
-            _notifications.ScheduleNotification(NextRace.NextSession.SessionTime - NotificationTime, 
+            _notifications.ScheduleNotification(this, 
+                NextRace.NextSession.SessionTime - NotificationTime, 
                 NextRace.Name, 
                 $"{NextRace.NextSession.Name} Starts In 30 Minutes.");
         }
@@ -98,6 +135,7 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     protected override void OnConfigLoaded()
     {
         ShowPreviousRaces = Config.ShowPreviousRaces;
+        EnableNotifications = Config.EnableNotifications;
     }
 
     protected override async void OnActivationComplete()
@@ -106,7 +144,6 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         var data = await _api.GetScheduleAsync();
         if (data is null) return;
         Races.AddRange(data.ScheduleData.RaceTable.Races.OrderBy(x => x.DateTime).Select(x => new RaceViewModel(x, data.ScheduleData.Total)));
-        NextRace = Races.GetNextSession();
         UpdateTimers();
     }
 }

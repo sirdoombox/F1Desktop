@@ -20,6 +20,7 @@
                     <converters:IntThresholdConverter x:Key="IntThreshold"/>
                     <converters:MultiBoolToVisibilityConverter x:Key="MultiBoolToVisibility"/>
                     <converters:CachedUrlImageConverter x:Key="CachedUrlImage"/>
+                    <converters:BooleanToStringConverter x:Key="BooleanToString"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

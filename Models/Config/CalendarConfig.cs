@@ -7,9 +7,11 @@ namespace F1Desktop.Models.Config;
 public class CalendarConfig : ConfigBase
 {
     public bool ShowPreviousRaces { get; set; }
+    public bool EnableNotifications { get; set; }
 
     public CalendarConfig()
     {
         ShowPreviousRaces = false;
+        EnableNotifications = true;
     }
 }

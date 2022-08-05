@@ -13,21 +13,6 @@
       mc:Ignorable="d"
       d:DataContext="{d:DesignInstance local:CalendarRootViewModel}"
       Focusable="True">
-    <!-- <adonis:AdonisWindow.TitleBarContent> -->
-    <!--     <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft"> -->
-    <!--         <controls:WindowIconToggleButton IsChecked="{Binding ShowPreviousRaces}" -->
-    <!--                                          OffTooltip="Show Previous Races" -->
-    <!--                                          OnTooltip="Hide Previous Races"> -->
-    <!--             <controls:WindowIconToggleButton.OnContent> -->
-    <!--                 <iconPacks:PackIconMaterial Kind="Rewind" /> -->
-    <!--             </controls:WindowIconToggleButton.OnContent> -->
-    <!--             <controls:WindowIconToggleButton.OffContent> -->
-    <!--                 <iconPacks:PackIconMaterial Kind="RewindOutline" /> -->
-    <!--             </controls:WindowIconToggleButton.OffContent> -->
-    <!--         </controls:WindowIconToggleButton> -->
-    <!--          -->
-    <!--     </StackPanel> -->
-    <!-- </adonis:AdonisWindow.TitleBarContent> -->
     <Grid.Resources>
         <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
             <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -37,9 +22,24 @@
     <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
         <RowDefinition Height="*" />
     </Grid.RowDefinitions>
-    <Grid Grid.Row="0" Margin="0 10 0 10">
+    <Border Background="{DynamicResource {x:Static adonisUi:Brushes.AccentBrush}}"
+            CornerRadius="4"
+            Margin="5"
+            Padding="{adonisUi:Space 2, 0}">
+        <UniformGrid Rows="1" HorizontalAlignment="Left">
+            <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
+                    Content="{Binding ShowPreviousRaces, Converter={StaticResource BooleanToString}, ConverterParameter=Showing Previous Races|Hiding Previous Races}" 
+                    Command="{s:Action ToggleShowPreviousRaces}"/>
+            <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
+                    Content="{Binding EnableNotifications, Converter={StaticResource BooleanToString}, ConverterParameter=Notifications Enabled|Notifications Disabled}"
+                    Command="{s:Action ToggleEnableNotifications}"/>
+            <Button Command="{s:Action TestSwitchTheme}"/>
+        </UniformGrid>
+    </Border>
+    <Grid Grid.Row="1" Margin="0 10 0 10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
@@ -57,8 +57,8 @@
                                        TimeRemaining="{Binding TimeUntilNextSession}" />
         </DockPanel>
     </Grid>
-    <Separator Grid.Row="1" />
-    <ItemsControl ItemsSource="{Binding Races}" Grid.Row="2">
+    <Separator Grid.Row="2" />
+    <ItemsControl ItemsSource="{Binding Races}" Grid.Row="3">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <VirtualizingStackPanel VirtualizationMode="Recycling" />
@@ -73,7 +73,7 @@
                         Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}">
                     <Border.Visibility>
                         <MultiBinding Converter="{StaticResource MultiBoolToVisibility}">
-                            <Binding RelativeSource="{RelativeSource AncestorType=adonis:AdonisWindow}"
+                            <Binding RelativeSource="{RelativeSource AncestorType=Grid}"
                                      Path="DataContext.ShowPreviousRaces" />
                             <Binding Path="IsUpcoming" />
                         </MultiBinding>
