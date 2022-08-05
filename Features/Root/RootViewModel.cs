@@ -9,25 +9,18 @@ namespace F1Desktop.Features.Root;
 public sealed class RootViewModel : Conductor<IScreen>.Collection.AllActive
 {
     private readonly IWindowManager _wm;
+    private readonly WindowViewModel _window;
     
-    private IScreen _activeItem;
-    public IScreen ActiveItem
+    public RootViewModel(IWindowManager wm, WindowViewModel window)
     {
-        get => _activeItem;
-        set => SetAndNotify(ref _activeItem, value);
-    }
-
-    public RootViewModel(IWindowManager wm, IEnumerable<FeatureBase> featureBases)
-    {
-        foreach(var feature in featureBases)
-            ActivateItem(feature);
         _wm = wm;
+        _window = window;
     }
 
     public void OpenWindow(Type toOpen)
     {
-        _wm.ShowWindow(this);
-        ActiveItem = Items.First(x => x.GetType() == toOpen);
+        _wm.ShowWindow(_window);
+        _window.ActiveItem = _window.Items.First(x => x.GetType() == toOpen);
     }
 
     public void Exit() => Application.Current.Shutdown();
