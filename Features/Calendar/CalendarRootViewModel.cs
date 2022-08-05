@@ -106,14 +106,6 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
             _notifications.CancelAllNotifications(this);
     }
 
-    private bool _isDark = true;
-    public void TestSwitchTheme()
-    {
-        ResourceLocator.SetColorScheme(Application.Current.Resources, _isDark ? ResourceLocator.LightColorScheme : ResourceLocator.DarkColorScheme);
-        _isDark = !_isDark;
-        _notifications.ShowNotification($"Theme Changed", $"Theme Changed To {(_isDark ? "Dark" : "Light")}");
-    }
-
     private void RegisterNotifications(bool raceChanged, bool sessionChanged)
     {
         if (raceChanged)
@@ -143,7 +135,9 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         Races.Clear();
         var data = await _api.GetScheduleAsync();
         if (data is null) return;
-        Races.AddRange(data.ScheduleData.RaceTable.Races.OrderBy(x => x.DateTime).Select(x => new RaceViewModel(x, data.ScheduleData.Total)));
+        Races.AddRange(data.ScheduleData.RaceTable.Races
+            .OrderBy(x => x.DateTime)
+            .Select(x => new RaceViewModel(x, data.ScheduleData.Total)));
         UpdateTimers();
     }
 }

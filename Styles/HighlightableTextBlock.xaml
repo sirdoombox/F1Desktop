@@ -32,7 +32,7 @@
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="PART_TextBlock" Property="TextDecorations" Value="Strikethrough"/>
-                            <Setter TargetName="PART_TextBlock" Property="Foreground" Value="{StaticResource {x:Static adonisUi:Brushes.DisabledForegroundBrush}}"/>
+                            <Setter TargetName="PART_TextBlock" Property="Foreground" Value="{DynamicResource {x:Static adonisUi:Brushes.DisabledForegroundBrush}}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
