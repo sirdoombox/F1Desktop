@@ -17,19 +17,22 @@ public class NewsRssService
         _providers = providers;
     }
 
-    public Task<IEnumerable<NewsItem>> GetNewsAsync()
+    public async Task<IEnumerable<NewsItem>> GetNewsAsync()
     {
-        return Task.Run(GetFeeds);
-    }
-
-    private IEnumerable<NewsItem> GetFeeds()
-    {
-        var feeds = new List<NewsItem>();
+        var tasks = new List<Task<IEnumerable<NewsItem>>>();
         foreach (var provider in _providers)
         {
-            using var reader = XmlReader.Create(provider.Url);
-            feeds.AddRange(provider.GetNewsItems(SyndicationFeed.Load(reader)));
+            tasks.Add(Task.Run(() => GetFeed(provider)));
         }
-        return feeds;
+        var results = await Task.WhenAll(tasks);
+        return results.SelectMany(x => x);
+    }
+
+    private IEnumerable<NewsItem> GetFeed(IRssProvider provider)
+    {
+        var newsItems = new List<NewsItem>();
+        using var reader = XmlReader.Create(provider.Url);
+        newsItems.AddRange(provider.GetNewsItems(SyndicationFeed.Load(reader)));
+        return newsItems;
     }
 }

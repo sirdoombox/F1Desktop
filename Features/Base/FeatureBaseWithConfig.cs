@@ -1,7 +1,6 @@
 ﻿using F1Desktop.Models.Base;
 using F1Desktop.Services;
 using JetBrains.Annotations;
-using Stylet;
 
 namespace F1Desktop.Features.Base;
 
@@ -11,7 +10,7 @@ public abstract class FeatureBaseWithConfig<T> : FeatureBase where T : ConfigBas
     protected T Config { get; private set; }
     private readonly ConfigService _configService;
 
-    public FeatureBaseWithConfig(string displayName, ConfigService configService) : base(displayName)
+    protected FeatureBaseWithConfig(string displayName, ConfigService configService) : base(displayName)
     {
         DisplayName = displayName;
         _configService = configService;

@@ -1,5 +1,4 @@
-﻿using System.ServiceModel.Syndication;
-using System.Web;
+﻿using System.Web;
 using F1Desktop.Models.News;
 using Stylet;
 
