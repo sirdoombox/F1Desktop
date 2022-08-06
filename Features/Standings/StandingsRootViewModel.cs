@@ -8,23 +8,22 @@ namespace F1Desktop.Features.Standings;
 
 public class StandingsRootViewModel : FeatureBaseWithConfig<StandingsConfig>
 {
-    public DriverStandingsViewModel DriverStandings { get; }
-    public ConstructorStandingsViewModel ConstructorStandings { get; }
+    public StandingsTableViewModel DriverStandings { get; }
+    public StandingsTableViewModel ConstructorStandings { get; }
     
     private readonly ErgastAPIService _api;
     private readonly DataResourceService _data;
     
     public StandingsRootViewModel(ConfigService configService, 
         ErgastAPIService api,
-        DriverStandingsViewModel driverStandings,
-        ConstructorStandingsViewModel constructorStandings,
+        Func<StandingsTableViewModel> standingsTable,
         DataResourceService dataResourceService) 
         : base("Standings", configService)
     {
         _api = api;
         _data = dataResourceService;
-        DriverStandings = driverStandings;
-        ConstructorStandings = constructorStandings;
+        DriverStandings = standingsTable();
+        ConstructorStandings = standingsTable();
     }
 
     protected override async void OnInitialActivate()
