@@ -6,7 +6,7 @@ namespace F1Desktop.Controls;
 public class CountdownControl : Control
 {
     public static readonly DependencyProperty TimeRemainingProperty = DependencyProperty.Register(
-        "TimeRemaining", typeof(TimeSpan), typeof(CountdownControl), new PropertyMetadata(default(TimeSpan)));
+        nameof(TimeRemaining), typeof(TimeSpan), typeof(CountdownControl), new PropertyMetadata(default(TimeSpan)));
 
     public TimeSpan TimeRemaining
     {

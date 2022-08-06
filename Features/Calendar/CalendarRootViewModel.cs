@@ -70,6 +70,8 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         _api = api;
         _notifications = notifications;
         tick.TenSeconds += UpdateTimers;
+        TimeUntilNextRace = TimeSpan.FromDays(2);
+        TimeUntilNextSession = TimeSpan.FromDays(3);
     }
 
     private void UpdateTimers()

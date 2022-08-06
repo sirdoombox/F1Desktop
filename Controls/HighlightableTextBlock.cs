@@ -8,7 +8,7 @@ namespace F1Desktop.Controls;
 public class HighlightableTextBlock : Control
 {
     public static readonly DependencyProperty IsHighlightedProperty = DependencyProperty.Register(
-        "IsHighlighted", typeof(bool), typeof(HighlightableTextBlock), new PropertyMetadata(default(bool)));
+        nameof(IsHighlighted), typeof(bool), typeof(HighlightableTextBlock), new PropertyMetadata(default(bool)));
     public bool IsHighlighted
     {
         get => (bool)GetValue(IsHighlightedProperty);
@@ -16,7 +16,7 @@ public class HighlightableTextBlock : Control
     }
 
     public static readonly DependencyProperty HighlightBrushProperty = DependencyProperty.Register(
-        "HighlightBrush", typeof(Brush), typeof(HighlightableTextBlock), new PropertyMetadata(default(Brush)));
+        nameof(HighlightBrush), typeof(Brush), typeof(HighlightableTextBlock), new PropertyMetadata(default(Brush)));
     public Brush HighlightBrush
     {
         get => (Brush)GetValue(HighlightBrushProperty);
@@ -24,7 +24,7 @@ public class HighlightableTextBlock : Control
     }
 
     public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
-        "Text", typeof(string), typeof(HighlightableTextBlock), new PropertyMetadata(default(string)));
+        nameof(Text), typeof(string), typeof(HighlightableTextBlock), new PropertyMetadata(default(string)));
     public string Text
     {
         get => (string)GetValue(TextProperty);
@@ -32,7 +32,7 @@ public class HighlightableTextBlock : Control
     }
     
     public static readonly DependencyProperty TextAlignmentProperty = DependencyProperty.Register(
-        "TextAlignment", typeof(TextAlignment), typeof(HighlightableTextBlock), new PropertyMetadata(default(TextAlignment)));
+        nameof(TextAlignment), typeof(TextAlignment), typeof(HighlightableTextBlock), new PropertyMetadata(default(TextAlignment)));
     public TextAlignment TextAlignment
     {
         get => (TextAlignment)GetValue(TextAlignmentProperty);

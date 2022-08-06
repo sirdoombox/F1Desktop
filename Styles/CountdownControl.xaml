@@ -14,13 +14,18 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <controls:CountdownElement Grid.Column="0"
+                                                   x:Name="Days"
                                                    DisplayText="Days"
+                                                   IsPreviousLightOut="True"
                                                    CountdownValue="{Binding TimeRemaining.Days, RelativeSource={RelativeSource TemplatedParent}}" />
                         <controls:CountdownElement Grid.Column="1"
+                                                   x:Name="Hours"
                                                    DisplayText="Hours"
+                                                   IsPreviousLightOut="{Binding IsLightOut, ElementName=Days}"
                                                    CountdownValue="{Binding TimeRemaining.Hours, RelativeSource={RelativeSource TemplatedParent}}" />
                         <controls:CountdownElement Grid.Column="2"
                                                    DisplayText="Minutes"
+                                                   IsPreviousLightOut="{Binding IsLightOut, ElementName=Hours}"
                                                    CountdownValue="{Binding TimeRemaining.Minutes, RelativeSource={RelativeSource TemplatedParent}}" />
                     </Grid>
                 </ControlTemplate>
