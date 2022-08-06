@@ -22,9 +22,9 @@
             <Setter Property="Grid.Row" Value="0"/>
         </Style>
     </Grid.Resources>
-    <TextBlock Grid.Column="0" Text="Driver Standings"/>
+    <TextBlock Grid.Column="0" Grid.Row="0" Text="Driver Standings"/>
     <ContentControl Grid.Column="0" Grid.Row="1" s:View.Model="{Binding DriverStandings}"/>
     
-    <TextBlock Grid.Column="1" Text="Constructor Standings"/>
+    <TextBlock Grid.Column="1" Grid.Row="0" Text="Constructor Standings"/>
     <ContentControl Grid.Column="1" Grid.Row="1" s:View.Model="{Binding ConstructorStandings}"/>
 </Grid>

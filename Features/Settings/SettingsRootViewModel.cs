@@ -34,6 +34,11 @@ public class SettingsRootViewModel : FeatureBaseWithConfig<GlobalConfig>
         IsLight = Config.LightTheme;
     }
 
+    protected override async void OnActivationComplete()
+    {
+        await Credits.LoadCredits();
+    }
+
     private void OnThemeChanged()
     {
         _theme.SetTheme(IsLight);

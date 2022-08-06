@@ -16,8 +16,8 @@
         </Style>
     </Grid.Resources>
     <Grid.ColumnDefinitions>
-        <ColumnDefinition/>
-        <ColumnDefinition/>
+        <ColumnDefinition Width="1*"/>
+        <ColumnDefinition Width="1*"/>
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
         <RowDefinition Height="Auto"/>
@@ -41,5 +41,5 @@
         </DockPanel>
     </StackPanel>
     <TextBlock Grid.Row="0" Grid.Column="1" Text="Credits" Style="{DynamicResource HeaderStyle}"/>
-    <ContentPresenter Grid.Row="1" Grid.Column="1" s:View.Model="{Binding Credits}"/>
+    <ContentControl Grid.Row="1" Grid.Column="1" s:View.Model="{Binding Credits}"/>
 </Grid>

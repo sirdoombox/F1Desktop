@@ -32,6 +32,8 @@
       <None Remove="Resources\Fonts\Formula1-Regular.ttf" />
       <None Remove="Resources\Data\Countries.json" />
       <EmbeddedResource Include="Resources\Data\Countries.json" />
+      <None Remove="Resources\Data\Credits.json" />
+      <EmbeddedResource Include="Resources\Data\Credits.json" />
     </ItemGroup>
 
     <ItemGroup>

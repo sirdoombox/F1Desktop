@@ -1,15 +1,15 @@
 ﻿<ItemsControl x:Class="F1Desktop.Features.Standings.StandingsTableView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:F1Desktop.Features.Standings"
-             xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
-             xmlns:s="https://github.com/canton7/Stylet"
-             mc:Ignorable="d"
-             d:DataContext="{d:DesignInstance local:StandingsTableViewModel}"
-             ItemsSource="{Binding Standings}">
-        <ItemsControl.ItemTemplate>
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:local="clr-namespace:F1Desktop.Features.Standings"
+              xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+              xmlns:s="https://github.com/canton7/Stylet"
+              mc:Ignorable="d"
+              d:DataContext="{d:DesignInstance local:StandingsTableViewModel}"
+              ItemsSource="{Binding Standings}">
+    <ItemsControl.ItemTemplate>
         <DataTemplate>
             <Border x:Name="Border"
                     Margin="{adonisUi:Space 1, 0.2}"
@@ -27,7 +27,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0"
                                Text="{Binding Position}"
-                               FontWeight="Bold"/>
+                               FontWeight="Bold" />
                     <Image Grid.Column="1"
                            Source="{Binding CountryCode, Converter={StaticResource CountryIdToFlagImageSource}}"
                            Width="20"
@@ -45,7 +45,7 @@
                     <TextBlock Grid.Column="4"
                                Text="{Binding Points}"
                                HorizontalAlignment="Right"
-                               FontWeight="Bold"/>
+                               FontWeight="Bold" />
                 </Grid>
                 <Border.Style>
                     <Style>
