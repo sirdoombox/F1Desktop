@@ -4,7 +4,8 @@
              xmlns:s="https://github.com/canton7/Stylet"
              xmlns:misc="clr-namespace:F1Desktop.Misc"
              xmlns:converters="clr-namespace:F1Desktop.Converters"
-             xmlns:flags="clr-namespace:FamFamFam.Flags.Wpf;assembly=FamFamFam.Flags.Wpf">
+             xmlns:flags="clr-namespace:FamFamFam.Flags.Wpf;assembly=FamFamFam.Flags.Wpf"
+             xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -26,6 +27,13 @@
                     <flags:CountryIdToFlagImageSourceConverter x:Key="CountryIdToFlagImageSource"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
+            <!-- Color Overrides -->
+            <Color x:Key="{x:Static adonisUi:Colors.AccentColor}">#E10600</Color>
+            <Color x:Key="{x:Static adonisUi:Colors.AccentHighlightColor}">#F00600</Color>
+            <Color x:Key="{x:Static adonisUi:Colors.AccentIntenseHighlightColor}">#FF0600</Color>
+            <Color x:Key="{x:Static adonisUi:Colors.AccentIntenseHighlightBorderColor}">#FF0600</Color>
+            <Color x:Key="{x:Static adonisUi:Colors.AccentInteractionColor}">#D70600</Color>
+            <Color x:Key="{x:Static adonisUi:Colors.AccentInteractionBorderColor}">#D70600</Color>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

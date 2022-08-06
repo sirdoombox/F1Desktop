@@ -12,6 +12,7 @@ public class GlobalConfig : ConfigBase
     public double Left { get; set; }
     public double Top { get; set; }
     public WindowState State { get; set; }
+    public bool LightTheme { get; set; }
 
     public GlobalConfig()
     {
@@ -20,5 +21,6 @@ public class GlobalConfig : ConfigBase
         Left = SystemParameters.PrimaryScreenWidth / 2 - Width / 2;
         Top = SystemParameters.PrimaryScreenHeight / 2 - Height / 2;
         State = WindowState.Normal;
+        LightTheme = false;
     }
 }

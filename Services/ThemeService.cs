@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using AdonisUI;
+using F1Desktop.Models.Config;
 using H.NotifyIcon;
 
 namespace F1Desktop.Services;
@@ -15,14 +16,11 @@ public class ThemeService
         _icon = _tryGetIcon();
     }
 
-    private bool _isDark = true;
-    
-    public void ChangeTheme()
+    public void SetTheme(bool isLight)
     {
         _icon ??= _tryGetIcon();
-        _isDark = !_isDark;
         ResourceLocator.SetColorScheme(Application.Current.Resources, 
-            _isDark ? ResourceLocator.DarkColorScheme : ResourceLocator.LightColorScheme);
-        _icon.UpdateDefaultStyle();
+            isLight ? ResourceLocator.LightColorScheme : ResourceLocator.DarkColorScheme);
+        _icon?.UpdateDefaultStyle();
     }
 }

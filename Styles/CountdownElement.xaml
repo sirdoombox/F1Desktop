@@ -20,7 +20,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:CountdownElement}">
                     <Grid Margin="5">
-                        <Path Stroke="{DynamicResource {x:Static adonisUi:Brushes.Layer1BorderBrush}}"
+                        <Path Stroke="{DynamicResource {x:Static adonisUi:Brushes.AccentHighlightBrush}}"
                               StrokeThickness="2"
                               HorizontalAlignment="Center">
                             <Path.Style>
@@ -36,7 +36,7 @@
                                             Binding="{Binding IsLightOut, RelativeSource={RelativeSource TemplatedParent}}"
                                             Value="False">
                                             <Setter Property="Fill"
-                                                    Value="{DynamicResource {x:Static adonisUi:Brushes.ErrorBrush}}" />
+                                                    Value="{DynamicResource {x:Static adonisUi:Brushes.AccentBrush}}" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>

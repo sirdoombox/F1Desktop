@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using F1Desktop.Models.Config;
+using F1Desktop.Services;
 using JetBrains.Annotations;
 using Stylet;
 
@@ -9,11 +11,20 @@ public sealed class RootViewModel : Conductor<IScreen>.Collection.AllActive
 {
     private readonly IWindowManager _wm;
     private readonly WindowViewModel _window;
+    private readonly ThemeService _theme;
+    private readonly GlobalConfig _cfg;
 
-    public RootViewModel(IWindowManager wm, WindowViewModel window)
+    public RootViewModel(IWindowManager wm, WindowViewModel window, GlobalConfig cfg, ThemeService theme)
     {
         _wm = wm;
         _window = window;
+        _theme = theme;
+        _cfg = cfg;
+    }
+
+    protected override void OnViewLoaded()
+    {
+        _theme.SetTheme(_cfg.LightTheme);
     }
 
     public void OpenWindow(Type toOpen)
