@@ -10,6 +10,7 @@
                        xmlns:controls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
                        xmlns:calendar="clr-namespace:F1Desktop.Features.Calendar"
                        xmlns:news="clr-namespace:F1Desktop.Features.News"
+                       xmlns:standings="clr-namespace:F1Desktop.Features.Standings"
                        x:Name="Root"
                        mc:Ignorable="d"
                        d:DataContext="{d:DesignInstance local:RootViewModel}"
@@ -30,6 +31,14 @@
                           CommandParameter="{x:Type calendar:CalendarRootViewModel}">
                     <MenuItem.Icon>
                         <iconPacks:PackIconMaterial Kind="Calendar" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                
+                <MenuItem Header="Standings"
+                          Command="{s:Action OpenWindow}"
+                          CommandParameter="{x:Type standings:StandingsRootViewModel}">
+                    <MenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="Podium" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="News"

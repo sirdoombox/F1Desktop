@@ -1,0 +1,16 @@
+﻿<Grid x:Class="F1Desktop.Features.Standings.StandingsRootView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:F1Desktop.Features.Standings"
+             xmlns:s="https://github.com/canton7/Stylet"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance local:StandingsRootViewModel}">
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition/>
+        <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+    <ContentControl Grid.Column="0" s:View.Model="{Binding DriverStandings}"/>
+    <ContentControl Grid.Column="1" s:View.Model="{Binding ConstructorStandings}"/>
+</Grid>

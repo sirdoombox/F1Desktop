@@ -1,6 +1,9 @@
 ﻿using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using F1Desktop.Models.Base;
+using F1Desktop.Models.ErgastAPI.ConstructorStandings;
+using F1Desktop.Models.ErgastAPI.DriverStandings;
 using F1Desktop.Models.ErgastAPI.Schedule;
 using F1Desktop.Services.Interfaces;
 using JetBrains.Annotations;
@@ -28,15 +31,24 @@ public class ErgastAPIService
     {
         _cacheService = cacheService;
     }
-    
-    public async Task<ScheduleRoot> GetScheduleAsync(bool invalidateCache = false)
+
+    public Task<ScheduleRoot> GetScheduleAsync(bool invalidateCache = false) =>
+        GetAsync<ScheduleRoot>("current.json", invalidateCache);
+
+    public Task<DriverStandingsRoot> GetDriverStandingsAsync(bool invalidateCache = false) =>
+        GetAsync<DriverStandingsRoot>("current/driverStandings.json", invalidateCache);
+
+    public Task<ConstructorStandingsRoot> GetConstructorStandingsAsync(bool invalidateCache = false) =>
+        GetAsync<ConstructorStandingsRoot>("current/constructorStandings.json", invalidateCache);
+
+    private async Task<T> GetAsync<T>(string endpoint, bool invalidateCache) where T : CachedDataBase
     {
-        var cache = await _cacheService.TryGetCacheAsync<ScheduleRoot>();
+        var cache = await _cacheService.TryGetCacheAsync<T>();
         if (cache.cache is not null && cache.isValid && !invalidateCache) return cache.cache;
         try
         {
-            await using var data = await Client.GetStreamAsync("current.json");
-            var deserialized = await JsonSerializer.DeserializeAsync<ScheduleRoot>(data, Options);
+            await using var data = await Client.GetStreamAsync(endpoint);
+            var deserialized = await JsonSerializer.DeserializeAsync<T>(data, Options);
             await _cacheService.WriteCacheToDisk(deserialized);
             return deserialized;
         }

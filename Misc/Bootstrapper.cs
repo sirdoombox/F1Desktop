@@ -34,6 +34,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         builder.Bind<NewsRssService>().ToSelf().InSingletonScope();
         builder.Bind<NotificationService>().ToSelf().InSingletonScope();
         builder.Bind<ThemeService>().ToSelf().InSingletonScope();
+        builder.Bind<DataResourceService>().ToSelf().InSingletonScope();
         
         builder.Bind<FeatureBase>().ToAllImplementations();
     }

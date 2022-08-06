@@ -30,9 +30,6 @@
             Margin="5"
             Padding="{adonisUi:Space 2, 0}">
         <UniformGrid Rows="1" HorizontalAlignment="Left">
-            <!-- <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToolbarToggleButton}}" -->
-            <!--               Content="Show Previous Races" -->
-            <!--               IsChecked="{Binding ShowPreviousRaces}"/> -->
             <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
                     Content="{Binding ShowPreviousRaces, Converter={StaticResource BooleanToString}, ConverterParameter=Showing Previous Races|Hiding Previous Races}"
                     MinWidth="200"

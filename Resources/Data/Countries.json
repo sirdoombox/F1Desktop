@@ -1,0 +1,992 @@
+[
+  {
+    "IsoCode": "AF",
+    "Name": "Afghanistan",
+    "Adjectives": [
+      "Afghan"
+    ]
+  },
+  {
+    "IsoCode": "AL",
+    "Name": "Albania",
+    "Adjectives": [
+      "Albanian"
+    ]
+  },
+  {
+    "IsoCode": "DZ",
+    "Name": "Algeria",
+    "Adjectives": [
+      "Algerian"
+    ]
+  },
+  {
+    "IsoCode": "AR",
+    "Name": "Argentina",
+    "Adjectives": [
+      "Argentine",
+      "Argentinian"
+    ]
+  },
+  {
+    "IsoCode": "AM",
+    "Name": "Armenia",
+    "Adjectives": [
+      "Armenian"
+    ]
+  },
+  {
+    "IsoCode": "AU",
+    "Name": "Australia",
+    "Adjectives": [
+      "Australian"
+    ]
+  },
+  {
+    "IsoCode": "AT",
+    "Name": "Austria",
+    "Adjectives": [
+      "Austrian"
+    ]
+  },
+  {
+    "IsoCode": "AZ",
+    "Name": "Azerbaijan",
+    "Adjectives": [
+      "Azerbaijani",
+      "Azeri"
+    ]
+  },
+  {
+    "IsoCode": "BH",
+    "Name": "Bahrain",
+    "Adjectives": [
+      "Bahraini"
+    ]
+  },
+  {
+    "IsoCode": "BD",
+    "Name": "Bangladesh",
+    "Adjectives": [
+      "Bangladeshi"
+    ]
+  },
+  {
+    "IsoCode": "BY",
+    "Name": "Belarus",
+    "Adjectives": [
+      "Belarusian"
+    ]
+  },
+  {
+    "IsoCode": "BE",
+    "Name": "Belgium",
+    "Adjectives": [
+      "Belgian"
+    ]
+  },
+  {
+    "IsoCode": "BZ",
+    "Name": "Belize",
+    "Adjectives": [
+      "Belizean"
+    ]
+  },
+  {
+    "IsoCode": "BT",
+    "Name": "Bhutan",
+    "Adjectives": [
+      "Bhutanese"
+    ]
+  },
+  {
+    "IsoCode": "BO",
+    "Name": "Bolivia",
+    "Adjectives": [
+      "Bolivian"
+    ]
+  },
+  {
+    "IsoCode": "BW",
+    "Name": "Botswana",
+    "Adjectives": [
+      "Botswanian"
+    ]
+  },
+  {
+    "IsoCode": "BR",
+    "Name": "Brazil",
+    "Adjectives": [
+      "Brazilian"
+    ]
+  },
+  {
+    "IsoCode": "IN",
+    "Name": "British Indian Ocean Territory",
+    "Adjectives": [
+      "BIOT"
+    ]
+  },
+  {
+    "IsoCode": "BN",
+    "Name": "Brunei",
+    "Adjectives": [
+      "Bruneian"
+    ]
+  },
+  {
+    "IsoCode": "BG",
+    "Name": "Bulgaria",
+    "Adjectives": [
+      "Bulgarian"
+    ]
+  },
+  {
+    "IsoCode": "KH",
+    "Name": "Cambodia",
+    "Adjectives": [
+      "Cambodian"
+    ]
+  },
+  {
+    "IsoCode": "CM",
+    "Name": "Cameroon",
+    "Adjectives": [
+      "Cameroonian"
+    ]
+  },
+  {
+    "IsoCode": "CA",
+    "Name": "Canada",
+    "Adjectives": [
+      "Canadian"
+    ]
+  },
+  {
+    "IsoCode": "CL",
+    "Name": "Chile",
+    "Adjectives": [
+      "Chilean"
+    ]
+  },
+  {
+    "IsoCode": "CN",
+    "Name": "China",
+    "Adjectives": [
+      "Chinese"
+    ]
+  },
+  {
+    "IsoCode": "CO",
+    "Name": "Colombia",
+    "Adjectives": [
+      "Colombian"
+    ]
+  },
+  {
+    "IsoCode": "CR",
+    "Name": "Costa Rica",
+    "Adjectives": [
+      "Costa Rican"
+    ]
+  },
+  {
+    "IsoCode": "HR",
+    "Name": "Croatia",
+    "Adjectives": [
+      "Croatian"
+    ]
+  },
+  {
+    "IsoCode": "CU",
+    "Name": "Cuba",
+    "Adjectives": [
+      "Cuban"
+    ]
+  },
+  {
+    "IsoCode": "DK",
+    "Name": "Denmark",
+    "Adjectives": [
+      "Danish"
+    ]
+  },
+  {
+    "IsoCode": "DO",
+    "Name": "Dominica",
+    "Adjectives": [
+      "Dominican"
+    ]
+  },
+  {
+    "IsoCode": "DO",
+    "Name": "Dominican Republic",
+    "Adjectives": [
+      "Dominican"
+    ]
+  },
+  {
+    "IsoCode": "EC",
+    "Name": "Ecuador",
+    "Adjectives": [
+      "Ecuadorian"
+    ]
+  },
+  {
+    "IsoCode": "EG",
+    "Name": "Egypt",
+    "Adjectives": [
+      "Egyptian"
+    ]
+  },
+  {
+    "IsoCode": "SV",
+    "Name": "El Salvador",
+    "Adjectives": [
+      "Salvadoran"
+    ]
+  },
+  {
+    "IsoCode": "ER",
+    "Name": "Eritrea",
+    "Adjectives": [
+      "Eritrean"
+    ]
+  },
+  {
+    "IsoCode": "EE",
+    "Name": "Estonia",
+    "Adjectives": [
+      "Estonian"
+    ]
+  },
+  {
+    "IsoCode": "ET",
+    "Name": "Ethiopia",
+    "Adjectives": [
+      "Ethiopian"
+    ]
+  },
+  {
+    "IsoCode": "FO",
+    "Name": "Faroe Islands",
+    "Adjectives": [
+      "Faroese"
+    ]
+  },
+  {
+    "IsoCode": "FI",
+    "Name": "Finland",
+    "Adjectives": [
+      "Finnish"
+    ]
+  },
+  {
+    "IsoCode": "FR",
+    "Name": "France",
+    "Adjectives": [
+      "French"
+    ]
+  },
+  {
+    "IsoCode": "GE",
+    "Name": "Georgia",
+    "Adjectives": [
+      "Georgian"
+    ]
+  },
+  {
+    "IsoCode": "DE",
+    "Name": "Germany",
+    "Adjectives": [
+      "German"
+    ]
+  },
+  {
+    "IsoCode": "GR",
+    "Name": "Greece",
+    "Adjectives": [
+      "Greek",
+      "Hellenic"
+    ]
+  },
+  {
+    "IsoCode": "GL",
+    "Name": "Greenland",
+    "Adjectives": [
+      "Greenland"
+    ]
+  },
+  {
+    "IsoCode": "GT",
+    "Name": "Guatemala",
+    "Adjectives": [
+      "Guatemalan"
+    ]
+  },
+  {
+    "IsoCode": "HT",
+    "Name": "Haiti",
+    "Adjectives": [
+      "Haitian"
+    ]
+  },
+  {
+    "IsoCode": "HN",
+    "Name": "Honduras",
+    "Adjectives": [
+      "Honduran"
+    ]
+  },
+  {
+    "IsoCode": "HK",
+    "Name": "Hong Kong",
+    "Adjectives": [
+      "Hong Kong",
+      "Cantonese",
+      "Hong Konger"
+    ]
+  },
+  {
+    "IsoCode": "HU",
+    "Name": "Hungary",
+    "Adjectives": [
+      "Hungarian",
+      "Magyar"
+    ]
+  },
+  {
+    "IsoCode": "IS",
+    "Name": "Iceland",
+    "Adjectives": [
+      "Icelandic"
+    ]
+  },
+  {
+    "IsoCode": "IN",
+    "Name": "India",
+    "Adjectives": [
+      "Indian"
+    ]
+  },
+  {
+    "IsoCode": "ID",
+    "Name": "Indonesia",
+    "Adjectives": [
+      "Indonesian"
+    ]
+  },
+  {
+    "IsoCode": "IR",
+    "Name": "Iran",
+    "Adjectives": [
+      "Iranian",
+      "Persian"
+    ]
+  },
+  {
+    "IsoCode": "IQ",
+    "Name": "Iraq",
+    "Adjectives": [
+      "Iraqi"
+    ]
+  },
+  {
+    "IsoCode": "IE",
+    "Name": "Ireland",
+    "Adjectives": [
+      "Irish"
+    ]
+  },
+  {
+    "IsoCode": "IL",
+    "Name": "Israel",
+    "Adjectives": [
+      "Israeli",
+      "Israelite"
+    ]
+  },
+  {
+    "IsoCode": "IT",
+    "Name": "Italy",
+    "Adjectives": [
+      "Italian"
+    ]
+  },
+  {
+    "IsoCode": "JM",
+    "Name": "Jamaica",
+    "Adjectives": [
+      "Jamaican"
+    ]
+  },
+  {
+    "IsoCode": "JP",
+    "Name": "Japan",
+    "Adjectives": [
+      "Japanese"
+    ]
+  },
+  {
+    "IsoCode": "JO",
+    "Name": "Jordan",
+    "Adjectives": [
+      "Jordanian"
+    ]
+  },
+  {
+    "IsoCode": "KZ",
+    "Name": "Kazakhstan",
+    "Adjectives": [
+      "Kazakhstani",
+      "Kazakh"
+    ]
+  },
+  {
+    "IsoCode": "KE",
+    "Name": "Kenya",
+    "Adjectives": [
+      "Kenyan"
+    ]
+  },
+  {
+    "IsoCode": "KR",
+    "Name": "North Korea",
+    "Adjectives": [
+      "North Korean"
+    ]
+  },
+  {
+    "IsoCode": "KR",
+    "Name": "South Korea",
+    "Adjectives": [
+      "South Korean"
+    ]
+  },
+  {
+    "IsoCode": "KW",
+    "Name": "Kuwait",
+    "Adjectives": [
+      "Kuwaiti"
+    ]
+  },
+  {
+    "IsoCode": "KG",
+    "Name": "Kyrgyzstan",
+    "Adjectives": [
+      "Kyrgyzstani",
+      "Kyrgyz",
+      "Kirgiz",
+      "Kirghiz"
+    ]
+  },
+  {
+    "IsoCode": "LA",
+    "Name": "Laos",
+    "Adjectives": [
+      "Lao",
+      "Laotian"
+    ]
+  },
+  {
+    "IsoCode": "LV",
+    "Name": "Latvia",
+    "Adjectives": [
+      "Latvian",
+      "Lettish"
+    ]
+  },
+  {
+    "IsoCode": "LB",
+    "Name": "Lebanon",
+    "Adjectives": [
+      "Lebanese"
+    ]
+  },
+  {
+    "IsoCode": "LY",
+    "Name": "Libya",
+    "Adjectives": [
+      "Libyan"
+    ]
+  },
+  {
+    "IsoCode": "LI",
+    "Name": "Liechtenstein",
+    "Adjectives": [
+      "Liechtensteiner"
+    ]
+  },
+  {
+    "IsoCode": "LT",
+    "Name": "Lithuania",
+    "Adjectives": [
+      "Lithuanian"
+    ]
+  },
+  {
+    "IsoCode": "LU",
+    "Name": "Luxembourg",
+    "Adjectives": [
+      "Luxembourg",
+      "Luxembourgish"
+    ]
+  },
+  {
+    "IsoCode": "MY",
+    "Name": "Malaysia",
+    "Adjectives": [
+      "Malaysian"
+    ]
+  },
+  {
+    "IsoCode": "MV",
+    "Name": "Maldives",
+    "Adjectives": [
+      "Maldivian"
+    ]
+  },
+  {
+    "IsoCode": "ML",
+    "Name": "Mali",
+    "Adjectives": [
+      "Malian",
+      "Malinese"
+    ]
+  },
+  {
+    "IsoCode": "MT",
+    "Name": "Malta",
+    "Adjectives": [
+      "Maltese"
+    ]
+  },
+  {
+    "IsoCode": "MX",
+    "Name": "Mexico",
+    "Adjectives": [
+      "Mexican"
+    ]
+  },
+  {
+    "IsoCode": "MD",
+    "Name": "Moldova",
+    "Adjectives": [
+      "Moldovan"
+    ]
+  },
+  {
+    "IsoCode": "MC",
+    "Name": "Monaco",
+    "Adjectives": [
+      "Mon\u00E9gasque",
+      "Monacan"
+    ]
+  },
+  {
+    "IsoCode": "MN",
+    "Name": "Mongolia",
+    "Adjectives": [
+      "Mongolian"
+    ]
+  },
+  {
+    "IsoCode": "ME",
+    "Name": "Montenegro",
+    "Adjectives": [
+      "Montenegrin"
+    ]
+  },
+  {
+    "IsoCode": "MA",
+    "Name": "Morocco",
+    "Adjectives": [
+      "Moroccan"
+    ]
+  },
+  {
+    "IsoCode": "MM",
+    "Name": "Myanmar",
+    "Adjectives": [
+      "Myanma",
+      "Burmese"
+    ]
+  },
+  {
+    "IsoCode": "NP",
+    "Name": "Nepal",
+    "Adjectives": [
+      "Nepali",
+      "Nepalese"
+    ]
+  },
+  {
+    "IsoCode": "NL",
+    "Name": "Netherlands",
+    "Adjectives": [
+      "Dutch"
+    ]
+  },
+  {
+    "IsoCode": "NZ",
+    "Name": "New Zealand",
+    "Adjectives": [
+      "New Zealand"
+    ]
+  },
+  {
+    "IsoCode": "NI",
+    "Name": "Nicaragua",
+    "Adjectives": [
+      "Nicaraguan"
+    ]
+  },
+  {
+    "IsoCode": "NG",
+    "Name": "Niger",
+    "Adjectives": [
+      "Nigerien"
+    ]
+  },
+  {
+    "IsoCode": "NG",
+    "Name": "Nigeria",
+    "Adjectives": [
+      "Nigerian"
+    ]
+  },
+  {
+    "IsoCode": "MK",
+    "Name": "North Macedonia",
+    "Adjectives": [
+      "Macedonian"
+    ]
+  },
+  {
+    "IsoCode": "IE",
+    "Name": "Northern Ireland",
+    "Adjectives": [
+      "Northern Irish"
+    ]
+  },
+  {
+    "IsoCode": "NO",
+    "Name": "Norway",
+    "Adjectives": [
+      "Norwegian"
+    ]
+  },
+  {
+    "IsoCode": "OM",
+    "Name": "Oman",
+    "Adjectives": [
+      "Omani"
+    ]
+  },
+  {
+    "IsoCode": "PK",
+    "Name": "Pakistan",
+    "Adjectives": [
+      "Pakistani"
+    ]
+  },
+  {
+    "IsoCode": "PA",
+    "Name": "Panama",
+    "Adjectives": [
+      "Panamanian"
+    ]
+  },
+  {
+    "IsoCode": "PY",
+    "Name": "Paraguay",
+    "Adjectives": [
+      "Paraguayan"
+    ]
+  },
+  {
+    "IsoCode": "PE",
+    "Name": "Peru",
+    "Adjectives": [
+      "Peruvian"
+    ]
+  },
+  {
+    "IsoCode": "PH",
+    "Name": "Philippines",
+    "Adjectives": [
+      "Filipino",
+      "Philippine"
+    ]
+  },
+  {
+    "IsoCode": "PL",
+    "Name": "Poland",
+    "Adjectives": [
+      "Polish"
+    ]
+  },
+  {
+    "IsoCode": "PT",
+    "Name": "Portugal",
+    "Adjectives": [
+      "Portuguese"
+    ]
+  },
+  {
+    "IsoCode": "PR",
+    "Name": "Puerto Rico",
+    "Adjectives": [
+      "Puerto Rican"
+    ]
+  },
+  {
+    "IsoCode": "QA",
+    "Name": "Qatar",
+    "Adjectives": [
+      "Qatari"
+    ]
+  },
+  {
+    "IsoCode": "RE",
+    "Name": "R\u00E9union",
+    "Adjectives": [
+      "R\u00E9unionese",
+      "R\u00E9unionnais"
+    ]
+  },
+  {
+    "IsoCode": "RO",
+    "Name": "Romania",
+    "Adjectives": [
+      "Romanian"
+    ]
+  },
+  {
+    "IsoCode": "RU",
+    "Name": "Russia",
+    "Adjectives": [
+      "Russian"
+    ]
+  },
+  {
+    "IsoCode": "RW",
+    "Name": "Rwanda",
+    "Adjectives": [
+      "Rwandan"
+    ]
+  },
+  {
+    "IsoCode": "SA",
+    "Name": "Saudi Arabia",
+    "Adjectives": [
+      "Saudi",
+      "Saudi Arabian"
+    ]
+  },
+  {
+    "IsoCode": "SN",
+    "Name": "Senegal",
+    "Adjectives": [
+      "Senegalese"
+    ]
+  },
+  {
+    "IsoCode": "RS",
+    "Name": "Serbia",
+    "Adjectives": [
+      "Serbian"
+    ]
+  },
+  {
+    "IsoCode": "SG",
+    "Name": "Singapore",
+    "Adjectives": [
+      "Singapore",
+      "Singaporean"
+    ]
+  },
+  {
+    "IsoCode": "SK",
+    "Name": "Slovakia",
+    "Adjectives": [
+      "Slovak"
+    ]
+  },
+  {
+    "IsoCode": "SI",
+    "Name": "Slovenia",
+    "Adjectives": [
+      "Slovenian",
+      "Slovene"
+    ]
+  },
+  {
+    "IsoCode": "SO",
+    "Name": "Somalia",
+    "Adjectives": [
+      "Somali"
+    ]
+  },
+  {
+    "IsoCode": "ZA",
+    "Name": "South Africa",
+    "Adjectives": [
+      "South African"
+    ]
+  },
+  {
+    "IsoCode": "GE",
+    "Name": "South Georgia and the South Sandwich Islands",
+    "Adjectives": [
+      "South Georgia Island",
+      "South Sandwich Island"
+    ]
+  },
+  {
+    "IsoCode": "ES",
+    "Name": "Spain",
+    "Adjectives": [
+      "Spanish"
+    ]
+  },
+  {
+    "IsoCode": "LK",
+    "Name": "Sri Lanka",
+    "Adjectives": [
+      "Sri Lankan"
+    ]
+  },
+  {
+    "IsoCode": "SE",
+    "Name": "Sweden",
+    "Adjectives": [
+      "Swedish"
+    ]
+  },
+  {
+    "IsoCode": "CH",
+    "Name": "Switzerland",
+    "Adjectives": [
+      "Swiss"
+    ]
+  },
+  {
+    "IsoCode": "SY",
+    "Name": "Syria",
+    "Adjectives": [
+      "Syrian"
+    ]
+  },
+  {
+    "IsoCode": "TH",
+    "Name": "Thailand",
+    "Adjectives": [
+      "Thai"
+    ]
+  },
+  {
+    "IsoCode": "TN",
+    "Name": "Tunisia",
+    "Adjectives": [
+      "Tunisian"
+    ]
+  },
+  {
+    "IsoCode": "TR",
+    "Name": "Turkey",
+    "Adjectives": [
+      "Turkish"
+    ]
+  },
+  {
+    "IsoCode": "TM",
+    "Name": "Turkmenistan",
+    "Adjectives": [
+      "Turkmen"
+    ]
+  },
+  {
+    "IsoCode": "UA",
+    "Name": "Ukraine",
+    "Adjectives": [
+      "Ukrainian"
+    ]
+  },
+  {
+    "IsoCode": "AE",
+    "Name": "United Arab Emirates",
+    "Adjectives": [
+      "Emirian",
+      "Emiri"
+    ]
+  },
+  {
+    "IsoCode": "GB",
+    "Name": "United Kingdom of Great Britain and Northern Ireland",
+    "Adjectives": [
+      "British",
+      "United Kingdom",
+      "UK"
+    ]
+  },
+  {
+    "IsoCode": "US",
+    "Name": "United States of America",
+    "Adjectives": [
+      "American",
+      "United States",
+      "U.S."
+    ]
+  },
+  {
+    "IsoCode": "UY",
+    "Name": "Uruguay",
+    "Adjectives": [
+      "Uruguayan"
+    ]
+  },
+  {
+    "IsoCode": "UZ",
+    "Name": "Uzbekistan",
+    "Adjectives": [
+      "Uzbekistani",
+      "Uzbek"
+    ]
+  },
+  {
+    "IsoCode": "VE",
+    "Name": "Venezuela",
+    "Adjectives": [
+      "Venezuelan"
+    ]
+  },
+  {
+    "IsoCode": "VN",
+    "Name": "Vietnam",
+    "Adjectives": [
+      "Vietnamese"
+    ]
+  },
+  {
+    "IsoCode": "US",
+    "Name": "United States Virgin Islands",
+    "Adjectives": [
+      "U.S. Virgin Island"
+    ]
+  },
+  {
+    "IsoCode": "YE",
+    "Name": "Yemen",
+    "Adjectives": [
+      "Yemeni"
+    ]
+  },
+  {
+    "IsoCode": "ZW",
+    "Name": "Zimbabwe",
+    "Adjectives": [
+      "Zimbabwean"
+    ]
+  }
+]

@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:s="https://github.com/canton7/Stylet"
              xmlns:misc="clr-namespace:F1Desktop.Misc"
-             xmlns:converters="clr-namespace:F1Desktop.Converters">
+             xmlns:converters="clr-namespace:F1Desktop.Converters"
+             xmlns:flags="clr-namespace:FamFamFam.Flags.Wpf;assembly=FamFamFam.Flags.Wpf">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -21,6 +22,7 @@
                     <converters:MultiBoolToVisibilityConverter x:Key="MultiBoolToVisibility"/>
                     <converters:CachedUrlImageConverter x:Key="CachedUrlImage"/>
                     <converters:BooleanToStringConverter x:Key="BooleanToString"/>
+                    <flags:CountryIdToFlagImageSourceConverter x:Key="CountryIdToFlagImageSource"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

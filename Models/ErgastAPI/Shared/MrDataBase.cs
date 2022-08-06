@@ -1,6 +1,6 @@
 ﻿namespace F1Desktop.Models.ErgastAPI.Shared;
 
-public abstract class MrData
+public abstract class MrDataBase
 {
     public string Xmlns { get; set; }
     public string Series { get; set; }
