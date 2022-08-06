@@ -9,6 +9,7 @@
                        xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
                        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                        xmlns:system="clr-namespace:System;assembly=System.Runtime"
+                       xmlns:controls1="clr-namespace:F1Desktop.Controls"
                        mc:Ignorable="d"
                        d:DataContext="{d:DesignInstance local:WindowViewModel}"
                        Title="F1 Desktop"
@@ -25,10 +26,6 @@
                        FontFamily="{StaticResource F1Font}">
     <controls:AdonisWindow.TitleBarContent>
         <Grid MinHeight="{adonisUi:Space 3}">
-            <!-- <TextBlock FontSize="22"  -->
-            <!--            Text="F1 Desktop" -->
-            <!--            FontWeight="Bold" -->
-            <!--            Foreground="{DynamicResource {x:Static adonisUi:Brushes.AccentBrush}}"/> -->
         </Grid>
     </controls:AdonisWindow.TitleBarContent>
     <Grid>
@@ -48,7 +45,8 @@
                          ItemsSource="{Binding Features}"
                          SelectedItem="{Binding ActiveViewModel}"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                         ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                         ItemContainerStyle="{DynamicResource Styles.ListBoxItem}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="{adonisUi:Space 0, 2}">
@@ -76,16 +74,24 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Bottom"
                                 Width="150"
-                                Margin="0 0 0 15"/>
+                                Margin="0 0 0 15" />
             </Grid>
         </Border>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="{Binding TitleBarActualHeight, RelativeSource={RelativeSource AncestorType={x:Type controls:AdonisWindow}}}" />
+                <RowDefinition
+                    Height="{Binding TitleBarActualHeight, RelativeSource={RelativeSource AncestorType={x:Type controls:AdonisWindow}}}" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <ContentControl Grid.Row="1"
-                            s:View.Model="{Binding ActiveViewModel}" />
+            <!-- <ContentControl Grid.Row="1" -->
+            <!--                 s:View.Model="{Binding ActiveViewModel}"/> -->
+            <controls1:TransitioningContentControl Grid.Row="1"
+                                                   Transition="Fade"
+                                                   ClipToBounds="True"
+                                                   Duration="0:0:0.25"
+                                                   HorizontalAlignment="Stretch"
+                                                   HorizontalContentAlignment="Stretch"
+                                                   s:View.Model="{Binding ActiveViewModel}" />
         </Grid>
     </Grid>
 </controls:AdonisWindow>

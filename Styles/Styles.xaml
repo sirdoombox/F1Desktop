@@ -6,6 +6,8 @@
         <ResourceDictionary Source="pack://application:,,,/Styles/CountdownElement.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Styles/HighlightableTextBlock.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Styles/WindowIconToggleButton.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Styles/TransitioningContentControl.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Styles/ListBoxItemStyle.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     <Style BasedOn="{StaticResource Styles.CountdownElement}" TargetType="{x:Type controls:CountdownElement}"/>
     <Style BasedOn="{StaticResource Styles.CountdownControl}" TargetType="{x:Type controls:CountdownControl}"/>
