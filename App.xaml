@@ -17,6 +17,7 @@
                 <ResourceDictionary Source="pack://application:,,,/AdonisUI.ClassicTheme;component/Resources.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources/Resources.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Styles/Styles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Templates/Templates.xaml"/>
                 <ResourceDictionary>
                     <converters:IntThresholdConverter x:Key="IntThreshold"/>
                     <converters:MultiBoolToVisibilityConverter x:Key="MultiBoolToVisibility"/>

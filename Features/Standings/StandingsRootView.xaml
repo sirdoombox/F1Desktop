@@ -7,10 +7,24 @@
              xmlns:s="https://github.com/canton7/Stylet"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance local:StandingsRootViewModel}">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
         <ColumnDefinition/>
         <ColumnDefinition/>
     </Grid.ColumnDefinitions>
-    <ContentControl Grid.Column="0" s:View.Model="{Binding DriverStandings}"/>
-    <ContentControl Grid.Column="1" s:View.Model="{Binding ConstructorStandings}"/>
+    <Grid.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Grid.Row" Value="0"/>
+        </Style>
+    </Grid.Resources>
+    <TextBlock Grid.Column="0" Text="Driver Standings"/>
+    <ContentControl Grid.Column="0" Grid.Row="1" s:View.Model="{Binding DriverStandings}"/>
+    
+    <TextBlock Grid.Column="1" Text="Constructor Standings"/>
+    <ContentControl Grid.Column="1" Grid.Row="1" s:View.Model="{Binding ConstructorStandings}"/>
 </Grid>

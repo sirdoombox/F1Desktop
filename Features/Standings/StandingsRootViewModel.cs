@@ -3,6 +3,7 @@ using F1Desktop.Features.Base;
 using F1Desktop.Models.Config;
 using F1Desktop.Models.Resources;
 using F1Desktop.Services;
+using MahApps.Metro.IconPacks;
 
 namespace F1Desktop.Features.Standings;
 
@@ -18,7 +19,7 @@ public class StandingsRootViewModel : FeatureBaseWithConfig<StandingsConfig>
         ErgastAPIService api,
         Func<StandingsTableViewModel> standingsTable,
         DataResourceService dataResourceService) 
-        : base("Standings", configService)
+        : base("Standings", PackIconMaterialKind.Podium , configService, 2)
     {
         _api = api;
         _data = dataResourceService;

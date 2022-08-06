@@ -1,37 +1,64 @@
 ﻿<controls:AdonisWindow x:Class="F1Desktop.Features.Root.WindowView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:F1Desktop.Features.Root"
-        xmlns:controls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
-        xmlns:s="https://github.com/canton7/Stylet"
-        mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance local:WindowViewModel}"
-        Title="F1 Desktop" 
-        Height="800" 
-        Width="1100"
-        MinWidth="900"
-        FontFamily="{StaticResource F1Font}">
+                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                       xmlns:local="clr-namespace:F1Desktop.Features.Root"
+                       xmlns:controls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
+                       xmlns:s="https://github.com/canton7/Stylet"
+                       xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+                       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                       mc:Ignorable="d"
+                       d:DataContext="{d:DesignInstance local:WindowViewModel}"
+                       Title="F1 Desktop"
+                       Height="{Binding UserHeight, Mode=TwoWay}"
+                       Width="{Binding UserWidth, Mode=TwoWay}"
+                       Top="{Binding UserTop, Mode=TwoWay}"
+                       Left="{Binding UserLeft, Mode=TwoWay}"
+                       WindowState="{Binding UserState, Mode=TwoWay}"
+                       MinWidth="900"
+                       MinHeight="750"
+                       FontFamily="{StaticResource F1Font}">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <ListBox Grid.Column="0"
-                 ItemsSource="{Binding ViewModels}"
+                 ItemsSource="{Binding Features}"
                  SelectedItem="{Binding ActiveViewModel}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  ScrollViewer.VerticalScrollBarVisibility="Disabled">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding DisplayName}" 
-                               FontSize="16" 
-                               HorizontalAlignment="Center"/>
+                    <Grid Margin="{adonisUi:Space 0, 2}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <iconPacks:PackIconMaterial Grid.Column="0"
+                                                    Kind="{Binding Icon}"
+                                                    Height="20"
+                                                    Width="20"
+                                                    Margin="{adonisUi:Space 1, 0}"/>
+                        <TextBlock Grid.Column="1"
+                                   Text="{Binding DisplayName}"
+                                   FontSize="20" />
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <ContentControl Grid.Column="1" 
-                        s:View.Model="{Binding ActiveViewModel}"/>
+        <ContentControl Grid.Column="0"
+                        Panel.ZIndex="-10"
+                        ContentTemplate="{DynamicResource Icons.F1GreyScale}"
+                        Foreground="{DynamicResource {x:Static adonisUi:Brushes.Layer1BorderBrush}}"
+                        Focusable="False"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Opacity="0.4"
+                        Width="200"
+                        Height="100" />
+        <ContentControl Grid.Column="1"
+                        s:View.Model="{Binding ActiveViewModel}" />
     </Grid>
 </controls:AdonisWindow>

@@ -9,7 +9,7 @@ public sealed class RootViewModel : Conductor<IScreen>.Collection.AllActive
 {
     private readonly IWindowManager _wm;
     private readonly WindowViewModel _window;
-    
+
     public RootViewModel(IWindowManager wm, WindowViewModel window)
     {
         _wm = wm;
@@ -19,7 +19,8 @@ public sealed class RootViewModel : Conductor<IScreen>.Collection.AllActive
     public void OpenWindow(Type toOpen)
     {
         _wm.ShowWindow(_window);
-        _window.ActiveViewModel = _window.ViewModels.FirstOrDefault(x => x.GetType() == toOpen);
+        ((Window)_window.View).Activate();
+        _window.ActiveViewModel = _window.Features.First(x => x.GetType() == toOpen);
     }
 
     public void Exit() => Application.Current.Shutdown();

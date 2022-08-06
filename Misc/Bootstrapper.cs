@@ -1,6 +1,7 @@
 ﻿using F1Desktop.Features.Base;
 using F1Desktop.Features.Root;
 using F1Desktop.Misc.Extensions;
+using F1Desktop.Models.Config;
 using F1Desktop.Services;
 using F1Desktop.Services.Interfaces;
 using F1Desktop.Services.Rss;
@@ -35,6 +36,9 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         builder.Bind<NotificationService>().ToSelf().InSingletonScope();
         builder.Bind<ThemeService>().ToSelf().InSingletonScope();
         builder.Bind<DataResourceService>().ToSelf().InSingletonScope();
+        builder.Bind<ConfigService>().ToSelf().InSingletonScope();
+
+        builder.Bind<GlobalConfig>().ToFactory(x => x.Get<ConfigService>().GetConfigAsync<GlobalConfig>().GetAwaiter().GetResult());
         
         builder.Bind<FeatureBase>().ToAllImplementations();
     }

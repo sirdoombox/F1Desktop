@@ -1,14 +1,15 @@
-﻿using System.Windows;
-using AdonisUI;
-using F1Desktop.Enums;
+﻿using F1Desktop.Enums;
 using F1Desktop.Features.Base;
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.Config;
 using F1Desktop.Services;
+using JetBrains.Annotations;
+using MahApps.Metro.IconPacks;
 using Stylet;
 
 namespace F1Desktop.Features.Calendar;
 
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
 {
     public BindableCollection<RaceViewModel> Races { get; } = new();
@@ -17,22 +18,14 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     public bool ShowPreviousRaces
     {
         get => _showPreviousRaces;
-        set
-        {
-            SetAndNotify(ref _showPreviousRaces, value);
-            Config.ShowPreviousRaces = value;
-        }
+        private set => SetAndNotifyWithConfig(ref _showPreviousRaces, x => x.ShowPreviousRaces, value);
     }
     
     private bool _enableNotifications;
     public bool EnableNotifications
     {
         get => _enableNotifications;
-        set
-        {
-            SetAndNotify(ref _enableNotifications, value);
-            Config.EnableNotifications = value;
-        }
+        private set => SetAndNotifyWithConfig(ref _enableNotifications, x => x.EnableNotifications, value);
     }
 
     private TimeSpan _timeUntilNextSession;
@@ -65,13 +58,30 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         NotificationService notifications, 
         ConfigService configService, 
         TickService tick) 
-        : base("Calendar", configService)
+        : base("Calendar", PackIconMaterialKind.Calendar, configService, 0)
     {
         _api = api;
         _notifications = notifications;
         tick.TenSeconds += UpdateTimers;
         TimeUntilNextRace = TimeSpan.FromDays(2);
         TimeUntilNextSession = TimeSpan.FromDays(3);
+    }
+    
+    protected override void OnConfigLoaded()
+    {
+        ShowPreviousRaces = Config.ShowPreviousRaces;
+        EnableNotifications = Config.EnableNotifications;
+    }
+
+    protected override async void OnActivationComplete()
+    {
+        Races.Clear();
+        var data = await _api.GetScheduleAsync();
+        if (data is null) return;
+        Races.AddRange(data.ScheduleData.RaceTable.Races
+            .OrderBy(x => x.DateTime)
+            .Select(x => new RaceViewModel(x, data.ScheduleData.Total)));
+        UpdateTimers();
     }
 
     private void UpdateTimers()
@@ -94,22 +104,26 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         
         TimeUntilNextRace = NextRace.SessionTime - DateTimeOffset.Now;
         TimeUntilNextSession = NextRace.NextSession.SessionTime - DateTimeOffset.Now;
-        RegisterNotifications(hasNextRaceChanged, hasNextSessionChanged);
+        SetNotifications(hasNextRaceChanged, hasNextSessionChanged);
     }
 
-    public void ToggleShowPreviousRaces() => ShowPreviousRaces = !ShowPreviousRaces;
+    public void ToggleShowPreviousRaces() => 
+        ShowPreviousRaces = !ShowPreviousRaces;
 
     public void ToggleEnableNotifications()
     {
         EnableNotifications = !EnableNotifications;
-        if (EnableNotifications)
-            RegisterNotifications(true,true);
-        else
-            _notifications.CancelAllNotifications(this);
+        SetNotifications(true, true);
     }
 
-    private void RegisterNotifications(bool raceChanged, bool sessionChanged)
+    private void SetNotifications(bool raceChanged, bool sessionChanged)
     {
+        if (!EnableNotifications)
+        {
+            _notifications.CancelAllNotifications(this);
+            return;
+        }
+        
         if (raceChanged)
         {
             _notifications.ScheduleNotification(this, 
@@ -126,20 +140,5 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         }
     }
 
-    protected override void OnConfigLoaded()
-    {
-        ShowPreviousRaces = Config.ShowPreviousRaces;
-        EnableNotifications = Config.EnableNotifications;
-    }
-
-    protected override async void OnActivationComplete()
-    {
-        Races.Clear();
-        var data = await _api.GetScheduleAsync();
-        if (data is null) return;
-        Races.AddRange(data.ScheduleData.RaceTable.Races
-            .OrderBy(x => x.DateTime)
-            .Select(x => new RaceViewModel(x, data.ScheduleData.Total)));
-        UpdateTimers();
-    }
+    
 }

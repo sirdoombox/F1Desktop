@@ -26,6 +26,12 @@
                     NoLeftClickDelay="True">
         <tb:TaskbarIcon.ContextMenu>
             <ContextMenu>
+                <ContextMenu.Resources>
+                    <Style TargetType="MenuItem"
+                           BasedOn="{StaticResource {x:Type MenuItem}}">
+                        <Setter Property="FontFamily" Value="{StaticResource F1Font}"/>
+                    </Style>
+                </ContextMenu.Resources>
                 <MenuItem Header="Calendar"
                           Command="{s:Action OpenWindow}"
                           CommandParameter="{x:Type calendar:CalendarRootViewModel}">

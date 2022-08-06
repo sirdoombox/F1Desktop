@@ -3,6 +3,7 @@ using F1Desktop.Models.Config;
 using F1Desktop.Services;
 using F1Desktop.Services.Rss;
 using JetBrains.Annotations;
+using MahApps.Metro.IconPacks;
 using Stylet;
 
 namespace F1Desktop.Features.News;
@@ -14,7 +15,8 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
 
     private readonly NewsRssService _rss;
     
-    public NewsRootViewModel(ConfigService cfg, NewsRssService rss) : base("News", cfg)
+    public NewsRootViewModel(ConfigService cfg, NewsRssService rss) 
+        : base("News", PackIconMaterialKind.Newspaper, cfg, 3)
     {
         _rss = rss;
     }

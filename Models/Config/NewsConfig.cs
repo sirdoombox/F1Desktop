@@ -3,7 +3,7 @@ using F1Desktop.Models.Base;
 
 namespace F1Desktop.Models.Config;
 
-[Filename("News.config")]
+[Filename("News.cfg")]
 public class NewsConfig : ConfigBase
 {
     
