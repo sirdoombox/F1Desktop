@@ -1,4 +1,5 @@
-﻿using Stylet;
+﻿using F1Desktop.Models.Config;
+using Stylet;
 
 namespace F1Desktop.Features.Calendar;
 
@@ -10,7 +11,7 @@ public abstract class SessionViewModelBase : PropertyChangedBase
         get => _isNext;
         set => SetAndNotify(ref _isNext, value);
     }
-    
+
     public DateTimeOffset SessionTime { get; }
     
     public bool IsUpcoming { get; }

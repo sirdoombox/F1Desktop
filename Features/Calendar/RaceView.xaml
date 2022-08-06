@@ -102,12 +102,21 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition />
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <controls:HighlightableTextBlock Grid.Column="0"
                                                              Text="{Binding Name}" />
                             <controls:HighlightableTextBlock Grid.Column="1"
+                                                             Text="{Binding SessionTime.LocalDateTime, StringFormat={}{0:ddd\, d MMMM \-}}"
+                                                             HorizontalAlignment="Right" />
+                            <controls:HighlightableTextBlock Grid.Column="2"
                                                              HorizontalAlignment="Right"
-                                                             Text="{Binding SessionTime.LocalDateTime}" />
+                                                             Text="{Binding SessionTime.LocalDateTime, StringFormat={}{0: HH\:mm}}"
+                                                             Visibility="{Binding DataContext.Use24HourClock, RelativeSource={RelativeSource FindAncestor, AncestorType=Expander}, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}"/>
+                            <controls:HighlightableTextBlock Grid.Column="2"
+                                                             HorizontalAlignment="Right"
+                                                             Text="{Binding SessionTime.LocalDateTime, StringFormat={}{0: hh\:mmtt}}" 
+                                                             Visibility="{Binding DataContext.Use24HourClock, RelativeSource={RelativeSource FindAncestor, AncestorType=Expander}, Converter={StaticResource InverseBooleanToVisibility}, Mode=TwoWay}"/>
                         </Grid>
                     </Grid>
                     <DataTemplate.Triggers>

@@ -13,6 +13,7 @@ public class GlobalConfig : ConfigBase
     public double Top { get; set; }
     public WindowState State { get; set; }
     public bool LightTheme { get; set; }
+    public bool Use24HourClock { get; set; }
 
     public GlobalConfig()
     {
@@ -22,5 +23,6 @@ public class GlobalConfig : ConfigBase
         Top = SystemParameters.PrimaryScreenHeight / 2 - Height / 2;
         State = WindowState.Normal;
         LightTheme = false;
+        Use24HourClock = true;
     }
 }

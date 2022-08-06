@@ -6,6 +6,7 @@
               xmlns:local="clr-namespace:F1Desktop.Features.Standings"
               xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
               xmlns:s="https://github.com/canton7/Stylet"
+              xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
               mc:Ignorable="d"
               d:DataContext="{d:DesignInstance local:StandingsTableViewModel}"
               ItemsSource="{Binding Standings}">
@@ -51,10 +52,14 @@
                     <Style>
                         <Setter Property="Border.Background"
                                 Value="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}" />
+                        <Setter Property="Border.BorderBrush"
+                                Value="{DynamicResource {x:Static adonisUi:Brushes.AccentBrush}}"/>
                         <Style.Triggers>
                             <Trigger Property="Border.IsMouseOver" Value="True">
                                 <Setter Property="Border.Background"
                                         Value="{DynamicResource {x:Static adonisUi:Brushes.Layer1IntenseHighlightBrush}}" />
+                                <Setter Property="Border.BorderThickness"
+                                        Value="5 0 5 0"/>
                             </Trigger>
                         </Style.Triggers>
                     </Style>
@@ -67,4 +72,14 @@
             <StackPanel />
         </ItemsPanelTemplate>
     </ItemsControl.ItemsPanel>
+    <ItemsControl.Template>
+        <ControlTemplate TargetType="ItemsControl">
+            <ScrollViewer CanContentScroll="False"
+                          Focusable="False"
+                          adonisExtensions:ScrollViewerExtension.VerticalScrollBarPlacement="Overlay"
+                          adonisExtensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="NeverExpand">
+                <ItemsPresenter />
+            </ScrollViewer>
+        </ControlTemplate>
+    </ItemsControl.Template>
 </ItemsControl>

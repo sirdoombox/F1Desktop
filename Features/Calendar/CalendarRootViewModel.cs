@@ -51,22 +51,32 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     
     private readonly ErgastAPIService _api;
     private readonly NotificationService _notifications;
+    private readonly GlobalConfig _global;
     
     private static readonly TimeSpan NotificationTime = TimeSpan.FromMinutes(30);
 
     public CalendarRootViewModel(ErgastAPIService api, 
         NotificationService notifications, 
-        ConfigService configService, 
+        ConfigService configService,
+        GlobalConfig global,
         TickService tick) 
         : base("Calendar", PackIconMaterialKind.Calendar, configService, 0)
     {
         _api = api;
         _notifications = notifications;
+        _global = global;
         tick.TenSeconds += UpdateTimers;
         TimeUntilNextRace = TimeSpan.FromDays(2);
         TimeUntilNextSession = TimeSpan.FromDays(3);
+        configService.SubscribeToConfigChange<GlobalConfig>(OnGlobalConfigChanged);
     }
-    
+
+    private void OnGlobalConfigChanged()
+    {
+        foreach (var race in Races)
+            race.Use24HourClock = _global.Use24HourClock;
+    }
+
     protected override void OnConfigLoaded()
     {
         ShowPreviousRaces = Config.ShowPreviousRaces;
@@ -80,7 +90,10 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         if (data is null) return;
         Races.AddRange(data.ScheduleData.RaceTable.Races
             .OrderBy(x => x.DateTime)
-            .Select(x => new RaceViewModel(x, data.ScheduleData.Total)));
+            .Select(x => new RaceViewModel(x, data.ScheduleData.Total)
+            {
+                Use24HourClock = _global.Use24HourClock
+            }));
         UpdateTimers();
     }
 

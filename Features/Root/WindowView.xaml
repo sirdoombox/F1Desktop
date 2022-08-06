@@ -19,7 +19,7 @@
                        Left="{Binding UserLeft, Mode=TwoWay}"
                        WindowState="{Binding UserState, Mode=TwoWay}"
                        MinWidth="900"
-                       MinHeight="750"
+                       MinHeight="400"
                        PlaceTitleBarOverContent="True"
                        IconVisibility="Collapsed"
                        TitleVisibility="Collapsed"
@@ -46,7 +46,7 @@
                          SelectedItem="{Binding ActiveViewModel}"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                         ItemContainerStyle="{DynamicResource Styles.ListBoxItem}">
+                         ItemContainerStyle="{DynamicResource Styles.NavigationListBoxItem}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="{adonisUi:Space 0, 2}">

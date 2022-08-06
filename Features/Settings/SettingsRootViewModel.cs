@@ -17,12 +17,19 @@ public class SettingsRootViewModel : FeatureBaseWithConfig<GlobalConfig>
             OnThemeChanged();
         }
     }
-    
+
+    private bool _use24HourClock;
+    public bool Use24HourClock
+    {
+        get => _use24HourClock;
+        set => SetAndNotifyWithConfig(ref _use24HourClock, x => x.Use24HourClock, value);
+    }
+
     public CreditsViewModel Credits { get; }
-    
+
     private readonly ThemeService _theme;
-    
-    public SettingsRootViewModel(ConfigService configService, ThemeService theme, CreditsViewModel credits) 
+
+    public SettingsRootViewModel(ConfigService configService, ThemeService theme, CreditsViewModel credits)
         : base("Settings", PackIconMaterialKind.Cog, configService, byte.MaxValue)
     {
         _theme = theme;
@@ -32,6 +39,7 @@ public class SettingsRootViewModel : FeatureBaseWithConfig<GlobalConfig>
     protected override void OnConfigLoaded()
     {
         IsLight = Config.LightTheme;
+        Use24HourClock = Config.Use24HourClock;
     }
 
     protected override async void OnActivationComplete()

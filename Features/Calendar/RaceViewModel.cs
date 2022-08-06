@@ -22,6 +22,13 @@ public class RaceViewModel : SessionViewModelBase
         private set => SetAndNotify(ref _nextSession, value);
     }
     
+    private bool _use24HourClock;
+    public bool Use24HourClock
+    {
+        get => _use24HourClock;
+        set => SetAndNotify(ref _use24HourClock, value);
+    }
+    
     private readonly Race _race;
 
     public RaceViewModel(Race race, int totalRaces) : base(race.DateTime)
