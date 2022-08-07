@@ -8,6 +8,7 @@
         xmlns:s="https://github.com/canton7/Stylet"
         xmlns:misc="clr-namespace:F1Desktop.Misc"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:controls="clr-namespace:F1Desktop.Controls"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:NewsItemViewModel}"
         Margin="{adonisUi:Space 1, 0.5}"
@@ -32,25 +33,31 @@
             <ColumnDefinition Width="{adonisUi:Space 10}" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Image Grid.Column="0" Source="{Binding Image, Converter={StaticResource CachedUrlImage}, IsAsync=True}"
-               Visibility="{Binding Image, Converter={StaticResource NullToVisibility}}"
-               RenderOptions.BitmapScalingMode="HighQuality"
-               Width="50"
-               Height="50"
-               VerticalAlignment="Center"
-               HorizontalAlignment="Center"
-               ToolTip="{Binding ProviderName}"
-               ToolTipService.InitialShowDelay="0"/>
-        <iconPacks:PackIconMaterial Grid.Column="0"
-                                    Kind="Newspaper"
-                                    Visibility="{Binding Image, Converter={StaticResource InverseNullToVisibility}}"
-                                    Width="50"
-                                    Height="50"
-                                    Opacity="0.4"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Center"
-                                    ToolTip="{Binding ProviderName}"
-                                    ToolTipService.InitialShowDelay="0"/>
+        <controls:ContentSwitcher Grid.Column="0"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  UseAlternateContent="{Binding Image, Converter={StaticResource NullToBoolConverter}}">
+            <controls:ContentSwitcher.DefaultContent>
+                <Image Source="{Binding Image, Converter={StaticResource CachedUrlImage}, IsAsync=True}"
+                       RenderOptions.BitmapScalingMode="HighQuality"
+                       Width="50"
+                       Height="50"
+                       ToolTip="{Binding ProviderName}"
+                       ToolTipService.InitialShowDelay="0" />
+            </controls:ContentSwitcher.DefaultContent>
+            <controls:ContentSwitcher.AlternateContent>
+                <iconPacks:PackIconMaterial Grid.Column="0"
+                                            Kind="Newspaper"
+                                            Visibility="{Binding Image, Converter={StaticResource InverseNullToVisibility}}"
+                                            Width="50"
+                                            Height="50"
+                                            Opacity="0.4"
+                                            ToolTip="{Binding ProviderName}"
+                                            ToolTipService.InitialShowDelay="0" />
+            </controls:ContentSwitcher.AlternateContent>
+        </controls:ContentSwitcher>
+
+
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition />
