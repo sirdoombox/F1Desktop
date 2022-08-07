@@ -1,11 +1,12 @@
-﻿using F1Desktop.Misc;
+﻿using System.Windows;
+using F1Desktop.Misc;
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.ErgastAPI.Schedule;
 using Stylet;
 
 namespace F1Desktop.Features.Calendar;
 
-public class RaceViewModel : SessionViewModelBase
+public class RaceViewModel : SessionViewModelBase, IViewAware
 {
     public string Name { get; }
     
@@ -66,4 +67,8 @@ public class RaceViewModel : SessionViewModelBase
     public void OpenMaps() => UrlHelper.OpenMap(_race.Circuit);
 
     public void OpenWeather() => UrlHelper.OpenWeather(Name);
+
+    public void AttachView(UIElement view) => View = view;
+
+    public UIElement View { get; private set; }
 }

@@ -4,6 +4,7 @@ public static class TypeExtensions
 {
     public static TAttrib GetAttribute<TAttrib>(this Type type) where TAttrib : Attribute
     {
-        return (TAttrib)type.GetCustomAttributes(typeof(TAttrib), false)[0];
+        var attribs = type.GetCustomAttributes(typeof(TAttrib), false);
+        return attribs.Length <= 0 ? null : (TAttrib)type.GetCustomAttributes(typeof(TAttrib), false)[0];
     }
 }

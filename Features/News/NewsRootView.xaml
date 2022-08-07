@@ -24,7 +24,7 @@
         <ItemsControl.Template>
             <ControlTemplate TargetType="ItemsControl">
                 <!-- Set CanContentScroll to True to enable virtualisation, has some side effects... -->
-                <ScrollViewer CanContentScroll="False"
+                <ScrollViewer CanContentScroll="True"
                               Padding="{TemplateBinding Padding}"
                               Focusable="False"
                               extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="NeverExpand">

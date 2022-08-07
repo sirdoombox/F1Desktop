@@ -1,4 +1,5 @@
-﻿using F1Desktop.Features.Base;
+﻿using F1Desktop.Attributes;
+using F1Desktop.Features.Base;
 using F1Desktop.Models.Config;
 using F1Desktop.Services;
 using F1Desktop.Services.Rss;
