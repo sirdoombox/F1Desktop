@@ -67,8 +67,4 @@ public class RaceViewModel : SessionViewModelBase, IViewAware
     public void OpenMaps() => UrlHelper.OpenMap(_race.Circuit);
 
     public void OpenWeather() => UrlHelper.OpenWeather(Name);
-
-    public void AttachView(UIElement view) => View = view;
-
-    public UIElement View { get; private set; }
 }

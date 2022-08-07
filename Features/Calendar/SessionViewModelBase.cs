@@ -1,9 +1,9 @@
-﻿using F1Desktop.Models.Config;
+﻿using System.Windows;
 using Stylet;
 
 namespace F1Desktop.Features.Calendar;
 
-public abstract class SessionViewModelBase : PropertyChangedBase
+public abstract class SessionViewModelBase : PropertyChangedBase, IViewAware
 {
     private bool _isNext;
     public bool IsNext
@@ -21,4 +21,7 @@ public abstract class SessionViewModelBase : PropertyChangedBase
         SessionTime = sessionTime;
         IsUpcoming = sessionTime > DateTimeOffset.Now;
     }
+
+    public void AttachView(UIElement view) => View = view;
+    public UIElement View { get; private set; }
 }

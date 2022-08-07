@@ -90,7 +90,7 @@
                             <Setter Property="FontSize" Value="15" />
                         </Style>
                     </DataTemplate.Resources>
-                    <Grid Margin="10 0 10 0">
+                    <Grid Margin="{adonisUi:Space 1, 0}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
@@ -99,24 +99,7 @@
                                 Height="1"
                                 Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BorderBrush}}"
                                 x:Name="Border" />
-                        <Grid Grid.Row="1" Margin="0 10 0 10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <controls:HighlightableTextBlock Grid.Column="0"
-                                                             Text="{Binding Name}" />
-                            <controls:ContentSwitcher Grid.Column="1"
-                                                      HorizontalAlignment="Right"
-                                                      UseAlternateContent="{Binding DataContext.Use24HourClock, RelativeSource={RelativeSource FindAncestor, AncestorType=Expander}}">
-                                <controls:ContentSwitcher.DefaultContent>
-                                    <controls:HighlightableTextBlock Text="{Binding SessionTime.LocalDateTime, StringFormat={x:Static misc:Constants.LongTimeFormat12Hour}}"/>
-                                </controls:ContentSwitcher.DefaultContent>
-                                <controls:ContentSwitcher.AlternateContent>
-                                    <controls:HighlightableTextBlock Text="{Binding SessionTime.LocalDateTime, StringFormat={x:Static misc:Constants.LongTimeFormat24Hour}}" />
-                                </controls:ContentSwitcher.AlternateContent>
-                            </controls:ContentSwitcher>
-                        </Grid>
+                        <ContentControl Grid.Row="1" s:View.Model="{Binding}"/>
                     </Grid>
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
