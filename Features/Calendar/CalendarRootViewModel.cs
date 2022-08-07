@@ -73,6 +73,8 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
 
     private void OnGlobalConfigChanged()
     {
+        if (Races.Count == 0) return;
+        if (_global.Use24HourClock == Races[0].Use24HourClock) return;
         foreach (var race in Races)
             race.Use24HourClock = _global.Use24HourClock;
     }

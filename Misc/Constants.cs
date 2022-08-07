@@ -6,6 +6,12 @@ public static class Constants
 {
     public const string AppName = "F1Desktop";
 
+    public const string ShortTimeFormat12Hour = "hh\\:mmtt";
+    public const string ShortTimeFormat24Hour = "HH\\:mm";
+    public const string DateFormat = "ddd\\, d MMMM";
+    public const string LongTimeFormat12Hour = $"{DateFormat} \\- {ShortTimeFormat12Hour}";
+    public const string LongTimeFormat24Hour = $"{DateFormat} \\- {ShortTimeFormat24Hour}";
+    
     public static readonly IReadOnlyList<SessionType> SprintWeekendOrder = new[]
     {
         SessionType.FirstPractice,

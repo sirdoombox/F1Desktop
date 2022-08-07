@@ -25,7 +25,7 @@ public class CachedUrlImageConverter : IValueConverter
             return img;
         }
 
-        throw new NotSupportedException();
+        return null;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();

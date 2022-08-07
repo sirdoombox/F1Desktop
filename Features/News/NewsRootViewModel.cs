@@ -14,17 +14,31 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
     public BindableCollection<NewsItemViewModel> NewsItems { get; } = new();
 
     private readonly NewsRssService _rss;
+    private readonly GlobalConfig _global;
     
-    public NewsRootViewModel(ConfigService cfg, NewsRssService rss) 
+    public NewsRootViewModel(ConfigService cfg, NewsRssService rss, GlobalConfig global) 
         : base("News", PackIconMaterialKind.Newspaper, cfg, 3)
     {
         _rss = rss;
+        _global = global;
+        cfg.SubscribeToConfigChange<GlobalConfig>(OnGlobalConfigChanged);
+    }
+    
+    private void OnGlobalConfigChanged()
+    {
+        if (NewsItems.Count == 0) return;
+        if (_global.Use24HourClock == NewsItems[0].Use24HourClock) return;
+        foreach (var race in NewsItems)
+            race.Use24HourClock = _global.Use24HourClock;
     }
 
     protected override async void OnActivationComplete()
     {
         var items = await _rss.GetNewsAsync();
-        var newsItems = items.Select(newsItem => new NewsItemViewModel(newsItem))
+        var newsItems = items.Select(newsItem => new NewsItemViewModel(newsItem)
+            {
+                Use24HourClock = _global.Use24HourClock
+            })
             .OrderByDescending(x => x.Published);
         NewsItems.AddRange(newsItems);
     }

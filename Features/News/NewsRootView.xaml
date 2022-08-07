@@ -18,13 +18,7 @@
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <Border x:Name="Border"
-                        BorderThickness="0"
-                        Margin="10 5 0 5"
-                        CornerRadius="8"
-                        Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}">
-                    <ContentControl s:View.Model="{Binding}" />
-                </Border>
+                <ContentControl s:View.Model="{Binding}" />
             </DataTemplate>
         </ItemsControl.ItemTemplate>
         <ItemsControl.Template>

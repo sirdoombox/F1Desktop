@@ -26,6 +26,8 @@
                     <converters:BooleanToStringConverter x:Key="BooleanToString"/>
                     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
                     <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibility"/>
+                    <converters:NullToVisibilityConverter x:Key="NullToVisibility"/>
+                    <converters:InverseNullToVisibilityConverter x:Key="InverseNullToVisibility"/>
                     <flags:CountryIdToFlagImageSourceConverter x:Key="CountryIdToFlagImageSource"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
