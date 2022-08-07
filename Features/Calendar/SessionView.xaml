@@ -29,10 +29,8 @@
     <controls:ContentSwitcher Grid.Column="1"
                               HorizontalAlignment="Right"
                               UseAlternateContent="{Binding DataContext.Use24HourClock, RelativeSource={RelativeSource FindAncestor, AncestorType=Expander}}">
-        <controls:ContentSwitcher.DefaultContent>
-            <controls:HighlightableTextBlock
-                Text="{Binding SessionTime.LocalDateTime, StringFormat={x:Static misc:Constants.LongTimeFormat12Hour}}" />
-        </controls:ContentSwitcher.DefaultContent>
+        <controls:HighlightableTextBlock
+            Text="{Binding SessionTime.LocalDateTime, StringFormat={x:Static misc:Constants.LongTimeFormat12Hour}}" />
         <controls:ContentSwitcher.AlternateContent>
             <controls:HighlightableTextBlock
                 Text="{Binding SessionTime.LocalDateTime, StringFormat={x:Static misc:Constants.LongTimeFormat24Hour}}" />

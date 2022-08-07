@@ -8,29 +8,86 @@
       xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
       xmlns:s="https://github.com/canton7/Stylet"
       xmlns:extensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
+      xmlns:localControls="clr-namespace:F1Desktop.Controls"
       mc:Ignorable="d"
       d:DataContext="{d:DesignInstance local:NewsRootViewModel}">
-    <ItemsControl ItemsSource="{Binding NewsItems}">
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <VirtualizingStackPanel VirtualizationMode="Recycling" />
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-        <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <ContentControl s:View.Model="{Binding}" />
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-        <ItemsControl.Template>
-            <ControlTemplate TargetType="ItemsControl">
-                <!-- Set CanContentScroll to True to enable virtualisation, has some side effects... -->
-                <ScrollViewer CanContentScroll="True"
-                              Padding="{TemplateBinding Padding}"
-                              Focusable="False"
-                              extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="NeverExpand">
-                    <ItemsPresenter />
-                </ScrollViewer>
-            </ControlTemplate>
-        </ItemsControl.Template>
-    </ItemsControl>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <Border Grid.Row="0"
+            Style="{DynamicResource Styles.ToolbarBorder}">
+        <UniformGrid Rows="1" HorizontalAlignment="Left">
+            <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
+                    Content="Refresh"
+                    MinWidth="150"
+                    Command="{s:Action RefreshNews}" />
+            <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToolbarToggleButton}}"
+                          Content="Filter News Sources"
+                          x:Name="PopupButton" />
+            <Popup IsOpen="{Binding ElementName=PopupButton,Path=IsChecked}"
+                   PlacementTarget="{Binding ElementName=PopupButton}"
+                   Placement="Bottom"
+                   StaysOpen="False"
+                   AllowsTransparency="True">
+                <ItemsControl Margin="{adonisUi:Space 1, 1}"
+                              Padding="{adonisUi:Space 1, 1}"
+                              ItemsSource="{Binding Providers}"
+                              BorderThickness="1"
+                              Background="{DynamicResource {x:Static adonisUi:Brushes.AccentBrush}}"
+                              BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.AccentIntenseHighlightBorderBrush}}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="2" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel LastChildFill="True"
+                                       Margin="{adonisUi:Space 1,1}">
+                                <CheckBox DockPanel.Dock="Left"
+                                          IsChecked="{Binding IsEnabled}" />
+                                <TextBlock Text="{Binding ProviderName}" />
+                            </DockPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Popup>
+        </UniformGrid>
+    </Border>
+    <localControls:ContentSwitcher Grid.Row="1"
+                                   UseAlternateContent="{Binding IsNewsItemsUnavailable}">
+        <ItemsControl ItemsSource="{Binding NewsItems}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ContentControl s:View.Model="{Binding}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.Template>
+                <ControlTemplate TargetType="ItemsControl">
+                    <!-- Set CanContentScroll to True to enable virtualisation, has some side effects... -->
+                    <ScrollViewer CanContentScroll="True"
+                                  Padding="{TemplateBinding Padding}"
+                                  Focusable="False"
+                                  extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="NeverExpand">
+                        <ItemsPresenter />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </ItemsControl.Template>
+        </ItemsControl>
+        <localControls:ContentSwitcher.AlternateContent>
+            <ContentControl HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Focusable="False"
+                            ContentTemplate="{DynamicResource {x:Static adonisUi:Templates.LoadingBars}}"
+                            Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}"
+                            Width="50"
+                            Height="50" />
+        </localControls:ContentSwitcher.AlternateContent>
+    </localControls:ContentSwitcher>
 </Grid>

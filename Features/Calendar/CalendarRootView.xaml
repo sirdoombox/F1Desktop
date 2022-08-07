@@ -25,10 +25,8 @@
         <RowDefinition Height="Auto" />
         <RowDefinition Height="*" />
     </Grid.RowDefinitions>
-    <Border Background="{DynamicResource {x:Static adonisUi:Brushes.AccentBrush}}"
-            CornerRadius="4"
-            Margin="5"
-            Padding="{adonisUi:Space 2, 0}">
+    <Border Grid.Row="0"
+            Style="{DynamicResource Styles.ToolbarBorder}">
         <UniformGrid Rows="1" HorizontalAlignment="Left">
             <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
                     Content="{Binding ShowPreviousRaces, Converter={StaticResource BooleanToString}, ConverterParameter=Showing Previous Races|Hiding Previous Races}"

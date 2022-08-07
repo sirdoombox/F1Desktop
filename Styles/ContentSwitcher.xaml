@@ -6,13 +6,21 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:ContentSwitcher">
                     <Grid>
-                        <ContentPresenter
-                            Content="{Binding DefaultContent, RelativeSource={RelativeSource TemplatedParent}}"
-                            Visibility="{Binding UseAlternateContent, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBooleanToVisibility}}" />
-                        <ContentPresenter
-                            Content="{Binding AlternateContent, RelativeSource={RelativeSource TemplatedParent}}"
-                            Visibility="{Binding UseAlternateContent, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibility}}" />
+                        <ContentPresenter x:Name="PART_Content"
+                                          Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" />
+                        <ContentPresenter x:Name="PART_AlternateContent"
+                                          Content="{Binding AlternateContent, RelativeSource={RelativeSource TemplatedParent}}" />
                     </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="UseAlternateContent" Value="True">
+                            <Setter TargetName="PART_Content" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="PART_AlternateContent" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="UseAlternateContent" Value="False">
+                            <Setter TargetName="PART_Content" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="PART_AlternateContent" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

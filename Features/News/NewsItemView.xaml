@@ -30,21 +30,20 @@
     </Border.Style>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{adonisUi:Space 10}" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <controls:ContentSwitcher Grid.Column="0"
                                   HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
                                   UseAlternateContent="{Binding Image, Converter={StaticResource NullToBoolConverter}}">
-            <controls:ContentSwitcher.DefaultContent>
-                <Image Source="{Binding Image, Converter={StaticResource CachedUrlImage}, IsAsync=True}"
-                       RenderOptions.BitmapScalingMode="HighQuality"
-                       Width="50"
-                       Height="50"
-                       ToolTip="{Binding ProviderName}"
-                       ToolTipService.InitialShowDelay="0" />
-            </controls:ContentSwitcher.DefaultContent>
+            <Image Source="{Binding Image, Converter={StaticResource CachedUrlImage}, IsAsync=True}"
+                   RenderOptions.BitmapScalingMode="HighQuality"
+                   Width="50"
+                   Height="50"
+                   ToolTip="{Binding ProviderName}"
+                   ToolTipService.InitialShowDelay="0" />
             <controls:ContentSwitcher.AlternateContent>
                 <iconPacks:PackIconMaterial Grid.Column="0"
                                             Kind="Newspaper"
@@ -56,9 +55,11 @@
                                             ToolTipService.InitialShowDelay="0" />
             </controls:ContentSwitcher.AlternateContent>
         </controls:ContentSwitcher>
-
-
-        <Grid Grid.Column="1">
+        <Border Grid.Column="1" 
+                Margin="{adonisUi:Space 2, 0}"
+                Width="1"
+                Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BorderBrush}}"/>
+        <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />

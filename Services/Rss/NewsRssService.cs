@@ -28,6 +28,9 @@ public class NewsRssService
         return results.SelectMany(x => x);
     }
 
+    public IEnumerable<string> GetProviders() => 
+        _providers.Select(x => x.ProviderName);
+
     private IEnumerable<NewsItem> GetFeed(IRssProvider provider)
     {
         var newsItems = new List<NewsItem>();
