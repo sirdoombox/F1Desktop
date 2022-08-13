@@ -2,9 +2,10 @@
 global using System;
 global using System.Linq;
 
-// TODO: Finish tidying up the single-window setup. (window appearing briefly on boot, etc.)
-// TODO: Move the actual shown/hidden window to a separate window, use the root window for the icon only.
-// TODO: Re-implement settings for the calendar, perhaps as an expander from the top (same for every feature?)
-// TODO: Finish up news UI
-// TODO: Implement WDC/WCC Standings
-// TODO: Implement user configuration
+// TODO: Finish credits
+// TODO: Improve configuration
+// TODO: Make global config less clunky
+//  Separate interaction mechanism, set properties via method and notify every type
+//  IGlobalConfigAware
+// TODO: Implement left click icon to quick-open favourite/previous
+// TODO: Fix RSS Feed filtering - no idea where to put this right now...

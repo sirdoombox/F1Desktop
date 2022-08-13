@@ -21,7 +21,7 @@
                 <Grid UseLayoutRounding="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" MinWidth="{adonisUi:Space 3}" />
-                        <ColumnDefinition Width="Auto" MinWidth="{adonisUi:Space 3}" />
+                        <ColumnDefinition Width="Auto" MinWidth="{adonisUi:Space 4}" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" MinWidth="{adonisUi:Space 4}" />
@@ -33,6 +33,7 @@
                            Source="{Binding CountryCode, Converter={StaticResource CountryIdToFlagImageSource}}"
                            Width="20"
                            Height="14"
+                           HorizontalAlignment="Center"
                            RenderOptions.BitmapScalingMode="HighQuality"
                            ToolTip="{Binding Nationality}"
                            ToolTipService.InitialShowDelay="0" />

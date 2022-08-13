@@ -20,7 +20,7 @@ public class StandingsRootViewModel : FeatureBaseWithConfig<StandingsConfig>
         ErgastAPIService api,
         Func<StandingsTableViewModel> standingsTable,
         DataResourceService dataResourceService) 
-        : base("Standings", PackIconMaterialKind.Podium , configService, 2)
+        : base("Standings", PackIconMaterialKind.PodiumGold , configService, 2)
     {
         _api = api;
         _data = dataResourceService;

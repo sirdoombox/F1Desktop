@@ -49,12 +49,12 @@ public class TransitioningContentControl : ContentControl
     private const string PresentationGroup = "PresentationStates";
     private const string NormalState = "Normal";
     private bool _isTransitioning;
-    private Storyboard? _startingTransition;
-    private Storyboard? _completingTransition;
-    private Grid? _container;
-    private Image? _previousImageSite;
-    private ContentPresenter? _currentContentPresentationSite;
-    private VisualStateGroup? _presentationGroup;
+    private Storyboard _startingTransition;
+    private Storyboard _completingTransition;
+    private Grid _container;
+    private Image _previousImageSite;
+    private ContentPresenter _currentContentPresentationSite;
+    private VisualStateGroup _presentationGroup;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TransitioningContentControl"/> class.
@@ -64,12 +64,12 @@ public class TransitioningContentControl : ContentControl
     /// <summary>
     /// Occurs when a transition has completed.
     /// </summary>
-    public event RoutedEventHandler? TransitionCompleted;
+    public event RoutedEventHandler TransitionCompleted;
 
     /// <summary>
     /// Occurs when a transition has started.
     /// </summary>
-    public event RoutedEventHandler? TransitionStarted;
+    public event RoutedEventHandler TransitionStarted;
 
     /// <summary>
     /// Represents the type of transition that a TransitioningContentControl will perform.
@@ -146,7 +146,7 @@ public class TransitioningContentControl : ContentControl
     /// <value>The duration.</value>
     public TimeSpan Duration { get => (TimeSpan)GetValue(TransitionDurationProperty); set => SetValue(TransitionDurationProperty, value); }
 
-    private Storyboard? StartingTransition
+    private Storyboard StartingTransition
     {
         get => _startingTransition;
         set
@@ -159,7 +159,7 @@ public class TransitioningContentControl : ContentControl
         }
     }
 
-    private Storyboard? CompletingTransition
+    private Storyboard CompletingTransition
     {
         get => _completingTransition;
         set
@@ -270,7 +270,7 @@ public class TransitioningContentControl : ContentControl
         }
     }
 
-    private void OnTransitionCompleted(object? sender, EventArgs e)
+    private void OnTransitionCompleted(object sender, EventArgs e)
     {
         AbortTransition();
 
@@ -307,7 +307,7 @@ public class TransitioningContentControl : ContentControl
 
             // Wire up the first transition to start the second transition when it's complete.
             startingTransitionName = $"Transition_{Transition}{Direction}Out";
-            StartingTransition = (Storyboard?)GetTransitionStoryboardByName(startingTransitionName);
+            StartingTransition = (Storyboard)GetTransitionStoryboardByName(startingTransitionName);
             statesRemaining = 2;
             StartingTransition!.Completed += NextState;
         }
@@ -336,7 +336,7 @@ public class TransitioningContentControl : ContentControl
                                      this,
                                      startingTransitionName,
                                      false);
-        void NextState(object? o, EventArgs e)
+        void NextState(object o, EventArgs e)
         {
             StartingTransition!.Completed -= NextState;
             if (statesRemaining == 1)

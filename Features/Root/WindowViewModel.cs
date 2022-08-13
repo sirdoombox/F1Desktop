@@ -18,8 +18,9 @@ public sealed class WindowViewModel : Conductor<IScreen>
         get => _activeViewModel;
         set
         {
+            _activeViewModel?.HideFeature();
             SetAndNotify(ref _activeViewModel, value);
-            OnActiveViewModelChanged();
+            _activeViewModel.ShowFeature();
         }
     }
     
@@ -109,8 +110,6 @@ public sealed class WindowViewModel : Conductor<IScreen>
     protected override async void OnClose()
     {
         await _cfgService.WriteConfigAsync<GlobalConfig>();
-        ActiveViewModel.OnFeatureHidden();
+        ActiveViewModel.HideFeature();
     }
-
-    private void OnActiveViewModelChanged() => ActiveViewModel.OnFeatureHidden();
 }

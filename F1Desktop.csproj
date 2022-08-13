@@ -8,6 +8,10 @@
         <ApplicationIcon>Resources\f1.ico</ApplicationIcon>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <DebugType>none</DebugType>
+    </PropertyGroup>
+
     <ItemGroup>
       <PackageReference Include="AdonisUI" Version="1.17.1" />
       <PackageReference Include="AdonisUI.ClassicTheme" Version="1.17.1" />
@@ -34,6 +38,8 @@
       <EmbeddedResource Include="Resources\Data\Countries.json" />
       <None Remove="Resources\Data\Credits.json" />
       <EmbeddedResource Include="Resources\Data\Credits.json" />
+      <None Remove="Resources\Data\RssProviders.json" />
+      <EmbeddedResource Include="Resources\Data\RssProviders.json" />
     </ItemGroup>
 
     <ItemGroup>

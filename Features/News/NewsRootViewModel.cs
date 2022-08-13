@@ -43,9 +43,14 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
         };
         cfg.SubscribeToConfigChange<GlobalConfig>(OnGlobalConfigChanged);
         NewsItems.CollectionChanged += (_, _) => IsNewsItemsUnavailable = NewsItems.Count <= 0;
-        Providers.AddRange(rss.GetProviders().Select(x => new ProviderViewModel(x, true)));
         foreach (var provider in Providers)
             provider.PropertyChanged += (_, _) => _newsItemsFilter.Refresh();
+    }
+
+    protected override void OnFeatureFirstOpened()
+    {
+        Providers.AddRange(_rss.GetProviders().Select(x => new ProviderViewModel(x, true)));
+        RefreshNews();
     }
 
     public async void RefreshNews()
@@ -67,7 +72,4 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
         foreach (var race in NewsItems)
             race.Use24HourClock = _global.Use24HourClock;
     }
-
-    protected override void OnActivationComplete() =>
-        RefreshNews();
 }

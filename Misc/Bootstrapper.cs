@@ -5,7 +5,6 @@ using F1Desktop.Models.Config;
 using F1Desktop.Services;
 using F1Desktop.Services.Interfaces;
 using F1Desktop.Services.Rss;
-using F1Desktop.Services.Rss.Providers;
 using FluentScheduler;
 using H.NotifyIcon;
 using Stylet;
@@ -31,7 +30,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         builder.Bind<TaskbarIcon>().ToFactory(_ => _icon);
         
         builder.Bind<ErgastAPIService>().ToSelf().InSingletonScope();
-        builder.Bind<IRssProvider>().ToAllImplementations();
         builder.Bind<NewsRssService>().ToSelf().InSingletonScope();
         builder.Bind<NotificationService>().ToSelf().InSingletonScope();
         builder.Bind<ThemeService>().ToSelf().InSingletonScope();

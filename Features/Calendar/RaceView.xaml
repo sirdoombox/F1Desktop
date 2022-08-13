@@ -117,7 +117,7 @@
                 <iconPacks:PackIconMaterial Kind="Wikipedia" />
             </Button>
             <Button ToolTip="Open Google Maps" Command="{s:Action OpenMaps}">
-                <iconPacks:PackIconMaterial Kind="GoogleMaps" />
+                <iconPacks:PackIconMaterial Kind="MapSearchOutline" />
             </Button>
             <Button ToolTip="Open Weather" Command="{s:Action OpenWeather}">
                 <iconPacks:PackIconMaterial Kind="WeatherPartlyCloudy" />

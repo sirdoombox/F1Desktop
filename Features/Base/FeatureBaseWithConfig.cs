@@ -43,10 +43,8 @@ public abstract class FeatureBaseWithConfig<TConfig> : FeatureBase where TConfig
         return true;
     }
 
-    public override async void OnFeatureHidden()
-    {
+    protected override async void OnFeatureHidden() => 
         await _configService.WriteConfigAsync<TConfig>();
-    }
 
     protected virtual void OnConfigLoaded() {}
     protected virtual void OnActivationComplete() {}
