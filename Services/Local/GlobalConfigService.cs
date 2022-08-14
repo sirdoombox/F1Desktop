@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows;
 using F1Desktop.Models.Config;
 using F1Desktop.Services.Interfaces;
 
@@ -23,6 +24,41 @@ public class GlobalConfigService
     {
         get => _useLightTheme;
         set => SetAndNotify(ref _useLightTheme, c => c.LightTheme, value);
+    }
+    
+    private double _width;
+    public double Width
+    {
+        get => _width;
+        set => SetAndNotify(ref _width, c => c.Width, value);
+    }
+    
+    private double _height;
+    public double Height
+    {
+        get => _height;
+        set => SetAndNotify(ref _height, c => c.Height,  value);
+    }
+    
+    private double _left;
+    public double Left
+    {
+        get => _left;
+        set => SetAndNotify(ref _left, c => c.Left, value);
+    }
+    
+    private double _top;
+    public double Top
+    {
+        get => _top;
+        set => SetAndNotify(ref _top, c => c.Top, value);
+    }
+    
+    private WindowState _state;
+    public WindowState State
+    {
+        get => _state;
+        set => SetAndNotify(ref _state, c => c.State, value);
     }
     
     private readonly IConfigService _configService;
@@ -48,6 +84,11 @@ public class GlobalConfigService
     public async Task LoadConfig()
     {
         _config ??= await _configService.GetConfigAsync<GlobalConfig>();
+        Left = _config.Left;
+        Top = _config.Top;
+        Width = _config.Width;
+        Height = _config.Height;
+        State = _config.State;
         UseLightTheme = _config.LightTheme;
         Use24HourClock = _config.Use24HourClock;
     }

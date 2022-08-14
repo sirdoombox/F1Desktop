@@ -9,6 +9,7 @@
         xmlns:misc="clr-namespace:F1Desktop.Misc"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:controls="clr-namespace:F1Desktop.Controls"
+        xmlns:helpers="clr-namespace:F1Desktop.Helpers"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:NewsItemViewModel}"
         Margin="{adonisUi:Space 1, 0.5}"
@@ -57,15 +58,18 @@
             <TextBlock Grid.Row="1"
                        Text="{Binding Text}" TextWrapping="Wrap" />
             <TextBlock Grid.Row="2"
-                       Text="{Binding Published, StringFormat={x:Static misc:Constants.LongTimeFormat24Hour}}"
-                       Visibility="{Binding Use24HourClock, Converter={StaticResource BooleanToVisibility}}"
+                       helpers:StringFormatHelper.Format="{x:Static misc:Constants.LongTimeFormat12Hour}"
+                       helpers:StringFormatHelper.AlternateFormat="{x:Static misc:Constants.LongTimeFormat24Hour}"
+                       helpers:StringFormatHelper.Value="{Binding Published}"
+                       helpers:StringFormatHelper.UseAlternateFormat="{Binding Use24HourClock}"
+                       Text="{Binding Path=(helpers:StringFormatHelper.FormattedValue), Mode=TwoWay, RelativeSource={RelativeSource Self}}"
                        HorizontalAlignment="Right"
                        FontWeight="Bold" />
-            <TextBlock Grid.Row="2"
-                       Text="{Binding Published, StringFormat={x:Static misc:Constants.LongTimeFormat12Hour}}"
-                       Visibility="{Binding Use24HourClock, Converter={StaticResource InverseBooleanToVisibility}}"
-                       HorizontalAlignment="Right"
-                       FontWeight="Bold" />
+            <!-- <TextBlock Grid.Row="2" -->
+            <!--            Text="{Binding Published, StringFormat={x:Static misc:Constants.LongTimeFormat12Hour}}" -->
+            <!--            Visibility="{Binding Use24HourClock, Converter={StaticResource InverseBooleanToVisibility}}" -->
+            <!--            HorizontalAlignment="Right" -->
+            <!--            FontWeight="Bold" /> -->
         </Grid>
     </Grid>
 </Border>

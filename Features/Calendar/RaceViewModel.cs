@@ -6,7 +6,7 @@ using Stylet;
 
 namespace F1Desktop.Features.Calendar;
 
-public class RaceViewModel : SessionViewModelBase, IViewAware
+public class RaceViewModel : SessionViewModelBase
 {
     public string Name { get; }
     
@@ -22,28 +22,21 @@ public class RaceViewModel : SessionViewModelBase, IViewAware
         get => _nextSession;
         private set => SetAndNotify(ref _nextSession, value);
     }
-    
-    private bool _use24HourClock;
-    public bool Use24HourClock
-    {
-        get => _use24HourClock;
-        set => SetAndNotify(ref _use24HourClock, value);
-    }
-    
+
     private readonly Race _race;
 
-    public RaceViewModel(Race race, int totalRaces, GlobalConfigService global) : base(race.DateTime)
+    public RaceViewModel(Race race, int totalRaces, GlobalConfigService global) : base(race.DateTime, global)
     {
         _race = race;
         RaceNumber = race.Round;
         Name = race.RaceName;
         TotalRaces = totalRaces;
+
         var weekendOrder = race.IsSprintWeekend 
             ? Constants.SprintWeekendOrder 
             : Constants.NormalWeekendOrder;
         foreach (var session in weekendOrder)
-            Sessions.Add(new SessionViewModel(session, race.Sessions[session]));
-        global.OnPropertyChanged += _ => Use24HourClock = global.Use24HourClock;
+            Sessions.Add(new SessionViewModel(session, race.Sessions[session], global));
     }
     
     /// <summary>

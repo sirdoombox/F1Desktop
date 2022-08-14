@@ -7,6 +7,7 @@
       xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
       xmlns:controls="clr-namespace:F1Desktop.Controls"
       xmlns:misc="clr-namespace:F1Desktop.Misc"
+      xmlns:helpers="clr-namespace:F1Desktop.Helpers"
       mc:Ignorable="d"
       d:DataContext="{d:DesignInstance local:SessionViewModel}"
       Margin="{adonisUi:Space 1, 1}">
@@ -25,15 +26,11 @@
         <ColumnDefinition Width="Auto" />
     </Grid.ColumnDefinitions>
     <controls:HighlightableTextBlock Grid.Column="0"
-                                     Text="{Binding Name}" />
-    <controls:ContentSwitcher Grid.Column="1"
-                              HorizontalAlignment="Right"
-                              UseAlternateContent="{Binding DataContext.Use24HourClock, RelativeSource={RelativeSource FindAncestor, AncestorType=Expander}}">
-        <controls:HighlightableTextBlock
-            Text="{Binding SessionTime.LocalDateTime, StringFormat={x:Static misc:Constants.LongTimeFormat12Hour}}" />
-        <controls:ContentSwitcher.AlternateContent>
-            <controls:HighlightableTextBlock
-                Text="{Binding SessionTime.LocalDateTime, StringFormat={x:Static misc:Constants.LongTimeFormat24Hour}}" />
-        </controls:ContentSwitcher.AlternateContent>
-    </controls:ContentSwitcher>
+                                     Text="{Binding Name}"/>
+    <controls:HighlightableTextBlock Grid.Column="1"
+                                     helpers:StringFormatHelper.Format="{x:Static misc:Constants.LongTimeFormat12Hour}"
+                                     helpers:StringFormatHelper.AlternateFormat="{x:Static misc:Constants.LongTimeFormat24Hour}"
+                                     helpers:StringFormatHelper.Value="{Binding SessionTime}"
+                                     helpers:StringFormatHelper.UseAlternateFormat="{Binding Use24HourClock}"
+                                     Text="{Binding Path=(helpers:StringFormatHelper.FormattedValue), Mode=TwoWay, RelativeSource={RelativeSource Self}}" />
 </Grid>

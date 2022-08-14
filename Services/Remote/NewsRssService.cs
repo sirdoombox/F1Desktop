@@ -1,6 +1,7 @@
 ﻿using System.ServiceModel.Syndication;
 using System.Threading.Tasks;
 using System.Xml;
+using F1Desktop.Misc;
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.News;
 using F1Desktop.Models.Resources;
@@ -47,7 +48,7 @@ public class NewsRssService
             ImageUrl = feed.ImageUrl?.ToString(),
             Provider = name,
             Published = x.PublishDate,
-            Url = x.Id ?? x.Links[0].Uri.ToString()
+            Url = UrlHelper.IsValidUrl(x.Id) ? x.Id : x.Links[0].Uri.ToString()
         });
     }
 }

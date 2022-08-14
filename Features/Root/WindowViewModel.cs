@@ -13,15 +13,15 @@ namespace F1Desktop.Features.Root;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public sealed class WindowViewModel : Conductor<IScreen>
 {
-    private FeatureBase _activeViewModel;
-    public FeatureBase ActiveViewModel
+    private FeatureBase _activeFeature;
+    public FeatureBase ActiveFeature
     {
-        get => _activeViewModel;
+        get => _activeFeature;
         set
         {
-            _activeViewModel?.HideFeature();
-            SetAndNotify(ref _activeViewModel, value);
-            _activeViewModel.ShowFeature();
+            _activeFeature?.HideFeature();
+            SetAndNotify(ref _activeFeature, value);
+            _activeFeature.ShowFeature();
         }
     }
     
@@ -32,7 +32,8 @@ public sealed class WindowViewModel : Conductor<IScreen>
         set
         {
             if (UserState == WindowState.Maximized) return;
-            SetAndNotifyWithConfig(ref _userWidth, x => x.Width, value);
+            if (!SetAndNotify(ref _userWidth, value)) return;
+            _globalCfg.Width = _userWidth;
         }
     }
 
@@ -43,7 +44,8 @@ public sealed class WindowViewModel : Conductor<IScreen>
         set
         {
             if (UserState == WindowState.Maximized) return;
-            SetAndNotifyWithConfig(ref _userHeight, x => x.Height, value);
+            if (!SetAndNotify(ref _userHeight, value)) return;
+            _globalCfg.Height = _userHeight;
         }
     }
 
@@ -54,7 +56,8 @@ public sealed class WindowViewModel : Conductor<IScreen>
         set
         {
             if (UserState == WindowState.Maximized) return;
-            SetAndNotifyWithConfig(ref _userLeft, x => x.Left, value);
+            if (!SetAndNotify(ref _userLeft, value)) return;
+            _globalCfg.Left = _userLeft;
         }
     }
 
@@ -65,7 +68,8 @@ public sealed class WindowViewModel : Conductor<IScreen>
         set
         {
             if (UserState == WindowState.Maximized) return;
-            SetAndNotifyWithConfig(ref _userTop, x => x.Top, value);
+            if (!SetAndNotify(ref _userTop, value)) return;
+            _globalCfg.Top = _userTop;
         }
     }
 
@@ -73,24 +77,22 @@ public sealed class WindowViewModel : Conductor<IScreen>
     public WindowState UserState
     {
         get => _userState;
-        set => SetAndNotifyWithConfig(ref _userState, x => x.State, value);
+        set
+        {
+            if (!SetAndNotify(ref _userState, value)) return;
+            _globalCfg.State = _userState;
+        }
     }
 
     public BindableCollection<FeatureBase> Features { get; } = new();
 
-    private readonly IConfigService _cfgService;
-    private GlobalConfig _globalCfg;
+    private GlobalConfigService _globalCfg;
     
-    public WindowViewModel(IEnumerable<FeatureBase> features, IConfigService cfgService, GlobalConfig globalCfg)
+    public WindowViewModel(IEnumerable<FeatureBase> features, GlobalConfigService globalCfg)
     {
-        _cfgService = cfgService;
         _globalCfg = globalCfg;
-        
-        UserWidth = _globalCfg.Width;
-        UserHeight = _globalCfg.Height;
-        UserLeft = _globalCfg.Left;
-        UserTop = _globalCfg.Top;
-        UserState = _globalCfg.State;
+        _globalCfg.OnPropertyChanged += OnGlobalConfigChanged;
+        OnGlobalConfigChanged(null);
         
         foreach (var feature in features.OrderBy(x => x.Order))
         {
@@ -99,18 +101,18 @@ public sealed class WindowViewModel : Conductor<IScreen>
         }
     }
 
-    private void SetAndNotifyWithConfig<T1>(ref T1 field, Expression<Func<GlobalConfig,T1>> propExpr, T1 value)
+    public void OnGlobalConfigChanged(string propName)
     {
-        var hasChanged = SetAndNotify(ref field, value);
-        if (!hasChanged) return;
-        var expr = (MemberExpression) propExpr.Body;
-        var prop = (PropertyInfo) expr.Member;
-        prop.SetValue(_globalCfg, value, null);
+        UserWidth = _globalCfg.Width;
+        UserHeight = _globalCfg.Height;
+        UserLeft = _globalCfg.Left;
+        UserTop = _globalCfg.Top;
+        UserState = _globalCfg.State;
     }
 
     protected override async void OnClose()
     {
-        await _cfgService.WriteConfigToDiskAsync<GlobalConfig>();
-        ActiveViewModel.HideFeature();
+        await _globalCfg.SaveConfig();
+        ActiveFeature.HideFeature();
     }
 }

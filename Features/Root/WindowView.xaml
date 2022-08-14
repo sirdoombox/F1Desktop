@@ -43,7 +43,7 @@
                 </Grid.RowDefinitions>
                 <ListBox Grid.Row="1"
                          ItemsSource="{Binding Features}"
-                         SelectedItem="{Binding ActiveViewModel}"
+                         SelectedItem="{Binding ActiveFeature}"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
                          ItemContainerStyle="{DynamicResource Styles.NavigationListBoxItem}">
@@ -93,7 +93,7 @@
                                                    HorizontalContentAlignment="Stretch"
                                                    VerticalAlignment="Stretch"
                                                    VerticalContentAlignment="Stretch"
-                                                   s:View.Model="{Binding ActiveViewModel, IsAsync=True}" />
+                                                   s:View.Model="{Binding ActiveFeature, IsAsync=True}" />
         </Grid>
     </Grid>
 </controls:AdonisWindow>

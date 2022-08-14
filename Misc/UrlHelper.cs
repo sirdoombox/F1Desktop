@@ -27,4 +27,7 @@ public static class UrlHelper
         };
         Process.Start(psi);
     }
+
+    public static bool IsValidUrl(string url) => 
+        Uri.TryCreate(url, UriKind.Absolute, out _);
 }

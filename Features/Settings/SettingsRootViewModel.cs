@@ -49,4 +49,6 @@ public class SettingsRootViewModel : FeatureBase
 
     private void OnThemeChanged() => 
         _theme.SetTheme(IsLight);
+
+    protected override async void OnFeatureHidden() => await _config.SaveConfig();
 }

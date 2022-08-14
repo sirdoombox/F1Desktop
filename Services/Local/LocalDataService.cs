@@ -68,7 +68,7 @@ public class LocalDataService : IDataCacheService, IConfigService
     {
         if (!_cachedConfigs.TryGetValue(typeof(T), out var res))
             throw new InvalidOperationException($"Config of type {typeof(T).Name} has not been loaded");
-        await WriteDataToFile(_configPath, res);
+        await WriteDataToFile(_configPath, (T)res);
     }
 
     private static async Task<T> TryReadDataFromFile<T>(string basePath) where T : class
