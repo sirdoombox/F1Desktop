@@ -2,6 +2,7 @@
 using F1Desktop.Features.Base;
 using F1Desktop.Models.Config;
 using F1Desktop.Models.Resources;
+using F1Desktop.Services.Interfaces;
 using F1Desktop.Services.Local;
 using F1Desktop.Services.Remote;
 using MahApps.Metro.IconPacks;
@@ -16,7 +17,7 @@ public class StandingsRootViewModel : FeatureBaseWithConfig<StandingsConfig>
     private readonly ErgastAPIService _api;
     private readonly DataResourceService _data;
     
-    public StandingsRootViewModel(ConfigService configService, 
+    public StandingsRootViewModel(IConfigService configService, 
         ErgastAPIService api,
         Func<StandingsTableViewModel> standingsTable,
         DataResourceService dataResourceService) 

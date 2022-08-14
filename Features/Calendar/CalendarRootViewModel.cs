@@ -2,6 +2,7 @@
 using F1Desktop.Features.Base;
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.Config;
+using F1Desktop.Services.Interfaces;
 using F1Desktop.Services.Local;
 using F1Desktop.Services.Remote;
 using JetBrains.Annotations;
@@ -58,7 +59,7 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
 
     public CalendarRootViewModel(ErgastAPIService api, 
         NotificationService notifications, 
-        ConfigService configService,
+        IConfigService configService,
         GlobalConfigService global,
         TickService tick) 
         : base("Calendar", PackIconMaterialKind.Calendar, configService, 0)

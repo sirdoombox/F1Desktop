@@ -14,9 +14,11 @@ public class LocalDataService : IDataCacheService, IConfigService
     private readonly string _cachePath;
     private readonly string _configPath;
     
+    private readonly Dictionary<Type, object> _cachedConfigs = new();
+    
     private static readonly JsonSerializerOptions IndentedJsonOptions;
     private static readonly JsonSerializerOptions DefaultJsonOptions;
-
+    
     static LocalDataService()
     {
         IndentedJsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.General)
@@ -52,11 +54,22 @@ public class LocalDataService : IDataCacheService, IConfigService
         await WriteDataToFile(_cachePath, cache);
     }
 
-    public Task<T> TryGetConfigAsync<T>() where T : ConfigBase => 
-        TryReadDataFromFile<T>(_configPath);
+    public async Task<T> GetConfigAsync<T>() where T : ConfigBase, new()
+    {
+        if (_cachedConfigs.TryGetValue(typeof(T), out var res))
+            return (T)res;
+        var loaded = await TryReadDataFromFile<T>(_configPath);
+        loaded ??= new T();
+        _cachedConfigs.Add(typeof(T), loaded);
+        return loaded;
+    }
 
-    public Task WriteConfigToDisk<T>(T config) where T : ConfigBase =>
-        WriteDataToFile(_configPath, config);
+    public async Task WriteConfigToDiskAsync<T>() where T : ConfigBase
+    {
+        if (!_cachedConfigs.TryGetValue(typeof(T), out var res))
+            throw new InvalidOperationException($"Config of type {typeof(T).Name} has not been loaded");
+        await WriteDataToFile(_configPath, res);
+    }
 
     private static async Task<T> TryReadDataFromFile<T>(string basePath) where T : class
     {

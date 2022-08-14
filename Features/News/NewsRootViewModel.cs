@@ -2,6 +2,7 @@
 using System.Windows.Data;
 using F1Desktop.Features.Base;
 using F1Desktop.Models.Config;
+using F1Desktop.Services.Interfaces;
 using F1Desktop.Services.Local;
 using F1Desktop.Services.Remote;
 using JetBrains.Annotations;
@@ -28,7 +29,7 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
     private readonly GlobalConfigService _global;
     private readonly ICollectionView _newsItemsFilter;
 
-    public NewsRootViewModel(ConfigService cfg, NewsRssService rss, GlobalConfigService global)
+    public NewsRootViewModel(IConfigService cfg, NewsRssService rss, GlobalConfigService global)
         : base("News", PackIconMaterialKind.Newspaper, cfg, 3)
     {
         _rss = rss;

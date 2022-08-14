@@ -5,6 +5,6 @@ namespace F1Desktop.Services.Interfaces;
 
 public interface IConfigService
 {
-    public Task<T> TryGetConfigAsync<T>() where T : ConfigBase;
-    public Task WriteConfigToDisk<T>(T config) where T : ConfigBase;
+    public Task<T> GetConfigAsync<T>() where T : ConfigBase, new();
+    public Task WriteConfigToDiskAsync<T>() where T : ConfigBase;
 }

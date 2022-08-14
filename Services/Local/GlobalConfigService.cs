@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using F1Desktop.Models.Config;
+using F1Desktop.Services.Interfaces;
 
 namespace F1Desktop.Services.Local;
 
@@ -24,12 +25,12 @@ public class GlobalConfigService
         set => SetAndNotify(ref _useLightTheme, c => c.LightTheme, value);
     }
     
-    private readonly LocalDataService _localData;
+    private readonly IConfigService _configService;
     private GlobalConfig _config;
     
-    public GlobalConfigService(LocalDataService localData)
+    public GlobalConfigService(IConfigService configService)
     {
-        _localData = localData;
+        _configService = configService;
     }
 
     private void SetAndNotify<T>(ref T field, Expression<Func<GlobalConfig,T>> propExpr, T value, [CallerMemberName] string propertyName = "")
@@ -46,7 +47,7 @@ public class GlobalConfigService
 
     public async Task LoadConfig()
     {
-        _config ??= await _localData.TryGetConfigAsync<GlobalConfig>();
+        _config ??= await _configService.GetConfigAsync<GlobalConfig>();
         UseLightTheme = _config.LightTheme;
         Use24HourClock = _config.Use24HourClock;
     }
@@ -54,6 +55,6 @@ public class GlobalConfigService
     public async Task SaveConfig()
     {
         if (_config is null) throw new InvalidOperationException("Global config isn't loaded.");
-        await _localData.WriteConfigToDisk(_config);
+        await _configService.WriteConfigToDiskAsync<GlobalConfig>();
     }
 }

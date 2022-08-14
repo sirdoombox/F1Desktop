@@ -44,11 +44,10 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         builder.Bind<NotificationService>().ToSelf().InSingletonScope();
         builder.Bind<ThemeService>().ToSelf().InSingletonScope();
         builder.Bind<DataResourceService>().ToSelf().InSingletonScope();
-        builder.Bind<ConfigService>().ToSelf().InSingletonScope();
 
         builder.Bind<GlobalConfigService>().ToFactory(x =>
         {
-            var cfg = new GlobalConfigService(x.Get<LocalDataService>());
+            var cfg = new GlobalConfigService(x.Get<IConfigService>());
             cfg.LoadConfig().GetAwaiter().GetResult();
             return cfg;
         }).InSingletonScope();

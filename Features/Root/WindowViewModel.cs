@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Windows;
 using F1Desktop.Features.Base;
 using F1Desktop.Models.Config;
+using F1Desktop.Services.Interfaces;
 using F1Desktop.Services.Local;
 using JetBrains.Annotations;
 using Stylet;
@@ -77,10 +78,10 @@ public sealed class WindowViewModel : Conductor<IScreen>
 
     public BindableCollection<FeatureBase> Features { get; } = new();
 
-    private readonly ConfigService _cfgService;
+    private readonly IConfigService _cfgService;
     private GlobalConfig _globalCfg;
     
-    public WindowViewModel(IEnumerable<FeatureBase> features, ConfigService cfgService, GlobalConfig globalCfg)
+    public WindowViewModel(IEnumerable<FeatureBase> features, IConfigService cfgService, GlobalConfig globalCfg)
     {
         _cfgService = cfgService;
         _globalCfg = globalCfg;
@@ -109,7 +110,7 @@ public sealed class WindowViewModel : Conductor<IScreen>
 
     protected override async void OnClose()
     {
-        await _cfgService.WriteConfigAsync<GlobalConfig>();
+        await _cfgService.WriteConfigToDiskAsync<GlobalConfig>();
         ActiveViewModel.HideFeature();
     }
 }
