@@ -57,10 +57,7 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
     {
         NewsItems.Clear();
         var items = await _rss.GetNewsAsync();
-        var newsItems = items.Select(newsItem => new NewsItemViewModel(newsItem, _global)
-            {
-                Use24HourClock = _global.Use24HourClock
-            })
+        var newsItems = items.Select(newsItem => new NewsItemViewModel(newsItem, _global))
             .OrderByDescending(x => x.Published);
         NewsItems.AddRange(newsItems);
     }

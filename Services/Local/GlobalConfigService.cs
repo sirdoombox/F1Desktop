@@ -84,13 +84,14 @@ public class GlobalConfigService
     public async Task LoadConfig()
     {
         _config ??= await _configService.GetConfigAsync<GlobalConfig>();
-        Left = _config.Left;
-        Top = _config.Top;
-        Width = _config.Width;
-        Height = _config.Height;
-        State = _config.State;
-        UseLightTheme = _config.LightTheme;
-        Use24HourClock = _config.Use24HourClock;
+        _left = _config.Left;
+        _top = _config.Top;
+        _width = _config.Width;
+        _height = _config.Height;
+        _state = _config.State;
+        _useLightTheme = _config.LightTheme;
+        _use24HourClock = _config.Use24HourClock;
+        OnPropertyChanged?.Invoke(null);
     }
 
     public async Task SaveConfig()

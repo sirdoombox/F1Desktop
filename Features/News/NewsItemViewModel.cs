@@ -30,6 +30,7 @@ public class NewsItemViewModel : PropertyChangedBase
         Image = item.ImageUrl;
         Published = item.Published;
         ProviderName = item.Provider;
+        Use24HourClock = global.Use24HourClock;
         global.OnPropertyChanged += _ => Use24HourClock = global.Use24HourClock;
     }
 

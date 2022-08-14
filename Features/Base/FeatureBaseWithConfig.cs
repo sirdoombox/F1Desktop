@@ -2,7 +2,6 @@
 using System.Reflection;
 using F1Desktop.Models.Base;
 using F1Desktop.Services.Interfaces;
-using F1Desktop.Services.Local;
 using JetBrains.Annotations;
 using MahApps.Metro.IconPacks;
 

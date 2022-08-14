@@ -26,9 +26,9 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     public override void Start(string[] args)
     {
         AppDomain.CurrentDomain.FirstChanceException += CurrentDomainOnFirstChanceException;
-        File.Delete("C:/Temp/log.txt");
+        File.Delete("log.txt");
         _log = new LoggerConfiguration()
-            .WriteTo.File("C:/Temp/log.txt")
+            .WriteTo.File("log.txt")
             .CreateLogger();
         if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(AppContext.BaseDirectory)).Length > 1) 
             Process.GetCurrentProcess().Kill();
@@ -45,15 +45,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         _log.Fatal(e.Exception,""); 
     }
 
-    protected override void OnStart() => base.OnStart();
-
-    protected override void DisplayRootView(object rootViewModel) => base.DisplayRootView(rootViewModel);
-
-    protected override void Configure() => base.Configure();
-
     protected override void OnLaunch()
     {
-        // IMPORTANT: For some reason occasionally the app isn't starting...
         _icon = Application.MainWindow.GetChildOfType<TaskbarIcon>();
     }
 
@@ -70,19 +63,18 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         builder.Bind<NotificationService>().ToSelf().InSingletonScope();
         builder.Bind<ThemeService>().ToSelf().InSingletonScope();
         builder.Bind<DataResourceService>().ToSelf().InSingletonScope();
-
-        builder.Bind<GlobalConfigService>().ToFactory(x =>
-        {
-            var cfg = new GlobalConfigService(x.Get<IConfigService>());
-            cfg.LoadConfig().GetAwaiter().GetResult();
-            return cfg;
-        }).InSingletonScope();
+        builder.Bind<GlobalConfigService>().ToSelf().InSingletonScope();
 
         foreach (var type in Assembly.GetExecutingAssembly().GetTypes().Where(x => x.IsSubclassOf(typeof(FeatureBase))))
         {
             if (type.IsAbstract) continue;
             builder.Bind<FeatureBase>().To(type);
         }
+    }
+
+    protected override async void Configure()
+    {
+        await Container.Get<GlobalConfigService>().LoadConfig();
     }
 
     public override void Dispose()

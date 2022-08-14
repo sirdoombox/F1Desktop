@@ -38,10 +38,15 @@ public class SettingsRootViewModel : FeatureBase
         : base("Settings", PackIconMaterialKind.Cog, byte.MaxValue)
     {
         _config = config;
-        _use24HourClock = config.Use24HourClock;
-        _isLight = config.UseLightTheme;
+        _config.OnPropertyChanged += OnGlobalPropertyChanged;
         _theme = theme;
         Credits = credits;
+    }
+
+    private void OnGlobalPropertyChanged(string obj)
+    {
+        SetAndNotify(ref _use24HourClock, _config.Use24HourClock, nameof(Use24HourClock));
+        SetAndNotify(ref _isLight, _config.UseLightTheme, nameof(IsLight));
     }
 
     protected override async void OnFeatureFirstOpened() => 

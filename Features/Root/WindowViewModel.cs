@@ -1,9 +1,5 @@
-﻿using System.Linq.Expressions;
-using System.Reflection;
-using System.Windows;
+﻿using System.Windows;
 using F1Desktop.Features.Base;
-using F1Desktop.Models.Config;
-using F1Desktop.Services.Interfaces;
 using F1Desktop.Services.Local;
 using JetBrains.Annotations;
 using Stylet;
@@ -92,7 +88,6 @@ public sealed class WindowViewModel : Conductor<IScreen>
     {
         _globalCfg = globalCfg;
         _globalCfg.OnPropertyChanged += OnGlobalConfigChanged;
-        OnGlobalConfigChanged(null);
         
         foreach (var feature in features.OrderBy(x => x.Order))
         {
@@ -103,11 +98,11 @@ public sealed class WindowViewModel : Conductor<IScreen>
 
     public void OnGlobalConfigChanged(string propName)
     {
-        UserWidth = _globalCfg.Width;
-        UserHeight = _globalCfg.Height;
-        UserLeft = _globalCfg.Left;
-        UserTop = _globalCfg.Top;
-        UserState = _globalCfg.State;
+        SetAndNotify(ref _userWidth, _globalCfg.Width, nameof(UserWidth));
+        SetAndNotify(ref _userHeight, _globalCfg.Height, nameof(UserHeight));
+        SetAndNotify(ref _userLeft, _globalCfg.Left, nameof(UserLeft));
+        SetAndNotify(ref _userTop, _globalCfg.Top, nameof(UserTop));
+        SetAndNotify(ref _userState, _globalCfg.State, nameof(UserState));
     }
 
     protected override async void OnClose()

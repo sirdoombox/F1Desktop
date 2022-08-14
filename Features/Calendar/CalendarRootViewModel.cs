@@ -78,20 +78,6 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         EnableNotifications = Config.EnableNotifications;
     }
 
-    protected override async void OnActivationComplete()
-    {
-        // Races.Clear();
-        // var data = await _api.GetScheduleAsync();
-        // if (data is null) return;
-        // Races.AddRange(data.ScheduleData.RaceTable.Races
-        //     .OrderBy(x => x.DateTime)
-        //     .Select(x => new RaceViewModel(x, data.ScheduleData.Total, _global)
-        //     {
-        //         Use24HourClock = _global.Use24HourClock
-        //     }));
-        // UpdateTimers();
-    }
-
     protected override async void OnFeatureFirstOpened()
     {
         Races.Clear();
@@ -99,10 +85,7 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         if (data is null) return;
         Races.AddRange(data.ScheduleData.RaceTable.Races
             .OrderBy(x => x.DateTime)
-            .Select(x => new RaceViewModel(x, data.ScheduleData.Total, _global)
-            {
-                Use24HourClock = _global.Use24HourClock
-            }));
+            .Select(x => new RaceViewModel(x, data.ScheduleData.Total, _global)));
         UpdateTimers();
     }
 
