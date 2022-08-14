@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
-using F1Desktop.Attributes;
 using F1Desktop.Features.Base;
 using F1Desktop.Models.Config;
 using F1Desktop.Models.Resources;
-using F1Desktop.Services;
+using F1Desktop.Services.Local;
+using F1Desktop.Services.Remote;
 using MahApps.Metro.IconPacks;
 
 namespace F1Desktop.Features.Standings;

@@ -1,18 +1,18 @@
 ﻿[
   {
-    "Name":"Autosport",
-    "Url":"https://www.autosport.com/rss/f1/news/"
+    "Name": "Autosport",
+    "Url": "https://www.autosport.com/rss/f1/news/"
   },
   {
-    "Name":"BBC Sport",
-    "Url":"https://bbc.com/sport/formula1/rss.xml"
+    "Name": "BBC Sport",
+    "Url": "https://bbc.com/sport/formula1/rss.xml"
   },
   {
-    "Name":"WTF1",
-    "Url":"https://wtf1.com/feed/"
+    "Name": "WTF1",
+    "Url": "https://wtf1.com/feed/"
   },
   {
-    "Name":"Racer",
-    "Url":"https://racer.com/f1/feed/"
+    "Name": "Racer",
+    "Url": "https://racer.com/f1/feed/"
   }
 ]

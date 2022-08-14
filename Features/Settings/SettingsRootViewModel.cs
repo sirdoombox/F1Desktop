@@ -1,5 +1,5 @@
 ﻿using F1Desktop.Features.Base;
-using F1Desktop.Services;
+using F1Desktop.Services.Local;
 using MahApps.Metro.IconPacks;
 
 namespace F1Desktop.Features.Settings;

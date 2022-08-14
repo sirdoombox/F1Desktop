@@ -1,7 +1,6 @@
-﻿using FluentScheduler;
-using H.NotifyIcon;
+﻿using H.NotifyIcon;
 
-namespace F1Desktop.Services;
+namespace F1Desktop.Services.Local;
 
 public class NotificationService
 {

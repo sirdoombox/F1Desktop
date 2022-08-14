@@ -4,7 +4,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using F1Desktop.Attributes;
 
-namespace F1Desktop.Services;
+namespace F1Desktop.Services.Local;
 
 public class DataResourceService
 {

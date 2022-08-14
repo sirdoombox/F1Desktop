@@ -5,27 +5,48 @@
               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
               xmlns:local="clr-namespace:F1Desktop.Features.Settings"
               xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+              xmlns:s="https://github.com/canton7/Stylet"
+              xmlns:adonisExt="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
               mc:Ignorable="d"
               d:DataContext="{d:DesignInstance local:CreditsViewModel}"
               ItemsSource="{Binding Credits}">
     <ItemsControl.ItemTemplate>
         <DataTemplate>
-            <Border Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}"
-                    CornerRadius="8"
-                    Padding="{adonisUi:Space 2,1}">
-                <Expander>
-                    <Expander.Header>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Name}" />
-                        </Grid>
-                    </Expander.Header>
-                    <TextBlock Text="{Binding Description}" />
-                </Expander>
+            <Border Style="{DynamicResource Styles.HoverableBorder}"
+                    Padding="{adonisUi:Space 2,1}"
+                    Margin="{adonisUi:Space 1, 0.5}"
+                    s:View.ActionTarget="{Binding}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               FontWeight="Bold"
+                               FontSize="14"
+                               Text="{Binding Name}"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="0"
+                               Text="{Binding Description}"
+                               VerticalAlignment="Center"
+                               TextWrapping="Wrap"/>
+                    <Button Grid.Row="0"
+                            Grid.Column="1"
+                            Command="{s:Action OpenUrl}"
+                            Content="Homepage" />
+                    <Button Grid.Row="1"
+                            Grid.Column="1"
+                            IsEnabled="{Binding LicenseUrl, Converter={StaticResource InverseNullToBool}}"
+                            Command="{s:Action OpenLicense}"
+                            Content="License" />
+                    
+                </Grid>
             </Border>
         </DataTemplate>
     </ItemsControl.ItemTemplate>
@@ -34,4 +55,14 @@
             <StackPanel />
         </ItemsPanelTemplate>
     </ItemsControl.ItemsPanel>
+    <ItemsControl.Template>
+        <ControlTemplate TargetType="ItemsControl">
+            <ScrollViewer CanContentScroll="False"
+                          Focusable="False"
+                          adonisExt:ScrollViewerExtension.VerticalScrollBarPlacement="Overlay"
+                          adonisExt:ScrollViewerExtension.VerticalScrollBarExpansionMode="NeverExpand">
+                <ItemsPresenter />
+            </ScrollViewer>
+        </ControlTemplate>
+    </ItemsControl.Template>
 </ItemsControl>

@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using F1Desktop.Models.Config;
 
-namespace F1Desktop.Services;
+namespace F1Desktop.Services.Local;
 
 public class GlobalConfigService
 {

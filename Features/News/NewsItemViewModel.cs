@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using F1Desktop.Misc;
 using F1Desktop.Models.News;
-using F1Desktop.Services;
+using F1Desktop.Services.Local;
 using Stylet;
 
 namespace F1Desktop.Features.News;

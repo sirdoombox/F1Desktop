@@ -8,7 +8,7 @@ using F1Desktop.Models.ErgastAPI.Schedule;
 using F1Desktop.Services.Interfaces;
 using JetBrains.Annotations;
 
-namespace F1Desktop.Services;
+namespace F1Desktop.Services.Remote;
 
 [UsedImplicitly]
 public class ErgastAPIService

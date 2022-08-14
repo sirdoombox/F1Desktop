@@ -1,10 +1,12 @@
-﻿using F1Desktop.Features.Base;
+﻿using System.Diagnostics;
+using System.IO;
+using System.Reflection;
+using F1Desktop.Features.Base;
 using F1Desktop.Features.Root;
 using F1Desktop.Misc.Extensions;
-using F1Desktop.Models.Config;
-using F1Desktop.Services;
 using F1Desktop.Services.Interfaces;
-using F1Desktop.Services.Rss;
+using F1Desktop.Services.Local;
+using F1Desktop.Services.Remote;
 using FluentScheduler;
 using H.NotifyIcon;
 using Stylet;
@@ -16,8 +18,16 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 {
     private TaskbarIcon _icon;
 
+    public override void Start(string[] args)
+    {
+        if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()?.Location)).Length > 1) 
+            Process.GetCurrentProcess().Kill();
+        base.Start(args);
+    }
+
     protected override void OnLaunch()
     {
+        // IMPORTANT: For some reason occasionally the app isn't starting...
         _icon = Application.MainWindow.GetChildOfType<TaskbarIcon>();
     }
 

@@ -1,6 +1,6 @@
 ﻿using FluentScheduler;
 
-namespace F1Desktop.Services;
+namespace F1Desktop.Services.Local;
 
 public class TickService
 {

@@ -1,9 +1,8 @@
 ﻿using System.Windows;
 using AdonisUI;
-using F1Desktop.Models.Config;
 using H.NotifyIcon;
 
-namespace F1Desktop.Services;
+namespace F1Desktop.Services.Local;
 
 public class ThemeService
 {

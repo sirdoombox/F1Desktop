@@ -1,8 +1,7 @@
-﻿using System.Windows;
-using F1Desktop.Misc;
+﻿using F1Desktop.Misc;
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.ErgastAPI.Schedule;
-using F1Desktop.Services;
+using F1Desktop.Services.Local;
 using Stylet;
 
 namespace F1Desktop.Features.Calendar;

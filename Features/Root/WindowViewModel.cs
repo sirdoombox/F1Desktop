@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Windows;
 using F1Desktop.Features.Base;
 using F1Desktop.Models.Config;
-using F1Desktop.Services;
+using F1Desktop.Services.Local;
 using JetBrains.Annotations;
 using Stylet;
 

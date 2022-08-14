@@ -2,8 +2,8 @@
 using System.Windows.Data;
 using F1Desktop.Features.Base;
 using F1Desktop.Models.Config;
-using F1Desktop.Services;
-using F1Desktop.Services.Rss;
+using F1Desktop.Services.Local;
+using F1Desktop.Services.Remote;
 using JetBrains.Annotations;
 using MahApps.Metro.IconPacks;
 using Stylet;

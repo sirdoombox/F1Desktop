@@ -1,4 +1,5 @@
 ﻿using AdonisUI.ViewModels;
+using F1Desktop.Misc;
 using F1Desktop.Models.Resources;
 
 namespace F1Desktop.Features.Settings;
@@ -17,4 +18,7 @@ public class CreditViewModel : PropertyChangedBase
         Url = data.Url;
         LicenseUrl = data.LicenseUrl;
     }
+
+    public void OpenUrl() => UrlHelper.Open(Url);
+    public void OpenLicense() => UrlHelper.Open(LicenseUrl);
 }

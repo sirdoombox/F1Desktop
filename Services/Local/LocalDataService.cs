@@ -7,7 +7,7 @@ using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.Base;
 using F1Desktop.Services.Interfaces;
 
-namespace F1Desktop.Services;
+namespace F1Desktop.Services.Local;
 
 public class LocalDataService : IDataCacheService, IConfigService
 {

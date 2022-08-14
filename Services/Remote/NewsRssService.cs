@@ -4,9 +4,10 @@ using System.Xml;
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.News;
 using F1Desktop.Models.Resources;
+using F1Desktop.Services.Local;
 using JetBrains.Annotations;
 
-namespace F1Desktop.Services.Rss;
+namespace F1Desktop.Services.Remote;
 
 [UsedImplicitly]
 public class NewsRssService

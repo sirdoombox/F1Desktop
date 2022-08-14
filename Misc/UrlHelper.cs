@@ -19,6 +19,7 @@ public static class UrlHelper
 
     public static void Open(string url)
     {
+        if (string.IsNullOrWhiteSpace(url)) return;
         var psi = new ProcessStartInfo
         {
             FileName = url,

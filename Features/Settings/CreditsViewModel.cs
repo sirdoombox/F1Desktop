@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using F1Desktop.Models.Resources;
-using F1Desktop.Services;
+using F1Desktop.Services.Local;
 using Stylet;
 
 namespace F1Desktop.Features.Settings;

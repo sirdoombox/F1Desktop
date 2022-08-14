@@ -12,22 +12,9 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:NewsItemViewModel}"
         Margin="{adonisUi:Space 1, 0.5}"
-        CornerRadius="8"
         Padding="{adonisUi:Space 2, 2}"
-        BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.AccentBrush}}"
+        Style="{DynamicResource Styles.HoverableBorder}"
         MouseLeftButtonDown="{s:Action OpenArticle}">
-    <Border.Style>
-        <Style TargetType="Border">
-            <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}" />
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background"
-                            Value="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBrush}}" />
-                    <Setter Property="BorderThickness" Value="5 0 5 0" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Border.Style>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />

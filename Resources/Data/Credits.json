@@ -1,8 +1,44 @@
 ﻿[
   {
-    "Name":"ErgastAPI",
-    "Description":"Provides the majority of the data in this app.",
-    "Url":"https://ergast.com/mrd/",
-    "LicenseUrl":null
+    "Name": "ErgastAPI",
+    "Description": "Schedule & Standings Data.",
+    "Url": "https://ergast.com/mrd/",
+    "LicenseUrl": null
+  },
+  {
+    "Name": "Stylet",
+    "Description": "VM-First MVVM Framework.",
+    "Url": "https://github.com/canton7/Stylet",
+    "LicenseUrl": "https://github.com/canton7/Stylet/blob/master/LICENSE.txt"
+  },
+  {
+    "Name": "AdonisUI",
+    "Description": "Controls & Theming.",
+    "Url": "https://benruehl.github.io/adonis-ui/",
+    "LicenseUrl": "https://github.com/benruehl/adonis-ui/blob/master/LICENSE"
+  },
+  {
+    "Name": "FamFamFam.Flags",
+    "Description": "Flag Icons.",
+    "Url": "https://github.com/point-platform/famfamfam-flags-wpf",
+    "LicenseUrl": "https://github.com/point-platform/famfamfam-flags-wpf/blob/master/LICENSE"
+  },
+  {
+    "Name": "FluentScheduler",
+    "Description": "Job Scheduling.",
+    "Url": "https://github.com/fluentscheduler/FluentScheduler",
+    "LicenseUrl": "https://github.com/fluentscheduler/FluentScheduler/blob/version-5/LICENSE"
+  },
+  {
+    "Name": "Mahapps.Metro.IconPacks",
+    "Description": "Miscellaneous Icons.",
+    "Url": "https://github.com/MahApps/MahApps.Metro.IconPacks",
+    "LicenseUrl": "https://github.com/MahApps/MahApps.Metro.IconPacks/blob/develop/LICENSE"
+  },
+  {
+    "Name": "H.NotifyIcon",
+    "Description": "Toolbar Icon + Windows Notifications.",
+    "Url": "https://github.com/HavenDV/H.NotifyIcon",
+    "LicenseUrl": "https://github.com/HavenDV/H.NotifyIcon/blob/master/LICENSE.md"
   }
 ]
