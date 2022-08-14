@@ -40,5 +40,11 @@
     "Description": "Toolbar Icon + Windows Notifications.",
     "Url": "https://github.com/HavenDV/H.NotifyIcon",
     "LicenseUrl": "https://github.com/HavenDV/H.NotifyIcon/blob/master/LICENSE.md"
+  },
+  {
+    "Name": "Serilog",
+    "Description": "Logging",
+    "Url": "https://serilog.net/",
+    "LicenseUrl": "https://github.com/serilog/serilog/blob/dev/LICENSE"
   }
 ]
