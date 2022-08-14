@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Runtime.ExceptionServices;
+using System.Windows.Threading;
 using F1Desktop.Features.Base;
 using F1Desktop.Features.Root;
 using F1Desktop.Misc.Extensions;
@@ -9,6 +11,8 @@ using F1Desktop.Services.Local;
 using F1Desktop.Services.Remote;
 using FluentScheduler;
 using H.NotifyIcon;
+using Serilog;
+using Serilog.Core;
 using Stylet;
 using StyletIoC;
 
@@ -17,12 +21,27 @@ namespace F1Desktop.Misc;
 public class Bootstrapper : Bootstrapper<RootViewModel>
 {
     private TaskbarIcon _icon;
+    private Logger _log;
 
     public override void Start(string[] args)
     {
         if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()?.Location)).Length > 1) 
             Process.GetCurrentProcess().Kill();
+        _log = new LoggerConfiguration()
+            .WriteTo.File("log.txt", rollingInterval:0)
+            .CreateLogger();
+        AppDomain.CurrentDomain.FirstChanceException += CurrentDomainOnFirstChanceException;
         base.Start(args);
+    }
+
+    private void CurrentDomainOnFirstChanceException(object sender, FirstChanceExceptionEventArgs e)
+    {
+        _log.Fatal(e.Exception,"");
+    }
+
+    protected override void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e)
+    {
+        _log.Fatal(e.Exception,""); 
     }
 
     protected override void OnLaunch()
@@ -51,7 +70,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             cfg.LoadConfig().GetAwaiter().GetResult();
             return cfg;
         }).InSingletonScope();
-        
+
         builder.Bind<FeatureBase>().ToAllImplementations();
     }
 
