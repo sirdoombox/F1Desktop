@@ -67,7 +67,7 @@
             <DataTemplate>
                 <Border x:Name="Border"
                         Margin="{adonisUi:Space 1.5, 0.5}"
-                        Style="{DynamicResource Styles.HoverableBorder}">
+                        Style="{DynamicResource Styles.HoverableBorder.NoInteraction}">
                     <Border.Visibility>
                         <MultiBinding Converter="{StaticResource MultiBoolToVisibility}">
                             <Binding RelativeSource="{RelativeSource AncestorType=Grid}"

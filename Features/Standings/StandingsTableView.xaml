@@ -7,6 +7,7 @@
               xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
               xmlns:s="https://github.com/canton7/Stylet"
               xmlns:adonisExt="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
+              xmlns:misc="clr-namespace:F1Desktop.Misc"
               mc:Ignorable="d"
               d:DataContext="{d:DesignInstance local:StandingsTableViewModel}"
               ItemsSource="{Binding Standings}">
@@ -36,7 +37,7 @@
                            HorizontalAlignment="Center"
                            RenderOptions.BitmapScalingMode="HighQuality"
                            ToolTip="{Binding Nationality}"
-                           ToolTipService.InitialShowDelay="0" />
+                           ToolTipService.InitialShowDelay="{x:Static misc:Constants.GlobalToolTipDelay}" />
                     <TextBlock Grid.Column="2">
                         <Run Text="{Binding GivenName, Mode=OneWay}" />
                         <Run Text="{Binding FamilyName, Mode=OneWay}" FontWeight="Bold" />

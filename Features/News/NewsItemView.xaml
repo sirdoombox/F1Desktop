@@ -30,7 +30,7 @@
                    Width="50"
                    Height="50"
                    ToolTip="{Binding ProviderName}"
-                   ToolTipService.InitialShowDelay="0" />
+                   ToolTipService.InitialShowDelay="{x:Static misc:Constants.GlobalToolTipDelay}" />
             <controls:ContentSwitcher.AlternateContent>
                 <iconPacks:PackIconMaterial Grid.Column="0"
                                             Kind="Newspaper"
@@ -39,7 +39,7 @@
                                             Height="50"
                                             Opacity="0.4"
                                             ToolTip="{Binding ProviderName}"
-                                            ToolTipService.InitialShowDelay="0" />
+                                            ToolTipService.InitialShowDelay="{x:Static misc:Constants.GlobalToolTipDelay}" />
             </controls:ContentSwitcher.AlternateContent>
         </controls:ContentSwitcher>
         <Border Grid.Column="1" 

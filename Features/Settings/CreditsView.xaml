@@ -7,12 +7,13 @@
               xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
               xmlns:s="https://github.com/canton7/Stylet"
               xmlns:adonisExt="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
+              xmlns:misc="clr-namespace:F1Desktop.Misc"
               mc:Ignorable="d"
               d:DataContext="{d:DesignInstance local:CreditsViewModel}"
               ItemsSource="{Binding Credits}">
     <ItemsControl.ItemTemplate>
         <DataTemplate>
-            <Border Style="{DynamicResource Styles.HoverableBorder}"
+            <Border Style="{DynamicResource Styles.HoverableBorder.NoInteraction}"
                     Padding="{adonisUi:Space 2,1}"
                     Margin="{adonisUi:Space 1, 0.5}"
                     s:View.ActionTarget="{Binding}">
@@ -39,12 +40,16 @@
                     <Button Grid.Row="0"
                             Grid.Column="1"
                             Command="{s:Action OpenUrl}"
-                            Content="Homepage" />
+                            Content="Homepage" 
+                            ToolTip="{Binding Url}"
+                            ToolTipService.InitialShowDelay="{x:Static misc:Constants.GlobalToolTipDelay}"/>
                     <Button Grid.Row="1"
                             Grid.Column="1"
                             IsEnabled="{Binding LicenseUrl, Converter={StaticResource InverseNullToBool}}"
                             Command="{s:Action OpenLicense}"
-                            Content="License" />
+                            Content="License" 
+                            ToolTip="{Binding LicenseUrl}"
+                            ToolTipService.InitialShowDelay="{x:Static misc:Constants.GlobalToolTipDelay}"/>
                     
                 </Grid>
             </Border>

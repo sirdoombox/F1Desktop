@@ -44,7 +44,7 @@
                           Command="{s:Action OpenWindow}"
                           CommandParameter="{x:Type standings:StandingsRootViewModel}">
                     <MenuItem.Icon>
-                        <iconPacks:PackIconMaterial Kind="Podium" />
+                        <iconPacks:PackIconMaterial Kind="PodiumGold" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="News"

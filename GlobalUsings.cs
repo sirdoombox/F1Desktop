@@ -2,7 +2,6 @@
 global using System;
 global using System.Linq;
 
-// TODO: Finish credits
 // TODO: Improve configuration UI everywhere
 // TODO: Implement left click icon to quick-open favourite/previous
 // TODO: Fix RSS Feed filtering - no idea where to put this right now...

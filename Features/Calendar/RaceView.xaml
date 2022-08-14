@@ -27,7 +27,7 @@
             <Setter Property="Height" Value="{StaticResource IconSize}" />
         </Style>
         <Style TargetType="Button" BasedOn="{StaticResource {x:Static adonisUi:Styles.AccentButton}}">
-            <Setter Property="ToolTipService.InitialShowDelay" Value="0" />
+            <Setter Property="ToolTipService.InitialShowDelay" Value="{x:Static misc:Constants.GlobalToolTipDelay}" />
             <Setter Property="Margin" Value="5" />
         </Style>
     </Expander.Resources>
@@ -99,7 +99,7 @@
                                 Height="1"
                                 Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BorderBrush}}"
                                 x:Name="Border" />
-                        <ContentControl Grid.Row="1" s:View.Model="{Binding}"/>
+                        <ContentControl Grid.Row="1" s:View.Model="{Binding}" />
                     </Grid>
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
