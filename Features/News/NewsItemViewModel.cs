@@ -1,6 +1,7 @@
 ﻿using System.Web;
 using F1Desktop.Misc;
 using F1Desktop.Models.News;
+using F1Desktop.Services;
 using Stylet;
 
 namespace F1Desktop.Features.News;
@@ -21,7 +22,7 @@ public class NewsItemViewModel : PropertyChangedBase
         set => SetAndNotify(ref _use24HourClock, value);
     }
 
-    public NewsItemViewModel(NewsItem item)
+    public NewsItemViewModel(NewsItem item, GlobalConfigService global)
     {
         Title = HttpUtility.HtmlDecode(item.Title);;
         Text = HttpUtility.HtmlDecode(item.Content);
@@ -29,6 +30,7 @@ public class NewsItemViewModel : PropertyChangedBase
         Image = item.ImageUrl;
         Published = item.Published;
         ProviderName = item.Provider;
+        global.OnPropertyChanged += _ => Use24HourClock = global.Use24HourClock;
     }
 
     public void OpenArticle() => UrlHelper.Open(Url);

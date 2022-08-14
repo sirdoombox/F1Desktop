@@ -2,6 +2,7 @@
 using F1Desktop.Misc;
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.ErgastAPI.Schedule;
+using F1Desktop.Services;
 using Stylet;
 
 namespace F1Desktop.Features.Calendar;
@@ -32,7 +33,7 @@ public class RaceViewModel : SessionViewModelBase, IViewAware
     
     private readonly Race _race;
 
-    public RaceViewModel(Race race, int totalRaces) : base(race.DateTime)
+    public RaceViewModel(Race race, int totalRaces, GlobalConfigService global) : base(race.DateTime)
     {
         _race = race;
         RaceNumber = race.Round;
@@ -43,6 +44,7 @@ public class RaceViewModel : SessionViewModelBase, IViewAware
             : Constants.NormalWeekendOrder;
         foreach (var session in weekendOrder)
             Sessions.Add(new SessionViewModel(session, race.Sessions[session]));
+        global.OnPropertyChanged += _ => Use24HourClock = global.Use24HourClock;
     }
     
     /// <summary>

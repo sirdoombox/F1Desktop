@@ -25,10 +25,10 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
     }
 
     private readonly NewsRssService _rss;
-    private readonly GlobalConfig _global;
+    private readonly GlobalConfigService _global;
     private readonly ICollectionView _newsItemsFilter;
 
-    public NewsRootViewModel(ConfigService cfg, NewsRssService rss, GlobalConfig global)
+    public NewsRootViewModel(ConfigService cfg, NewsRssService rss, GlobalConfigService global)
         : base("News", PackIconMaterialKind.Newspaper, cfg, 3)
     {
         _rss = rss;
@@ -41,7 +41,6 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
             var newsItem = (NewsItemViewModel)o;
             return Providers.First(x => x.ProviderName == newsItem.ProviderName).IsEnabled;
         };
-        cfg.SubscribeToConfigChange<GlobalConfig>(OnGlobalConfigChanged);
         NewsItems.CollectionChanged += (_, _) => IsNewsItemsUnavailable = NewsItems.Count <= 0;
         foreach (var provider in Providers)
             provider.PropertyChanged += (_, _) => _newsItemsFilter.Refresh();
@@ -57,19 +56,11 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
     {
         NewsItems.Clear();
         var items = await _rss.GetNewsAsync();
-        var newsItems = items.Select(newsItem => new NewsItemViewModel(newsItem)
+        var newsItems = items.Select(newsItem => new NewsItemViewModel(newsItem, _global)
             {
                 Use24HourClock = _global.Use24HourClock
             })
             .OrderByDescending(x => x.Published);
         NewsItems.AddRange(newsItems);
-    }
-
-    private void OnGlobalConfigChanged()
-    {
-        if (NewsItems.Count == 0) return;
-        if (_global.Use24HourClock == NewsItems[0].Use24HourClock) return;
-        foreach (var race in NewsItems)
-            race.Use24HourClock = _global.Use24HourClock;
     }
 }

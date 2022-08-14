@@ -34,12 +34,10 @@ public abstract class FeatureBaseWithConfig<TConfig> : FeatureBase where TConfig
 
     protected virtual bool SetAndNotifyWithConfig<T1>(ref T1 field, Expression<Func<TConfig,T1>> propExpr, T1 value, string propertyName = "")
     {
-        var hasChanged = SetAndNotify(ref field, value, propertyName);
-        if (!hasChanged) return false;
+        if (!SetAndNotify(ref field, value, propertyName)) return false;
         var expr = (MemberExpression) propExpr.Body;
         var prop = (PropertyInfo) expr.Member;
         prop.SetValue(Config, value, null);
-        _configService.NotifyOfConfigChange<TConfig>();
         return true;
     }
 

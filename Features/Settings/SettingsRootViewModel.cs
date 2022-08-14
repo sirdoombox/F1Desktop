@@ -1,11 +1,10 @@
 ﻿using F1Desktop.Features.Base;
-using F1Desktop.Models.Config;
 using F1Desktop.Services;
 using MahApps.Metro.IconPacks;
 
 namespace F1Desktop.Features.Settings;
 
-public class SettingsRootViewModel : FeatureBaseWithConfig<GlobalConfig>
+public class SettingsRootViewModel : FeatureBase
 {
     private bool _isLight;
     public bool IsLight
@@ -13,7 +12,8 @@ public class SettingsRootViewModel : FeatureBaseWithConfig<GlobalConfig>
         get => _isLight;
         set
         {
-            if (!SetAndNotifyWithConfig(ref _isLight, x => x.LightTheme, value)) return;
+            if (!SetAndNotify(ref _isLight, value)) return;
+            _config.UseLightTheme = _isLight;
             OnThemeChanged();
         }
     }
@@ -22,33 +22,31 @@ public class SettingsRootViewModel : FeatureBaseWithConfig<GlobalConfig>
     public bool Use24HourClock
     {
         get => _use24HourClock;
-        set => SetAndNotifyWithConfig(ref _use24HourClock, x => x.Use24HourClock, value);
+        set
+        {
+            if (!SetAndNotify(ref _use24HourClock, value)) return;
+            _config.Use24HourClock = _use24HourClock;
+        }
     }
 
     public CreditsViewModel Credits { get; }
 
     private readonly ThemeService _theme;
+    private readonly GlobalConfigService _config;
 
-    public SettingsRootViewModel(ConfigService configService, ThemeService theme, CreditsViewModel credits)
-        : base("Settings", PackIconMaterialKind.Cog, configService, byte.MaxValue)
+    public SettingsRootViewModel(GlobalConfigService config, ThemeService theme, CreditsViewModel credits)
+        : base("Settings", PackIconMaterialKind.Cog, byte.MaxValue)
     {
+        _config = config;
+        _use24HourClock = config.Use24HourClock;
+        _isLight = config.UseLightTheme;
         _theme = theme;
         Credits = credits;
     }
 
-    protected override void OnConfigLoaded()
-    {
-        IsLight = Config.LightTheme;
-        Use24HourClock = Config.Use24HourClock;
-    }
-
-    protected override async void OnActivationComplete()
-    {
+    protected override async void OnFeatureFirstOpened() => 
         await Credits.LoadCredits();
-    }
 
-    private void OnThemeChanged()
-    {
+    private void OnThemeChanged() => 
         _theme.SetTheme(IsLight);
-    }
 }

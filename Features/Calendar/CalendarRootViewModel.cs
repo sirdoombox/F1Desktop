@@ -51,14 +51,14 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     
     private readonly ErgastAPIService _api;
     private readonly NotificationService _notifications;
-    private readonly GlobalConfig _global;
+    private readonly GlobalConfigService _global;
     
     private static readonly TimeSpan NotificationTime = TimeSpan.FromMinutes(30);
 
     public CalendarRootViewModel(ErgastAPIService api, 
         NotificationService notifications, 
         ConfigService configService,
-        GlobalConfig global,
+        GlobalConfigService global,
         TickService tick) 
         : base("Calendar", PackIconMaterialKind.Calendar, configService, 0)
     {
@@ -68,15 +68,6 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         tick.TenSeconds += UpdateTimers;
         TimeUntilNextRace = TimeSpan.FromDays(2);
         TimeUntilNextSession = TimeSpan.FromDays(3);
-        configService.SubscribeToConfigChange<GlobalConfig>(OnGlobalConfigChanged);
-    }
-
-    private void OnGlobalConfigChanged()
-    {
-        if (Races.Count == 0) return;
-        if (_global.Use24HourClock == Races[0].Use24HourClock) return;
-        foreach (var race in Races)
-            race.Use24HourClock = _global.Use24HourClock;
     }
 
     protected override void OnConfigLoaded()
@@ -92,7 +83,7 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         if (data is null) return;
         Races.AddRange(data.ScheduleData.RaceTable.Races
             .OrderBy(x => x.DateTime)
-            .Select(x => new RaceViewModel(x, data.ScheduleData.Total)
+            .Select(x => new RaceViewModel(x, data.ScheduleData.Total, _global)
             {
                 Use24HourClock = _global.Use24HourClock
             }));
@@ -154,6 +145,4 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
                 $"{NextRace.NextSession.Name} Starts In 30 Minutes.");
         }
     }
-
-    
 }

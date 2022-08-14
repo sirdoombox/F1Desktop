@@ -26,7 +26,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         var localDataService = new LocalDataService();
         builder.Bind<IConfigService>().ToInstance(localDataService);
         builder.Bind<IDataCacheService>().ToInstance(localDataService);
-        
+
         builder.Bind<TaskbarIcon>().ToFactory(_ => _icon);
         
         builder.Bind<ErgastAPIService>().ToSelf().InSingletonScope();
@@ -36,7 +36,12 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         builder.Bind<DataResourceService>().ToSelf().InSingletonScope();
         builder.Bind<ConfigService>().ToSelf().InSingletonScope();
 
-        builder.Bind<GlobalConfig>().ToFactory(x => x.Get<ConfigService>().GetConfigAsync<GlobalConfig>().GetAwaiter().GetResult());
+        builder.Bind<GlobalConfigService>().ToFactory(x =>
+        {
+            var cfg = new GlobalConfigService(x.Get<LocalDataService>());
+            cfg.LoadConfig().GetAwaiter().GetResult();
+            return cfg;
+        }).InSingletonScope();
         
         builder.Bind<FeatureBase>().ToAllImplementations();
     }
