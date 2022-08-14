@@ -31,6 +31,11 @@ public class StandingsRootViewModel : FeatureBaseWithConfig<StandingsConfig>
 
     protected override async void OnInitialActivate()
     {
+        
+    }
+
+    protected override async void OnFeatureFirstOpened()
+    {
         var cTask = _api.GetConstructorStandingsAsync();
         var dTask = _api.GetDriverStandingsAsync();
         await Task.WhenAll(cTask, dTask);

@@ -25,12 +25,13 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
     public override void Start(string[] args)
     {
-        if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly()?.Location)).Length > 1) 
-            Process.GetCurrentProcess().Kill();
-        _log = new LoggerConfiguration()
-            .WriteTo.File("log.txt", rollingInterval:0)
-            .CreateLogger();
         AppDomain.CurrentDomain.FirstChanceException += CurrentDomainOnFirstChanceException;
+        File.Delete("C:/Temp/log.txt");
+        _log = new LoggerConfiguration()
+            .WriteTo.File("C:/Temp/log.txt")
+            .CreateLogger();
+        if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(AppContext.BaseDirectory)).Length > 1) 
+            Process.GetCurrentProcess().Kill();
         base.Start(args);
     }
 
@@ -43,6 +44,12 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     {
         _log.Fatal(e.Exception,""); 
     }
+
+    protected override void OnStart() => base.OnStart();
+
+    protected override void DisplayRootView(object rootViewModel) => base.DisplayRootView(rootViewModel);
+
+    protected override void Configure() => base.Configure();
 
     protected override void OnLaunch()
     {
@@ -71,7 +78,11 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             return cfg;
         }).InSingletonScope();
 
-        builder.Bind<FeatureBase>().ToAllImplementations();
+        foreach (var type in Assembly.GetExecutingAssembly().GetTypes().Where(x => x.IsSubclassOf(typeof(FeatureBase))))
+        {
+            if (type.IsAbstract) continue;
+            builder.Bind<FeatureBase>().To(type);
+        }
     }
 
     public override void Dispose()
@@ -82,3 +93,9 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         base.Dispose();
     }
 }
+
+abstract class Foo { }
+
+abstract class Bar : Foo { }
+
+class FooBar : Bar { }

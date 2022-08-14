@@ -80,6 +80,20 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
 
     protected override async void OnActivationComplete()
     {
+        // Races.Clear();
+        // var data = await _api.GetScheduleAsync();
+        // if (data is null) return;
+        // Races.AddRange(data.ScheduleData.RaceTable.Races
+        //     .OrderBy(x => x.DateTime)
+        //     .Select(x => new RaceViewModel(x, data.ScheduleData.Total, _global)
+        //     {
+        //         Use24HourClock = _global.Use24HourClock
+        //     }));
+        // UpdateTimers();
+    }
+
+    protected override async void OnFeatureFirstOpened()
+    {
         Races.Clear();
         var data = await _api.GetScheduleAsync();
         if (data is null) return;
