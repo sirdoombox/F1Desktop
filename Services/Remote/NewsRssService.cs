@@ -23,7 +23,7 @@ public class NewsRssService
 
     public async Task<IEnumerable<NewsItem>> GetNewsAsync()
     {
-        _providers ??= await _resources.LoadResourceAsync<List<RssProviderData>>();
+        _providers ??= await _resources.LoadJsonResourceAsync<List<RssProviderData>>();
         var tasks = new List<Task<IEnumerable<NewsItem>>>();
         foreach (var provider in _providers)
             tasks.Add(Task.Run(() => GetFeed(provider.Url, provider.Name)));
@@ -33,7 +33,7 @@ public class NewsRssService
 
     public IEnumerable<string> GetProviders()
     {
-        _providers ??= _resources.LoadResourceAsync<List<RssProviderData>>().GetAwaiter().GetResult();
+        _providers ??= _resources.LoadJsonResourceAsync<List<RssProviderData>>().GetAwaiter().GetResult();
         return _providers.Select(x => x.Name);
     }
 

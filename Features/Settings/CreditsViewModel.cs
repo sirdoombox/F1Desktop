@@ -18,7 +18,7 @@ public class CreditsViewModel : PropertyChangedBase
 
     public async Task LoadCredits()
     {
-        var data = await _resource.LoadResourceAsync<List<CreditData>>();
+        var data = await _resource.LoadJsonResourceAsync<List<CreditData>>();
         Credits.AddRange(data.Select(x => new CreditViewModel(x)));
     }
 }

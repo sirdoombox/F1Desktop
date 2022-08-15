@@ -39,7 +39,7 @@ public class StandingsRootViewModel : FeatureBaseWithConfig<StandingsConfig>
         var cTask = _api.GetConstructorStandingsAsync();
         var dTask = _api.GetDriverStandingsAsync();
         await Task.WhenAll(cTask, dTask);
-        var countries = await _data.LoadResourceAsync<List<CountryData>>();
+        var countries = await _data.LoadJsonResourceAsync<List<CountryData>>();
         DriverStandings.PassDriverStandings(dTask.Result.Data.StandingsTable.StandingsLists[0].DriverStandings, countries);
         ConstructorStandings.PassConstructorStandings(cTask.Result.Data.StandingsTable.StandingsLists[0].ConstructorStandings, countries);
     }
