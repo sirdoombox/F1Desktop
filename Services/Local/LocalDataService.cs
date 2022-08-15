@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using F1Desktop.Attributes;
 using F1Desktop.Misc;
 using F1Desktop.Misc.Extensions;
+using F1Desktop.Misc.JsonConverters;
 using F1Desktop.Models.Base;
 using F1Desktop.Services.Interfaces;
 
@@ -24,8 +25,12 @@ public class LocalDataService : IDataCacheService, IConfigService
         IndentedJsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.General)
         {
             WriteIndented = true,
+            Converters = { new TypeJsonConverter() }
         };
-        DefaultJsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.General);
+        DefaultJsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.General)
+        {
+            Converters = { new TypeJsonConverter() }
+        };
     }
     
     public LocalDataService()
@@ -58,7 +63,7 @@ public class LocalDataService : IDataCacheService, IConfigService
     {
         if (_cachedConfigs.TryGetValue(typeof(T), out var res))
             return (T)res;
-        var loaded = await TryReadDataFromFile<T>(_configPath);
+        var loaded = await TryReadDataFromFile<T>(_configPath, true);
         loaded ??= new T();
         _cachedConfigs.Add(typeof(T), loaded);
         return loaded;
@@ -68,15 +73,15 @@ public class LocalDataService : IDataCacheService, IConfigService
     {
         if (!_cachedConfigs.TryGetValue(typeof(T), out var res))
             throw new InvalidOperationException($"Config of type {typeof(T).Name} has not been loaded");
-        await WriteDataToFile(_configPath, (T)res);
+        await WriteDataToFile(_configPath, (T)res, true);
     }
 
-    private static async Task<T> TryReadDataFromFile<T>(string basePath) where T : class
+    private static async Task<T> TryReadDataFromFile<T>(string basePath, bool readIndented = false) where T : class
     {
         var filepath = GetFilePath<T>(basePath);
         if (!File.Exists(filepath)) return null;
         await using var filestream = File.Open(filepath, FileMode.Open);
-        return await JsonSerializer.DeserializeAsync<T>(filestream);
+        return await JsonSerializer.DeserializeAsync<T>(filestream, readIndented ? IndentedJsonOptions : DefaultJsonOptions);
     }
 
     private static async Task WriteDataToFile<T>(string basePath, T data, bool writeIndented = false) where T : class

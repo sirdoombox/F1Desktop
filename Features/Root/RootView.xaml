@@ -22,7 +22,7 @@
                        WindowStyle="None">
     <tb:TaskbarIcon IconSource="pack://application:,,,/Resources/f1.ico"
                     ToolTip="F1 Desktop"
-                    MenuActivation="LeftOrRightClick"
+                    LeftClickCommand="{s:Action OpenDefault}"
                     NoLeftClickDelay="True">
         <tb:TaskbarIcon.ContextMenu>
             <ContextMenu>

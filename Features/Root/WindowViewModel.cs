@@ -17,6 +17,7 @@ public sealed class WindowViewModel : Conductor<IScreen>
         {
             _activeFeature?.HideFeature();
             SetAndNotify(ref _activeFeature, value);
+            _globalCfg.LastOpenedFeature = _activeFeature.GetType();
             _activeFeature.ShowFeature();
         }
     }
@@ -87,6 +88,7 @@ public sealed class WindowViewModel : Conductor<IScreen>
     public WindowViewModel(IEnumerable<FeatureBase> features, GlobalConfigService globalCfg)
     {
         _globalCfg = globalCfg;
+        OnGlobalConfigChanged(null);
         _globalCfg.OnPropertyChanged += OnGlobalConfigChanged;
         
         foreach (var feature in features.OrderBy(x => x.Order))
@@ -96,13 +98,20 @@ public sealed class WindowViewModel : Conductor<IScreen>
         }
     }
 
-    public void OnGlobalConfigChanged(string propName)
+    private void OnGlobalConfigChanged(string propName)
     {
         SetAndNotify(ref _userWidth, _globalCfg.Width, nameof(UserWidth));
         SetAndNotify(ref _userHeight, _globalCfg.Height, nameof(UserHeight));
         SetAndNotify(ref _userLeft, _globalCfg.Left, nameof(UserLeft));
         SetAndNotify(ref _userTop, _globalCfg.Top, nameof(UserTop));
         SetAndNotify(ref _userState, _globalCfg.State, nameof(UserState));
+    }
+
+    public void OpenFeature(Type feature = null)
+    {
+        ActiveFeature = feature is null 
+            ? Features.First() 
+            : Features.First(x => x.GetType() == feature);
     }
 
     protected override async void OnClose()

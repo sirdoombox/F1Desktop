@@ -61,6 +61,13 @@ public class GlobalConfigService
         set => SetAndNotify(ref _state, c => c.State, value);
     }
     
+    private Type _lastOpenedFeature;
+    public Type LastOpenedFeature
+    {
+        get => _lastOpenedFeature;
+        set => SetAndNotify(ref _lastOpenedFeature, c => c.LastOpenedFeature, value);
+    }
+    
     private readonly IConfigService _configService;
     private GlobalConfig _config;
     
@@ -91,6 +98,7 @@ public class GlobalConfigService
         _state = _config.State;
         _useLightTheme = _config.LightTheme;
         _use24HourClock = _config.Use24HourClock;
+        _lastOpenedFeature = _config.LastOpenedFeature;
         OnPropertyChanged?.Invoke(null);
     }
 

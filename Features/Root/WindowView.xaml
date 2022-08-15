@@ -8,7 +8,6 @@
                        xmlns:s="https://github.com/canton7/Stylet"
                        xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
                        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-                       xmlns:system="clr-namespace:System;assembly=System.Runtime"
                        xmlns:controls1="clr-namespace:F1Desktop.Controls"
                        mc:Ignorable="d"
                        d:DataContext="{d:DesignInstance local:WindowViewModel}"

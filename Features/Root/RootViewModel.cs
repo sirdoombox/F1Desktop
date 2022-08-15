@@ -30,7 +30,14 @@ public sealed class RootViewModel : Conductor<IScreen>.Collection.AllActive
     {
         _wm.ShowWindow(_window);
         ((Window)_window.View).Activate();
-        _window.ActiveFeature = _window.Features.First(x => x.GetType() == toOpen);
+        _window.OpenFeature(toOpen);
+    }
+
+    public void OpenDefault()
+    {
+        _wm.ShowWindow(_window);
+        ((Window)_window.View).Activate();
+        _window.OpenFeature(_cfg.LastOpenedFeature);
     }
 
     public void Exit() => Application.Current.Shutdown();
