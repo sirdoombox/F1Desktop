@@ -16,6 +16,7 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
 {
     public BindableCollection<NewsItemViewModel> NewsItems { get; } = new();
     public BindableCollection<ProviderViewModel> Providers { get; } = new();
+    public NewsFiltersViewModel Filters { get; }
 
     private bool _isNewsItemsUnavailable;
 
@@ -29,11 +30,12 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
     private readonly GlobalConfigService _global;
     private readonly ICollectionView _newsItemsFilter;
 
-    public NewsRootViewModel(IConfigService cfg, NewsRssService rss, GlobalConfigService global)
+    public NewsRootViewModel(IConfigService cfg, NewsRssService rss, GlobalConfigService global, NewsFiltersViewModel filters)
         : base("News", PackIconMaterialKind.Newspaper, cfg, 3)
     {
         _rss = rss;
         _global = global;
+        Filters = filters;
         _newsItemsFilter = CollectionViewSource.GetDefaultView(NewsItems);
         _newsItemsFilter.SortDescriptions.Clear();
         _newsItemsFilter.SortDescriptions.Add(new SortDescription("Published", ListSortDirection.Descending));
@@ -43,14 +45,27 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
             return Providers.First(x => x.ProviderName == newsItem.ProviderName).IsEnabled;
         };
         NewsItems.CollectionChanged += (_, _) => IsNewsItemsUnavailable = NewsItems.Count <= 0;
-        foreach (var provider in Providers)
-            provider.PropertyChanged += (_, _) => _newsItemsFilter.Refresh();
     }
 
     protected override void OnFeatureFirstOpened()
     {
-        Providers.AddRange(_rss.GetProviders().Select(x => new ProviderViewModel(x, true)));
+        var providers = _rss.GetProviders();
+        foreach (var provider in providers)
+        {
+            var isEnabled = true;
+            if (!Config.Providers.ContainsKey(provider))
+                Config.Providers.Add(provider, true);
+            else 
+                isEnabled = Config.Providers[provider];
+            Providers.Add(new ProviderViewModel(provider, isEnabled, ProviderStatusChanged));
+        }
         RefreshNews();
+    }
+
+    private void ProviderStatusChanged(string provider, bool isEnabled)
+    {
+        _newsItemsFilter.Refresh();
+        Config.Providers[provider] = isEnabled;
     }
 
     public async void RefreshNews()

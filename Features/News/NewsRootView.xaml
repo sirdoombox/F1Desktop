@@ -22,20 +22,9 @@
                     Content="Refresh"
                     MinWidth="150"
                     Command="{s:Action RefreshNews}" />
-            <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToolbarToggleButton}}"
-                          Content="Filter News Sources"
-                          x:Name="PopupButton" />
-            <Popup IsOpen="{Binding ElementName=PopupButton,Path=IsChecked}"
-                   PlacementTarget="{Binding ElementName=PopupButton}"
-                   Placement="Bottom"
-                   StaysOpen="False"
-                   AllowsTransparency="True">
-                <ItemsControl Margin="{adonisUi:Space 1, 1}"
-                              Padding="{adonisUi:Space 1, 1}"
-                              ItemsSource="{Binding Providers}"
-                              BorderThickness="1"
-                              Background="{DynamicResource {x:Static adonisUi:Brushes.AccentBrush}}"
-                              BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.AccentIntenseHighlightBorderBrush}}">
+            <localControls:ToolbarToggleMenu ButtonText="Filter News Sources">
+                <ItemsControl Padding="{adonisUi:Space 1, 1}"
+                              ItemsSource="{Binding Providers}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Columns="2" />
@@ -46,13 +35,17 @@
                             <DockPanel LastChildFill="True"
                                        Margin="{adonisUi:Space 1,1}">
                                 <CheckBox DockPanel.Dock="Left"
+                                          Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"
                                           IsChecked="{Binding IsEnabled}" />
                                 <TextBlock Text="{Binding ProviderName}" />
                             </DockPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-            </Popup>
+            </localControls:ToolbarToggleMenu>
+            <localControls:ToolbarToggleMenu ButtonText="Filter By Time">
+                <ContentControl s:View.Model="{Binding Filters}"/>
+            </localControls:ToolbarToggleMenu>
         </UniformGrid>
     </Border>
     <localControls:ContentSwitcher Grid.Row="1"
@@ -70,7 +63,6 @@
             </ItemsControl.ItemTemplate>
             <ItemsControl.Template>
                 <ControlTemplate TargetType="ItemsControl">
-                    <!-- Set CanContentScroll to True to enable virtualisation, has some side effects... -->
                     <ScrollViewer CanContentScroll="True"
                                   Padding="{TemplateBinding Padding}"
                                   Focusable="False"

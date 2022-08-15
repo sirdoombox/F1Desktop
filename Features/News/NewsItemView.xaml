@@ -19,7 +19,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <controls:ContentSwitcher Grid.Column="0"
@@ -35,7 +35,6 @@
             <controls:ContentSwitcher.AlternateContent>
                 <iconPacks:PackIconMaterial Grid.Column="0"
                                             Kind="Newspaper"
-                                            Visibility="{Binding Image, Converter={StaticResource InverseNullToVisibility}}"
                                             Width="50"
                                             Height="50"
                                             Opacity="0.4"
@@ -43,10 +42,10 @@
                                             ToolTipService.InitialShowDelay="{x:Static misc:Constants.GlobalToolTipDelay}" />
             </controls:ContentSwitcher.AlternateContent>
         </controls:ContentSwitcher>
-        <Border Grid.Column="1" 
+        <Border Grid.Column="1"
                 Margin="{adonisUi:Space 2, 0}"
                 Width="1"
-                Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BorderBrush}}"/>
+                Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BorderBrush}}" />
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition />
@@ -54,22 +53,22 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0"
-                       Text="{Binding Title}" FontSize="16" FontWeight="Bold" TextWrapping="Wrap" />
+                       Text="{Binding Title}"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       TextWrapping="Wrap" />
             <TextBlock Grid.Row="1"
-                       Text="{Binding Text}" TextWrapping="Wrap" />
-            <TextBlock Grid.Row="2"
-                       helpers:StringFormatHelper.Format="{x:Static misc:Constants.LongTimeFormat12Hour}"
-                       helpers:StringFormatHelper.AlternateFormat="{x:Static misc:Constants.LongTimeFormat24Hour}"
-                       helpers:StringFormatHelper.Value="{Binding Published}"
-                       helpers:StringFormatHelper.UseAlternateFormat="{Binding Use24HourClock}"
-                       Text="{Binding Path=(helpers:StringFormatHelper.FormattedValue), Mode=TwoWay, RelativeSource={RelativeSource Self}}"
-                       HorizontalAlignment="Right"
-                       FontWeight="Bold" />
-            <!-- <TextBlock Grid.Row="2" -->
-            <!--            Text="{Binding Published, StringFormat={x:Static misc:Constants.LongTimeFormat12Hour}}" -->
-            <!--            Visibility="{Binding Use24HourClock, Converter={StaticResource InverseBooleanToVisibility}}" -->
-            <!--            HorizontalAlignment="Right" -->
-            <!--            FontWeight="Bold" /> -->
+                       Text="{Binding Text}" TextWrapping="Wrap"
+                       Margin="{adonisUi:Space 0, 1}" />
+            <Label Grid.Row="2"
+                   helpers:StringFormatHelper.Format="{x:Static misc:Constants.LongTimeFormat12Hour}"
+                   helpers:StringFormatHelper.AlternateFormat="{x:Static misc:Constants.LongTimeFormat24Hour}"
+                   helpers:StringFormatHelper.Value="{Binding Published}"
+                   helpers:StringFormatHelper.UseAlternateFormat="{Binding Use24HourClock}"
+                   Content="{Binding Path=(helpers:StringFormatHelper.FormattedValue), Mode=TwoWay, RelativeSource={RelativeSource Self}}"
+                   HorizontalAlignment="Stretch"
+                   HorizontalContentAlignment="Right"
+                   FontWeight="Bold" />
         </Grid>
     </Grid>
 </Border>

@@ -3,8 +3,8 @@
                     xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI">
     <Style TargetType="Border" x:Key="Styles.ToolbarBorder">
         <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.AccentBrush}}"/>
-        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="CornerRadius" Value="0 8 8 0"/>
         <Setter Property="Margin" Value="{adonisUi:Space 1, 1}"/>
-        <Setter Property="Padding" Value="{adonisUi:Space 2, 0}"/>
+        <Setter Property="Padding" Value="0 0 16 0"/>
     </Style>
 </ResourceDictionary>

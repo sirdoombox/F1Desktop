@@ -25,6 +25,7 @@
                     <converters:InverseNullToVisibilityConverter x:Key="InverseNullToVisibility"/>
                     <converters:NullToBoolConverter x:Key="NullToBoolConverter"/>
                     <converters:InverseNullToBoolConverter x:Key="InverseNullToBool"/>
+                    <converters:BooleanInverseConverter x:Key="BooleanInverse"/>
                     <flags:CountryIdToFlagImageSourceConverter x:Key="CountryIdToFlagImageSource"/>
                 </ResourceDictionary>
                 <ResourceDictionary Source="pack://application:,,,/AdonisUI;component/ColorSchemes/Dark.xaml"/>

@@ -1,0 +1,37 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+                    xmlns:controls="clr-namespace:F1Desktop.Controls">
+    <Style TargetType="controls:ToolbarToggleMenu"
+           BasedOn="{StaticResource {x:Static adonisUi:Styles.ToolbarToggleButton}}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:ToolbarToggleMenu">
+                    <Grid>
+                        <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToolbarToggleButton}}"
+                                      Content="{TemplateBinding ButtonText}"
+                                      IsHitTestVisible="{Binding ElementName=PART_ToggledPopup, Path=IsOpen, Converter={StaticResource BooleanInverse}}"
+                                      x:Name="PART_PopupButton" />
+                        <controls:ArmouredPopup IsOpen="{Binding ElementName=PART_PopupButton, Path=IsChecked}"
+                                                PlacementTarget="{Binding ElementName=PART_PopupButton}"
+                                                Placement="Bottom"
+                                                StaysOpen="False"
+                                                AllowsTransparency="True"
+                                                x:Name="PART_ToggledPopup">
+                            <Border BorderThickness="1"
+                                    Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"
+                                    BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.AccentIntenseHighlightBorderBrush}}">
+                                <ContentPresenter
+                                    Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Border>
+
+                        </controls:ArmouredPopup>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

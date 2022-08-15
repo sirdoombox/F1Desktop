@@ -14,9 +14,10 @@ public class ProviderViewModel : PropertyChangedBase
         set => SetAndNotify(ref _isEnabled, value);
     }
 
-    public ProviderViewModel(string providerName, bool isEnabled)
+    public ProviderViewModel(string providerName, bool isEnabled, Action<string,bool> propChanged)
     {
         ProviderName = providerName;
         IsEnabled = isEnabled;
+        PropertyChanged += (_,_) => propChanged?.Invoke(ProviderName, IsEnabled);
     }
 }
