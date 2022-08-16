@@ -13,12 +13,12 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="UseAlternateContent" Value="True">
-                            <Setter TargetName="PART_Content" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="PART_Content" Property="Visibility" Value="Hidden" />
                             <Setter TargetName="PART_AlternateContent" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="UseAlternateContent" Value="False">
                             <Setter TargetName="PART_Content" Property="Visibility" Value="Visible" />
-                            <Setter TargetName="PART_AlternateContent" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="PART_AlternateContent" Property="Visibility" Value="Hidden" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -103,7 +103,7 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         foreach (var race in races)
         {
             Races.Add(race);
-            await Task.Delay(35);
+            await Task.Delay(5);
         }
 
         IsRacesUnavailable = false;
