@@ -1,4 +1,5 @@
-﻿using F1Desktop.Enums;
+﻿using System.Threading.Tasks;
+using F1Desktop.Enums;
 using F1Desktop.Features.Base;
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.Config;
@@ -18,13 +19,15 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     public BindableCollection<RaceViewModel> Races { get; } = new();
 
     private bool _showPreviousRaces;
+
     public bool ShowPreviousRaces
     {
         get => _showPreviousRaces;
         private set => SetAndNotifyWithConfig(ref _showPreviousRaces, x => x.ShowPreviousRaces, value);
     }
-    
+
     private bool _enableNotifications;
+
     public bool EnableNotifications
     {
         get => _enableNotifications;
@@ -32,44 +35,48 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     }
 
     private TimeSpan _timeUntilNextSession;
+
     public TimeSpan TimeUntilNextSession
     {
         get => _timeUntilNextSession;
         set => SetAndNotify(ref _timeUntilNextSession, value);
     }
-    
+
     private TimeSpan _timeUntilNextRace;
+
     public TimeSpan TimeUntilNextRace
     {
         get => _timeUntilNextRace;
         set => SetAndNotify(ref _timeUntilNextRace, value);
     }
-    
+
     private RaceViewModel _nextRace;
+
     public RaceViewModel NextRace
     {
         get => _nextRace;
         private set => SetAndNotify(ref _nextRace, value);
     }
-    
+
     private bool _isRacesUnavailable;
+
     public bool IsRacesUnavailable
     {
         get => _isRacesUnavailable;
         set => SetAndNotify(ref _isRacesUnavailable, value);
     }
-    
+
     private readonly ErgastAPIService _api;
     private readonly NotificationService _notifications;
     private readonly GlobalConfigService _global;
-    
+
     private static readonly TimeSpan NotificationTime = TimeSpan.FromMinutes(30);
 
-    public CalendarRootViewModel(ErgastAPIService api, 
-        NotificationService notifications, 
+    public CalendarRootViewModel(ErgastAPIService api,
+        NotificationService notifications,
         IConfigService configService,
         GlobalConfigService global,
-        TickService tick) 
+        TickService tick)
         : base("Calendar", PackIconMaterialKind.Calendar, configService, 0)
     {
         _api = api;
@@ -78,7 +85,7 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         tick.TenSeconds += UpdateTimers;
         TimeUntilNextRace = TimeSpan.FromDays(2);
         TimeUntilNextSession = TimeSpan.FromDays(3);
-        Races.CollectionChanged += (_, _) => IsRacesUnavailable = Races.Count <= 0;
+        IsRacesUnavailable = true;
     }
 
     protected override void OnConfigLoaded()
@@ -92,9 +99,16 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         Races.Clear();
         var data = await _api.GetScheduleAsync();
         if (data is null) return;
-        Races.AddRange(data.ScheduleData.RaceTable.Races
+        var races = data.ScheduleData.RaceTable.Races
             .OrderBy(x => x.DateTime)
-            .Select(x => new RaceViewModel(x, data.ScheduleData.Total, _global)));
+            .Select(x => new RaceViewModel(x, data.ScheduleData.Total, _global));
+        foreach (var race in races)
+        {
+            Races.Add(race);
+            await Task.Delay(35);
+        }
+
+        IsRacesUnavailable = false;
         UpdateTimers();
     }
 
@@ -115,13 +129,13 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         }
 
         hasNextSessionChanged = NextRace.UpdateNextSession();
-        
+
         TimeUntilNextRace = NextRace.SessionTime - DateTimeOffset.Now;
         TimeUntilNextSession = NextRace.NextSession.SessionTime - DateTimeOffset.Now;
         SetNotifications(hasNextRaceChanged, hasNextSessionChanged);
     }
 
-    public void ToggleShowPreviousRaces() => 
+    public void ToggleShowPreviousRaces() =>
         ShowPreviousRaces = !ShowPreviousRaces;
 
     public void ToggleEnableNotifications()
@@ -137,19 +151,20 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
             _notifications.CancelAllNotifications(this);
             return;
         }
-        
+
         if (raceChanged)
         {
-            _notifications.ScheduleNotification(this, 
-                NextRace.SessionTime - NotificationTime, 
-                NextRace.Name, 
+            _notifications.ScheduleNotification(this,
+                NextRace.SessionTime - NotificationTime,
+                NextRace.Name,
                 "Lights Out In 30 Minutes.");
         }
+
         if (sessionChanged && NextRace.NextSession.Type != SessionType.Race)
         {
-            _notifications.ScheduleNotification(this, 
-                NextRace.NextSession.SessionTime - NotificationTime, 
-                NextRace.Name, 
+            _notifications.ScheduleNotification(this,
+                NextRace.NextSession.SessionTime - NotificationTime,
+                NextRace.Name,
                 $"{NextRace.NextSession.Name} Starts In 30 Minutes.");
         }
     }
