@@ -13,8 +13,7 @@
               ItemsSource="{Binding Standings}">
     <ItemsControl.ItemTemplate>
         <DataTemplate>
-            <Border x:Name="Border"
-                    Style="{DynamicResource Styles.HoverableBorder}"
+            <Border Style="{DynamicResource Styles.HoverableBorder}"
                     Margin="{adonisUi:Space 1, 0.2}"
                     Padding="{adonisUi:Space 1, 1}"
                     MouseLeftButtonDown="{s:Action OpenWiki}"

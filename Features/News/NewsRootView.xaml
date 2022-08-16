@@ -4,7 +4,6 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:F1Desktop.Features.News"
-      xmlns:controls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
       xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
       xmlns:s="https://github.com/canton7/Stylet"
       xmlns:extensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
@@ -44,34 +43,36 @@
                 </ItemsControl>
             </localControls:ToolbarToggleMenu>
             <localControls:ToolbarToggleMenu ButtonText="Filter By Time">
-                <ContentControl s:View.Model="{Binding Filters}"/>
+                <ContentControl s:View.Model="{Binding Filters}" />
             </localControls:ToolbarToggleMenu>
         </UniformGrid>
     </Border>
     <localControls:ContentSwitcher Grid.Row="1"
                                    UseAlternateContent="{Binding IsNewsItemsUnavailable}">
+        
         <ItemsControl ItemsSource="{Binding NewsItems}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <VirtualizingStackPanel VirtualizationMode="Recycling" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <ContentControl s:View.Model="{Binding}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
             <ItemsControl.Template>
                 <ControlTemplate TargetType="ItemsControl">
                     <ScrollViewer CanContentScroll="True"
-                                  Padding="{TemplateBinding Padding}"
                                   Focusable="False"
+                                  extensions:ScrollViewerExtension.VerticalScrollBarPlacement="Overlay"
                                   extensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="NeverExpand">
                         <ItemsPresenter />
                     </ScrollViewer>
                 </ControlTemplate>
             </ItemsControl.Template>
         </ItemsControl>
+        
         <localControls:ContentSwitcher.AlternateContent>
             <ContentControl HorizontalAlignment="Center"
                             VerticalAlignment="Center"
