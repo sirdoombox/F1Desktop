@@ -49,16 +49,16 @@
     </Border>
     <localControls:ContentSwitcher Grid.Row="1"
                                    UseAlternateContent="{Binding IsNewsItemsUnavailable}">
-        
         <ItemsControl ItemsSource="{Binding NewsItems}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <ContentControl s:View.Model="{Binding}" />
+                    <ContentControl s:View.Model="{Binding}" 
+                                    Width="{Binding ActualWidth, ElementName=StackPanel}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <VirtualizingStackPanel />
+                    <VirtualizingStackPanel x:Name="StackPanel"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.Template>
@@ -72,7 +72,6 @@
                 </ControlTemplate>
             </ItemsControl.Template>
         </ItemsControl>
-        
         <localControls:ContentSwitcher.AlternateContent>
             <ContentControl HorizontalAlignment="Center"
                             VerticalAlignment="Center"
