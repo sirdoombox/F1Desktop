@@ -19,11 +19,16 @@ public abstract class FeatureBaseWithConfig<TConfig> : FeatureBase where TConfig
         DisplayName = displayName;
         _configService = configService;
     }
-    
+
+    public sealed override async void ShowFeature()
+    {
+        Config ??= await _configService.GetConfigAsync<TConfig>();
+        base.ShowFeature();
+        OnConfigLoaded();
+    }
+
     protected override async void OnActivate()
     {
-        Config = await _configService.GetConfigAsync<TConfig>();
-        OnConfigLoaded();
         OnActivationComplete();
     }
     

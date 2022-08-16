@@ -17,14 +17,19 @@ public abstract class FeatureBase : Screen
         Order = order;
     }
 
-    public void ShowFeature()
+    public virtual void ShowFeature()
     {
+        ScreenExtensions.TryActivate(this);
         if (_featureHasBeenOpened) return;
         _featureHasBeenOpened = true;
         OnFeatureFirstOpened();
     }
 
-    public void HideFeature() => OnFeatureHidden();
+    public void HideFeature()
+    {
+        ScreenExtensions.TryDeactivate(this);
+        OnFeatureHidden();
+    }
 
     protected virtual void OnFeatureHidden(){}
     

@@ -85,7 +85,7 @@ public sealed class WindowViewModel : Conductor<IScreen>
 
     private GlobalConfigService _globalCfg;
     
-    public WindowViewModel(IEnumerable<FeatureBase> features, GlobalConfigService globalCfg)
+    public WindowViewModel(IEnumerable<FeatureBase> features, GlobalConfigService globalCfg, ViewManager viewManager)
     {
         _globalCfg = globalCfg;
         OnGlobalConfigChanged(null);
@@ -93,7 +93,9 @@ public sealed class WindowViewModel : Conductor<IScreen>
         
         foreach (var feature in features.OrderBy(x => x.Order))
         {
-            ScreenExtensions.TryActivate(feature);
+            //ScreenExtensions.TryActivate(feature);
+            viewManager.CreateAndBindViewForModelIfNecessary(feature);
+            var tmp = ((FrameworkElement)feature.View).ApplyTemplate();
             Features.Add(feature);
         }
     }

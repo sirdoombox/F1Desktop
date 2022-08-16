@@ -13,83 +13,96 @@
       mc:Ignorable="d"
       d:DataContext="{d:DesignInstance local:CalendarRootViewModel}"
       Focusable="True">
-    <Grid.Resources>
-        <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
-            <Setter Property="FontSize" Value="16" />
-            <Setter Property="Margin" Value="0 0 0 8"/>
-        </Style>
-    </Grid.Resources>
-    <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="*" />
-    </Grid.RowDefinitions>
-    <Border Grid.Row="0"
-            Style="{DynamicResource Styles.ToolbarBorder}">
-        <UniformGrid Rows="1" HorizontalAlignment="Left">
-            <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
-                    Content="{Binding ShowPreviousRaces, Converter={StaticResource BooleanToString}, ConverterParameter=Showing Previous Races|Hiding Previous Races}"
-                    MinWidth="200"
-                    Command="{s:Action ToggleShowPreviousRaces}"/>
-            <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
-                    Content="{Binding EnableNotifications, Converter={StaticResource BooleanToString}, ConverterParameter=Notifications Enabled|Notifications Disabled}"
-                    Command="{s:Action ToggleEnableNotifications}"/>
-        </UniformGrid>
-    </Border>
-    <Grid Grid.Row="1" Margin="0 10 0 10">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <DockPanel Grid.Column="0">
-            <Label DockPanel.Dock="Top"
-                   Content="{Binding NextRace.Name}" ContentStringFormat="Next Race - {0}" />
-            <controls:CountdownControl DockPanel.Dock="Bottom"
-                                       TimeRemaining="{Binding TimeUntilNextRace}" />
-        </DockPanel>
-        <DockPanel Grid.Column="1">
-            <Label DockPanel.Dock="Top"
-                   Content="{Binding NextRace.NextSession.Name}" ContentStringFormat="Next Session - {0}" />
-            <controls:CountdownControl DockPanel.Dock="Bottom"
-                                       TimeRemaining="{Binding TimeUntilNextSession}" />
-        </DockPanel>
-    </Grid>
-    <Separator Grid.Row="2" />
-    <ItemsControl ItemsSource="{Binding Races}" Grid.Row="3">
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <VirtualizingStackPanel VirtualizationMode="Recycling" />
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-        <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <Border x:Name="Border"
-                        Margin="{adonisUi:Space 1.5, 0.5}"
-                        Style="{DynamicResource Styles.HoverableBorder.NoInteraction}">
-                    <Border.Visibility>
-                        <MultiBinding Converter="{StaticResource MultiBoolToVisibility}">
-                            <Binding RelativeSource="{RelativeSource AncestorType=Grid}"
-                                     Path="DataContext.ShowPreviousRaces" />
-                            <Binding Path="IsUpcoming" />
-                        </MultiBinding>
-                    </Border.Visibility>
-                    <ContentControl s:View.Model="{Binding}" />
-                </Border>
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-        <ItemsControl.Template>
-            <ControlTemplate TargetType="ItemsControl">
-                <!-- Set CanContentScroll to True to enable virtualisation, has some side effects... -->
-                <ScrollViewer CanContentScroll="False"
-                              Padding="{TemplateBinding Padding}"
-                              Focusable="False"
-                              adonisExtensions:ScrollViewerExtension.VerticalScrollBarPlacement="Overlay"
-                              adonisExtensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="NeverExpand">
-                    <ItemsPresenter />
-                </ScrollViewer>
-            </ControlTemplate>
-        </ItemsControl.Template>
-    </ItemsControl>
+    <controls:ContentSwitcher UseAlternateContent="{Binding IsRacesUnavailable}">
+        <Grid>
+            <Grid.Resources>
+                <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="FontSize" Value="16" />
+                    <Setter Property="Margin" Value="0 0 0 8" />
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0"
+                    Style="{DynamicResource Styles.ToolbarBorder}">
+                <UniformGrid Rows="1" HorizontalAlignment="Left">
+                    <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
+                            Content="{Binding ShowPreviousRaces, Converter={StaticResource BooleanToString}, ConverterParameter=Showing Previous Races|Hiding Previous Races}"
+                            MinWidth="200"
+                            Command="{s:Action ToggleShowPreviousRaces}" />
+                    <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
+                            Content="{Binding EnableNotifications, Converter={StaticResource BooleanToString}, ConverterParameter=Notifications Enabled|Notifications Disabled}"
+                            Command="{s:Action ToggleEnableNotifications}" />
+                </UniformGrid>
+            </Border>
+            <Grid Grid.Row="1" Margin="0 10 0 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="0">
+                    <Label DockPanel.Dock="Top"
+                           Content="{Binding NextRace.Name}" ContentStringFormat="Next Race - {0}" />
+                    <controls:CountdownControl DockPanel.Dock="Bottom"
+                                               TimeRemaining="{Binding TimeUntilNextRace}" />
+                </DockPanel>
+                <DockPanel Grid.Column="1">
+                    <Label DockPanel.Dock="Top"
+                           Content="{Binding NextRace.NextSession.Name}" ContentStringFormat="Next Session - {0}" />
+                    <controls:CountdownControl DockPanel.Dock="Bottom"
+                                               TimeRemaining="{Binding TimeUntilNextSession}" />
+                </DockPanel>
+            </Grid>
+            <Separator Grid.Row="2" />
+            <ItemsControl ItemsSource="{Binding Races}" Grid.Row="3">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border x:Name="Border"
+                                Margin="{adonisUi:Space 1.5, 0.5}"
+                                Style="{DynamicResource Styles.HoverableBorder.NoInteraction}">
+                            <Border.Visibility>
+                                <MultiBinding Converter="{StaticResource MultiBoolToVisibility}">
+                                    <Binding RelativeSource="{RelativeSource AncestorType=Grid}"
+                                             Path="DataContext.ShowPreviousRaces" />
+                                    <Binding Path="IsUpcoming" />
+                                </MultiBinding>
+                            </Border.Visibility>
+                            <ContentControl s:View.Model="{Binding}" />
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.Template>
+                    <ControlTemplate TargetType="ItemsControl">
+                        <!-- Set CanContentScroll to True to enable virtualisation, has some side effects... -->
+                        <ScrollViewer CanContentScroll="False"
+                                      Padding="{TemplateBinding Padding}"
+                                      Focusable="False"
+                                      adonisExtensions:ScrollViewerExtension.VerticalScrollBarPlacement="Overlay"
+                                      adonisExtensions:ScrollViewerExtension.VerticalScrollBarExpansionMode="NeverExpand">
+                            <ItemsPresenter />
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </ItemsControl.Template>
+            </ItemsControl>
+        </Grid>
+        <controls:ContentSwitcher.AlternateContent>
+            <ContentControl HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Focusable="False"
+                            ContentTemplate="{DynamicResource {x:Static adonisUi:Templates.LoadingBars}}"
+                            Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}"
+                            Width="50"
+                            Height="50" />
+        </controls:ContentSwitcher.AlternateContent>
+    </controls:ContentSwitcher>
 </Grid>

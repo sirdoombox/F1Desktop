@@ -2,6 +2,7 @@
 using F1Desktop.Features.Base;
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.Config;
+using F1Desktop.Models.ErgastAPI.Schedule;
 using F1Desktop.Services.Interfaces;
 using F1Desktop.Services.Local;
 using F1Desktop.Services.Remote;
@@ -51,6 +52,13 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         private set => SetAndNotify(ref _nextRace, value);
     }
     
+    private bool _isRacesUnavailable;
+    public bool IsRacesUnavailable
+    {
+        get => _isRacesUnavailable;
+        set => SetAndNotify(ref _isRacesUnavailable, value);
+    }
+    
     private readonly ErgastAPIService _api;
     private readonly NotificationService _notifications;
     private readonly GlobalConfigService _global;
@@ -70,6 +78,7 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         tick.TenSeconds += UpdateTimers;
         TimeUntilNextRace = TimeSpan.FromDays(2);
         TimeUntilNextSession = TimeSpan.FromDays(3);
+        Races.CollectionChanged += (_, _) => IsRacesUnavailable = Races.Count <= 0;
     }
 
     protected override void OnConfigLoaded()
