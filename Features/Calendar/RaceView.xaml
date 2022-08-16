@@ -16,6 +16,8 @@
           d:DataContext="{d:DesignInstance local:RaceViewModel}"
           Style="{StaticResource {x:Type Expander}}"
           IsExpanded="{Binding IsNext, Mode=OneTime}"
+          Expanded="{s:Action OnExpanded}"
+          Collapsed="{s:Action OnCollapsed}"
           Margin="10 0 10 0">
     <i:Interaction.Behaviors>
         <behaviours:BubbleScrollEvent />

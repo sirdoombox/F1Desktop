@@ -83,8 +83,6 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         _notifications = notifications;
         _global = global;
         tick.TenSeconds += UpdateTimers;
-        TimeUntilNextRace = TimeSpan.FromDays(2);
-        TimeUntilNextSession = TimeSpan.FromDays(3);
         IsRacesUnavailable = true;
     }
 

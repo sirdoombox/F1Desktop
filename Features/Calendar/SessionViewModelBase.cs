@@ -4,7 +4,7 @@ using Stylet;
 
 namespace F1Desktop.Features.Calendar;
 
-public abstract class SessionViewModelBase : PropertyChangedBase, IViewAware
+public abstract class SessionViewModelBase : PropertyChangedBase
 {
     private bool _isNext;
     public bool IsNext
@@ -32,6 +32,4 @@ public abstract class SessionViewModelBase : PropertyChangedBase, IViewAware
         cfg.OnPropertyChanged += _ => Use24HourClock = cfg.Use24HourClock;
     }
 
-    public void AttachView(UIElement view) => View = view;
-    public UIElement View { get; private set; }
 }

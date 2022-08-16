@@ -1,4 +1,5 @@
-﻿using F1Desktop.Misc;
+﻿using System.Windows;
+using F1Desktop.Misc;
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.ErgastAPI.Schedule;
 using F1Desktop.Services.Local;
@@ -6,7 +7,7 @@ using Stylet;
 
 namespace F1Desktop.Features.Calendar;
 
-public class RaceViewModel : SessionViewModelBase
+public class RaceViewModel : SessionViewModelBase, IViewAware
 {
     public string Name { get; }
     
@@ -24,6 +25,8 @@ public class RaceViewModel : SessionViewModelBase
     }
 
     private readonly Race _race;
+    public List<SessionViewModel> BuiltSessions { get; }
+    private bool _hasExpanded;
 
     public RaceViewModel(Race race, int totalRaces, GlobalConfigService global) : base(race.DateTime, global)
     {
@@ -35,8 +38,14 @@ public class RaceViewModel : SessionViewModelBase
         var weekendOrder = race.IsSprintWeekend 
             ? Constants.SprintWeekendOrder 
             : Constants.NormalWeekendOrder;
-        foreach (var session in weekendOrder)
-            Sessions.Add(new SessionViewModel(session, race.Sessions[session], global));
+        BuiltSessions = weekendOrder.Select(x => new SessionViewModel(x, race.Sessions[x], global)).ToList();
+    }
+
+    public void OnExpanded()
+    {
+        if (_hasExpanded) return;
+        Sessions.AddRange(BuiltSessions);
+        _hasExpanded = true;
     }
     
     /// <summary>
@@ -47,12 +56,12 @@ public class RaceViewModel : SessionViewModelBase
     {
         if (NextSession is null)
         {
-            NextSession = Sessions.GetNextSession();
+            NextSession = BuiltSessions.GetNextSession();
             return true;
         }
         if (DateTimeOffset.Now < NextSession.SessionTime) return false;
         NextSession.IsNext = false;
-        NextSession = Sessions.GetNextSession();
+        NextSession = BuiltSessions.GetNextSession();
         return true;
     }
 
@@ -61,4 +70,7 @@ public class RaceViewModel : SessionViewModelBase
     public void OpenMaps() => UrlHelper.OpenMap(_race.Circuit);
 
     public void OpenWeather() => UrlHelper.OpenWeather(Name);
+    
+    public void AttachView(UIElement view) => View = view;
+    public UIElement View { get; private set; }
 }
