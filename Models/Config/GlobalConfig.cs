@@ -15,6 +15,7 @@ public class GlobalConfig : ConfigBase
     public bool LightTheme { get; set; }
     public bool Use24HourClock { get; set; }
     public Type LastOpenedFeature { get; set; }
+    public bool StartWithWindows { get; set; }
 
     public GlobalConfig()
     {
@@ -26,5 +27,6 @@ public class GlobalConfig : ConfigBase
         LightTheme = false;
         Use24HourClock = true;
         LastOpenedFeature = null;
+        StartWithWindows = true;
     }
 }

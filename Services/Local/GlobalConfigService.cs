@@ -68,6 +68,13 @@ public class GlobalConfigService
         set => SetAndNotify(ref _lastOpenedFeature, c => c.LastOpenedFeature, value);
     }
     
+    private bool _startWithWindows;
+    public bool StartWithWindows
+    {
+        get => _startWithWindows;
+        set => SetAndNotify(ref _startWithWindows, c => c.StartWithWindows, value);
+    }
+    
     private readonly IConfigService _configService;
     private GlobalConfig _config;
     
@@ -86,7 +93,11 @@ public class GlobalConfigService
         OnPropertyChanged?.Invoke(propertyName);
     }
 
-    public void ResetDefault() => _config = new GlobalConfig();
+    public async Task ResetDefault()
+    {
+        _config = new GlobalConfig();
+        await LoadConfig();
+    }
 
     public async Task LoadConfig()
     {
@@ -99,6 +110,7 @@ public class GlobalConfigService
         _useLightTheme = _config.LightTheme;
         _use24HourClock = _config.Use24HourClock;
         _lastOpenedFeature = _config.LastOpenedFeature;
+        _startWithWindows = _config.StartWithWindows;
         OnPropertyChanged?.Invoke(null);
     }
 

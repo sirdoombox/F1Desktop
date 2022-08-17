@@ -10,20 +10,13 @@ public sealed class RootViewModel : Conductor<IScreen>.Collection.AllActive
 {
     private readonly IWindowManager _wm;
     private readonly WindowViewModel _window;
-    private readonly ThemeService _theme;
     private readonly GlobalConfigService _cfg;
 
-    public RootViewModel(IWindowManager wm, WindowViewModel window, GlobalConfigService cfg, ThemeService theme)
+    public RootViewModel(IWindowManager wm, WindowViewModel window, GlobalConfigService cfg)
     {
         _wm = wm;
         _window = window;
-        _theme = theme;
         _cfg = cfg;
-    }
-
-    protected override void OnViewLoaded()
-    {
-        _theme.SetTheme(_cfg.UseLightTheme);
     }
 
     public void OpenWindow(Type toOpen)

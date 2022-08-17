@@ -14,7 +14,6 @@ public class SettingsRootViewModel : FeatureBase
         {
             if (!SetAndNotify(ref _isLight, value)) return;
             _config.UseLightTheme = _isLight;
-            OnThemeChanged();
         }
     }
 
@@ -28,18 +27,27 @@ public class SettingsRootViewModel : FeatureBase
             _config.Use24HourClock = _use24HourClock;
         }
     }
+    
+    private bool _startWithWindows;
+    public bool StartWithWindows
+    {
+        get => _startWithWindows;
+        set
+        {
+            if(!SetAndNotify(ref _startWithWindows, value)) return;
+            _config.StartWithWindows = _startWithWindows;
+        }
+    }
 
     public CreditsViewModel Credits { get; }
 
-    private readonly ThemeService _theme;
     private readonly GlobalConfigService _config;
 
-    public SettingsRootViewModel(GlobalConfigService config, ThemeService theme, CreditsViewModel credits)
+    public SettingsRootViewModel(GlobalConfigService config, CreditsViewModel credits)
         : base("Settings", PackIconMaterialKind.Cog, byte.MaxValue)
     {
         _config = config;
         _config.OnPropertyChanged += OnGlobalPropertyChanged;
-        _theme = theme;
         Credits = credits;
     }
 
@@ -47,13 +55,11 @@ public class SettingsRootViewModel : FeatureBase
     {
         SetAndNotify(ref _use24HourClock, _config.Use24HourClock, nameof(Use24HourClock));
         SetAndNotify(ref _isLight, _config.UseLightTheme, nameof(IsLight));
+        SetAndNotify(ref _startWithWindows, _config.StartWithWindows, nameof(StartWithWindows));
     }
 
     protected override async void OnFeatureFirstOpened() => 
         await Credits.LoadCredits();
-
-    private void OnThemeChanged() => 
-        _theme.SetTheme(IsLight);
 
     protected override async void OnFeatureHidden() => await _config.SaveConfig();
 }

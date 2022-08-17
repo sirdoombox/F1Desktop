@@ -64,6 +64,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         builder.Bind<ThemeService>().ToSelf().InSingletonScope();
         builder.Bind<DataResourceService>().ToSelf().InSingletonScope();
         builder.Bind<GlobalConfigService>().ToSelf().InSingletonScope();
+        builder.Bind<RegistryService>().ToSelf().InSingletonScope();
 
         foreach (var type in Assembly.GetExecutingAssembly().GetTypes().Where(x => x.IsSubclassOf(typeof(FeatureBase))))
         {
@@ -75,6 +76,9 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     protected override async void Configure()
     {
         await Container.Get<GlobalConfigService>().LoadConfig();
+        // ensure services are built - no type depends on them, but they react to GlobalConfigService changes.
+        Container.Get<RegistryService>(); 
+        Container.Get<ThemeService>();
     }
 
     public override void Dispose()
@@ -85,9 +89,3 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         base.Dispose();
     }
 }
-
-abstract class Foo { }
-
-abstract class Bar : Foo { }
-
-class FooBar : Bar { }

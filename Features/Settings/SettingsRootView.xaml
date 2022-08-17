@@ -46,6 +46,11 @@
             <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"
                           IsChecked="{Binding Use24HourClock}" />
         </DockPanel>
+        <DockPanel>
+            <TextBlock Text="Start With Windows"/>
+            <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"
+                          IsChecked="{Binding StartWithWindows}"/>
+        </DockPanel>
     </StackPanel>
     <Border Grid.RowSpan="2" 
             Grid.Row="0" 
