@@ -40,6 +40,9 @@ jobs:
       
     - name: Trim RELEASES
       run: (Get-Content bin/Squirrel/RELEASES | Select-Object -Skip 2) | Set-Content bin/Squirrel/RELEASES
+    
+    - name: Delete Old Versions
+      run: Get-ChildItem -Path bin/Squirrel/ -exclude *${{github.ref_name}}*,F1DesktopSetup.exe,RELEASES | Remove-Item -force
         
     - name: Upload Release
       uses: svenstaro/upload-release-action@v2
@@ -47,4 +50,4 @@ jobs:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         release_name: F1 Desktop v${{github.ref_name}}
         file_glob: true
-        file: +(F1Desktop-${{github.ref_name}}-full.nupkg|F1Desktop-${{github.ref_name}}-delta.nupkg|F1DesktopSetup.exe|RELEASES)
+        file: bin/Squirrel/*
