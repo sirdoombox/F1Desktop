@@ -2,37 +2,24 @@ name: .NET Core Desktop
 
 on:
   push:
-    branches: [ "Release" ]
     tags:
       - '*.*.*'
-jobs:
-
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set env
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      - name: Test
-        run: |
-          echo $RELEASE_VERSION
-          echo ${{ env.RELEASE_VERSION }}
-          
+jobs:  
   build:
     strategy:
       matrix:
-        configuration: [Debug, Release]
+        configuration: [Release]
     runs-on: windows-latest  
-    
-    env:
-      Solution_Name: F1Desktop.sln
-      
+
     steps:
     
     - name: Checkout
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
+    
+    - name: Set env
+      run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
         
     # Install the .NET Core workload
     - name: Install .NET Core
