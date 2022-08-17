@@ -9,28 +9,17 @@
           xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
           xmlns:behaviours="clr-namespace:F1Desktop.Behaviours"
           xmlns:controls="clr-namespace:F1Desktop.Controls"
-          xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-          xmlns:system="clr-namespace:System;assembly=System.Runtime"
-          xmlns:misc="clr-namespace:F1Desktop.Misc"
           mc:Ignorable="d"
           d:DataContext="{d:DesignInstance local:RaceViewModel}"
           Style="{StaticResource {x:Type Expander}}"
           IsExpanded="{Binding IsNext, Mode=OneWay}"
           Expanded="{s:Action OnExpanded}"
+          Collapsed="{s:Action OnCollapsed}"
           Margin="10 0 10 0">
     <i:Interaction.Behaviors>
         <behaviours:BubbleScrollEvent />
     </i:Interaction.Behaviors>
     <Expander.Resources>
-        <system:Double x:Key="IconSize">25</system:Double>
-        <Style TargetType="iconPacks:PackIconMaterial" x:Key="ButtonIconStyle">
-            <Setter Property="Width" Value="{StaticResource IconSize}" />
-            <Setter Property="Height" Value="{StaticResource IconSize}" />
-        </Style>
-        <Style TargetType="Button" BasedOn="{StaticResource {x:Static adonisUi:Styles.AccentButton}}">
-            <Setter Property="ToolTipService.InitialShowDelay" Value="{x:Static misc:Constants.GlobalToolTipDelay}" />
-            <Setter Property="Margin" Value="5" />
-        </Style>
     </Expander.Resources>
     <Expander.Header>
         <Grid Margin="0 10 0 10"
@@ -68,61 +57,6 @@
         </Grid>
     </Expander.Header>
     <Grid Margin="10">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <ItemsControl ItemsSource="{Binding Sessions}"
-                      Grid.Column="0">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <DataTemplate.Resources>
-                        <Style TargetType="controls:HighlightableTextBlock"
-                               BasedOn="{StaticResource {x:Type controls:HighlightableTextBlock}}">
-                            <Setter Property="IsEnabled" Value="{Binding IsUpcoming}" />
-                            <Setter Property="IsHighlighted" Value="{Binding IsNext}" />
-                            <Setter Property="HighlightBrush"
-                                    Value="{DynamicResource {x:Static adonisUi:Brushes.AlertBrush}}" />
-                            <Setter Property="FontSize" Value="15" />
-                        </Style>
-                    </DataTemplate.Resources>
-                    <Grid Margin="{adonisUi:Space 1, 0}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Border Grid.Row="0"
-                                Height="1"
-                                Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BorderBrush}}"
-                                x:Name="Border" />
-                        <ContentControl Grid.Row="1" s:View.Model="{Binding}" />
-                    </Grid>
-                    <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
-                            <Setter TargetName="Border" Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                    </DataTemplate.Triggers>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        <StackPanel Grid.Column="1">
-            <StackPanel.Resources>
-                <Style TargetType="iconPacks:PackIconMaterial" BasedOn="{StaticResource ButtonIconStyle}" />
-            </StackPanel.Resources>
-            <Button ToolTip="Open Wikipedia" Command="{s:Action OpenWiki}">
-                <iconPacks:PackIconMaterial Kind="Wikipedia" />
-            </Button>
-            <Button ToolTip="Open Google Maps" Command="{s:Action OpenMaps}">
-                <iconPacks:PackIconMaterial Kind="MapSearchOutline" />
-            </Button>
-            <Button ToolTip="Open Weather" Command="{s:Action OpenWeather}">
-                <iconPacks:PackIconMaterial Kind="WeatherPartlyCloudy" />
-            </Button>
-        </StackPanel>
+        <ContentControl s:View.Model="{Binding RaceContent}"/>
     </Grid>
 </Expander>

@@ -13,7 +13,6 @@ using FluentScheduler;
 using H.NotifyIcon;
 using Serilog;
 using Serilog.Core;
-using Stylet;
 using StyletIoC;
 
 namespace F1Desktop.Misc;

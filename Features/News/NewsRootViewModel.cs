@@ -1,16 +1,12 @@
 ﻿using System.ComponentModel;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using F1Desktop.Features.Base;
-using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.Config;
 using F1Desktop.Services.Interfaces;
 using F1Desktop.Services.Local;
 using F1Desktop.Services.Remote;
 using JetBrains.Annotations;
 using MahApps.Metro.IconPacks;
-using Stylet;
 
 namespace F1Desktop.Features.News;
 

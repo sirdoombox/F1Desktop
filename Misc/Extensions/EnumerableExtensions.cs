@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
 using F1Desktop.Features.Calendar;
 using F1Desktop.Models.Resources;
-using Stylet;
 
 namespace F1Desktop.Misc.Extensions;
 

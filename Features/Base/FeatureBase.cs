@@ -1,5 +1,4 @@
 ﻿using MahApps.Metro.IconPacks;
-using Stylet;
 
 namespace F1Desktop.Features.Base;
 

@@ -1,5 +1,4 @@
-﻿using AdonisUI.ViewModels;
-using F1Desktop.Misc;
+﻿using F1Desktop.Misc;
 using F1Desktop.Models.Resources;
 
 namespace F1Desktop.Features.Settings;

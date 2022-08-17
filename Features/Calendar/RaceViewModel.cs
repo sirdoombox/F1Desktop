@@ -1,9 +1,9 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using F1Desktop.Misc;
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.ErgastAPI.Schedule;
 using F1Desktop.Services.Local;
-using Stylet;
 
 namespace F1Desktop.Features.Calendar;
 
@@ -15,7 +15,15 @@ public class RaceViewModel : SessionViewModelBase, IViewAware
     
     public int TotalRaces { get; }
     
-    public BindableCollection<SessionViewModel> Sessions { get; } = new();
+    private RaceContentViewModel _raceContent;
+    public RaceContentViewModel RaceContent
+    {
+        get => _raceContent;
+        set => SetAndNotify(ref _raceContent, value);
+    }
+
+    private readonly RaceContentViewModel _content;
+    private bool _isCollapsing;
     
     private SessionViewModel _nextSession;
     public SessionViewModel NextSession
@@ -24,28 +32,26 @@ public class RaceViewModel : SessionViewModelBase, IViewAware
         private set => SetAndNotify(ref _nextSession, value);
     }
 
-    private readonly Race _race;
-    public List<SessionViewModel> BuiltSessions { get; }
-    private bool _hasExpanded;
-
     public RaceViewModel(Race race, int totalRaces, GlobalConfigService global) : base(race.DateTime, global)
     {
-        _race = race;
         RaceNumber = race.Round;
         Name = race.RaceName;
         TotalRaces = totalRaces;
-
-        var weekendOrder = race.IsSprintWeekend 
-            ? Constants.SprintWeekendOrder 
-            : Constants.NormalWeekendOrder;
-        BuiltSessions = weekendOrder.Select(x => new SessionViewModel(x, race.Sessions[x], global)).ToList();
+        _content = new RaceContentViewModel(race, global);
     }
 
     public void OnExpanded()
     {
-        if (_hasExpanded) return;
-        Sessions.AddRange(BuiltSessions);
-        _hasExpanded = true;
+        _isCollapsing = false;
+        RaceContent = _content;
+    }
+
+    public async void OnCollapsed()
+    {
+        _isCollapsing = true;
+        await Task.Delay(1000);
+        if (!_isCollapsing) return;
+        RaceContent = null;
     }
     
     /// <summary>
@@ -56,20 +62,14 @@ public class RaceViewModel : SessionViewModelBase, IViewAware
     {
         if (NextSession is null)
         {
-            NextSession = BuiltSessions.GetNextSession();
+            NextSession = _content.Sessions.GetNextSession();
             return true;
         }
         if (DateTimeOffset.Now < NextSession.SessionTime) return false;
         NextSession.IsNext = false;
-        NextSession = BuiltSessions.GetNextSession();
+        NextSession = _content.Sessions.GetNextSession();
         return true;
     }
-
-    public void OpenWiki() => UrlHelper.Open(_race.Url);
-
-    public void OpenMaps() => UrlHelper.OpenMap(_race.Circuit);
-
-    public void OpenWeather() => UrlHelper.OpenWeather(Name);
     
     public void AttachView(UIElement view) => View = view;
     public UIElement View { get; private set; }

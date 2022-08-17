@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using F1Desktop.Services.Local;
 using JetBrains.Annotations;
-using Stylet;
 
 namespace F1Desktop.Features.Root;
 

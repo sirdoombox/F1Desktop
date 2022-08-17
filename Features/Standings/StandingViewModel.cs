@@ -1,5 +1,4 @@
-﻿using AdonisUI.ViewModels;
-using F1Desktop.Misc;
+﻿using F1Desktop.Misc;
 using F1Desktop.Models.ErgastAPI.ConstructorStandings;
 using F1Desktop.Models.ErgastAPI.DriverStandings;
 

@@ -2,7 +2,6 @@
 using F1Desktop.Models.ErgastAPI.ConstructorStandings;
 using F1Desktop.Models.ErgastAPI.DriverStandings;
 using F1Desktop.Models.Resources;
-using Stylet;
 using PropertyChangedBase = AdonisUI.ViewModels.PropertyChangedBase;
 
 namespace F1Desktop.Features.Standings;

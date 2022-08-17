@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Stylet;
 
 namespace F1Desktop.Features.News;
 

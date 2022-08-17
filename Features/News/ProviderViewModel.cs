@@ -1,6 +1,4 @@
 ﻿
-using Stylet;
-
 namespace F1Desktop.Features.News;
 
 public class ProviderViewModel : PropertyChangedBase

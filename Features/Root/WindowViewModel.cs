@@ -2,7 +2,6 @@
 using F1Desktop.Features.Base;
 using F1Desktop.Services.Local;
 using JetBrains.Annotations;
-using Stylet;
 
 namespace F1Desktop.Features.Root;
 
@@ -85,7 +84,7 @@ public sealed class WindowViewModel : Conductor<IScreen>
 
     private GlobalConfigService _globalCfg;
     
-    public WindowViewModel(IEnumerable<FeatureBase> features, GlobalConfigService globalCfg, ViewManager viewManager)
+    public WindowViewModel(IEnumerable<FeatureBase> features, GlobalConfigService globalCfg, IViewManager viewManager)
     {
         _globalCfg = globalCfg;
         OnGlobalConfigChanged(null);

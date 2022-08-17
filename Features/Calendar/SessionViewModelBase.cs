@@ -1,6 +1,4 @@
-﻿using System.Windows;
-using F1Desktop.Services.Local;
-using Stylet;
+﻿using F1Desktop.Services.Local;
 
 namespace F1Desktop.Features.Calendar;
 
