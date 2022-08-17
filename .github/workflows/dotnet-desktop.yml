@@ -47,4 +47,4 @@ jobs:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         release_name: F1 Desktop v${{github.ref_name}}
         file_glob: true
-        file: bin/Squirrel/F1Desktop-${{github.ref_name}}-full.nupkg;bin/Squirrel/F1Desktop-${{github.ref_name}}-delta.nupkg;bin/Squirrel/F1DesktopSetup.exe;bin/Squirrel/RELEASES
+        file: +(F1Desktop-${{github.ref_name}}-full.nupkg|F1Desktop-${{github.ref_name}}-delta.nupkg|F1DesktopSetup.exe|RELEASES)
