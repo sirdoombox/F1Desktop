@@ -1,4 +1,4 @@
-name: .NET Core Desktop
+name: Publish and pack with Squirrel
 
 on:
   push:
