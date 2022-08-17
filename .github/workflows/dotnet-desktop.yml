@@ -18,7 +18,6 @@ jobs:
       with:
         fetch-depth: 0
         
-    # Install the .NET Core workload
     - name: Install .NET
       uses: actions/setup-dotnet@v2
       with:
@@ -42,12 +41,34 @@ jobs:
     - name: Trim RELEASES
       run: (Get-Content bin/Squirrel/RELEASES | Select-Object -Skip 1) | Set-Content bin/Squirrel/RELEASES
 
-    - name: Upload Squirrel Build
-      uses: actions/upload-artifact@v3
+    - name: Create Release
+    id: create_release
+    uses: actions/create-release@v1
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      tag_name: ${{ github.ref }}
+      release_name: F1 Desktop v${{ github.ref }}
+      draft: true
+      prerelease: false
+  
+  publish:
+    needs: build
+    strategy:
+      matrix:
+        artifact_name: [F1Desktop-${{github.ref_name}}-full.nupkg, F1Desktop-${{github.ref_name}}-delta.nupkg, F1DesktopSetup.exe, RELEASES]
+
+  - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
       with:
-        name: F1 Desktop v${{github.ref_name}}
-        path: |
-          bin/Squirrel/F1DesktopSetup.exe
-          bin/Squirrel/F1Desktop-${{github.ref_name}}-full.nupkg
-          bin/Squirrel/F1Desktop-${{github.ref_name}}-delta.nupkg
-          bin/Squirrel/RELEASES
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: target/release/${{ matrix.artifact_name }}
+        asset_name: ${{ matrix.asset_name }}
+        tag: ${{ github.ref }}
+
+    - name: Upload Squirrel Build
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: bin/Squirrel/${{matrix.artifact_name}}
+        tag: ${{ github.ref }}
