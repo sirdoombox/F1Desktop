@@ -46,5 +46,11 @@
     "Description": "Logging",
     "Url": "https://serilog.net/",
     "LicenseUrl": "https://github.com/serilog/serilog/blob/dev/LICENSE"
+  },
+  {
+    "Name": "Clowd.Squirrel",
+    "Description": "Installer & Updating",
+    "Url": "https://github.com/clowd/Clowd.Squirrel",
+    "LicenseUrl": "https://github.com/clowd/Clowd.Squirrel/blob/develop/LICENSE"
   }
 ]

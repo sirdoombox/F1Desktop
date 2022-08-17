@@ -25,6 +25,11 @@
         <RowDefinition Height="Auto" />
         <RowDefinition Height="*" />
     </Grid.RowDefinitions>
+    <TextBlock Grid.Row="1" Grid.Column="0" 
+               HorizontalAlignment="Left" 
+               VerticalAlignment="Bottom" 
+               Text="{Binding Version}"
+               Margin="{adonisUi:Space 1,1}"/>
     <TextBlock Grid.Row="0" Grid.Column="0" Text="Settings" Style="{DynamicResource HeaderStyle}" />
     <StackPanel Grid.Row="1" Grid.Column="0">
         <StackPanel.Resources>

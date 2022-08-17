@@ -15,6 +15,7 @@
     <ItemGroup>
       <PackageReference Include="AdonisUI" Version="1.17.1" />
       <PackageReference Include="AdonisUI.ClassicTheme" Version="1.17.1" />
+      <PackageReference Include="Clowd.Squirrel" Version="3.0.170-unstable-ge14820" />
       <PackageReference Include="Expression.Blend.Sdk" Version="1.0.2" />
       <PackageReference Include="FamFamFam.Flags.Wpf" Version="1.2.1" />
       <PackageReference Include="FluentScheduler" Version="5.5.1" />

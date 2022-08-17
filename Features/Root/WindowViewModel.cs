@@ -79,12 +79,16 @@ public sealed class WindowViewModel : Conductor<IScreen>
             _globalCfg.State = _userState;
         }
     }
+    
+    public string Version { get; }
 
     public BindableCollection<FeatureBase> Features { get; } = new();
 
     private GlobalConfigService _globalCfg;
     
-    public WindowViewModel(IEnumerable<FeatureBase> features, GlobalConfigService globalCfg, IViewManager viewManager)
+    public WindowViewModel(IEnumerable<FeatureBase> features, 
+        GlobalConfigService globalCfg, 
+        IViewManager viewManager)
     {
         _globalCfg = globalCfg;
         OnGlobalConfigChanged(null);
@@ -92,9 +96,7 @@ public sealed class WindowViewModel : Conductor<IScreen>
         
         foreach (var feature in features.OrderBy(x => x.Order))
         {
-            //ScreenExtensions.TryActivate(feature);
             viewManager.CreateAndBindViewForModelIfNecessary(feature);
-            var tmp = ((FrameworkElement)feature.View).ApplyTemplate();
             Features.Add(feature);
         }
     }

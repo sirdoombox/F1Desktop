@@ -18,11 +18,14 @@ public class RegistryService
     {
         // Prevent adding the debug version to startup.
 #if RELEASE
-           var rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-        if(startWithWindows)
-            rk.SetValue(Constants.AppName, Assembly.GetEntryAssembly().Location);
+        var rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+        if (rk is null) return;
+        var assemblyLocation = Assembly.GetEntryAssembly()?.Location;
+        if (assemblyLocation is null) return;
+        if (startWithWindows)
+            rk.SetValue(Constants.AppName, assemblyLocation);
         else
-            rk.DeleteValue(Constants.AppName);     
+            rk.DeleteValue(Constants.AppName);
 #endif
     }
 }

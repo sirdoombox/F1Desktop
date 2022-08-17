@@ -38,14 +38,17 @@ public class SettingsRootViewModel : FeatureBase
             _config.StartWithWindows = _startWithWindows;
         }
     }
+    
+    public string Version { get; }
 
     public CreditsViewModel Credits { get; }
 
     private readonly GlobalConfigService _config;
 
-    public SettingsRootViewModel(GlobalConfigService config, CreditsViewModel credits)
+    public SettingsRootViewModel(GlobalConfigService config, CreditsViewModel credits, UpdateService update)
         : base("Settings", PackIconMaterialKind.Cog, byte.MaxValue)
     {
+        Version = $"Version: {update.Version}";
         _config = config;
         _config.OnPropertyChanged += OnGlobalPropertyChanged;
         Credits = credits;
