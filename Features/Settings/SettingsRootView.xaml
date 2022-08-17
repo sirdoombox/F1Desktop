@@ -29,7 +29,7 @@
     <StackPanel Grid.Row="1" Grid.Column="0">
         <StackPanel.Resources>
             <Style TargetType="TextBlock">
-                <Setter Property="DockPanel.Dock" Value="Left" />
+                <Setter Property="DockPanel.Dock" Value="Right" />
                 <Setter Property="Margin" Value="{adonisUi:Space 1, 1}" />
             </Style>
             <Style TargetType="DockPanel">
@@ -37,19 +37,19 @@
             </Style>
         </StackPanel.Resources>
         <DockPanel>
-            <TextBlock Text="Enable Light Theme" />
             <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"
                           IsChecked="{Binding IsLight}" />
+            <TextBlock Text="Enable Light Theme" />
         </DockPanel>
         <DockPanel>
-            <TextBlock Text="Use 24 Hour Clock" />
             <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"
                           IsChecked="{Binding Use24HourClock}" />
+            <TextBlock Text="Use 24 Hour Clock" />
         </DockPanel>
         <DockPanel>
-            <TextBlock Text="Start With Windows"/>
             <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"
                           IsChecked="{Binding StartWithWindows}"/>
+            <TextBlock Text="Start With Windows"/>
         </DockPanel>
     </StackPanel>
     <Border Grid.RowSpan="2" 
