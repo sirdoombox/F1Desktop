@@ -1,4 +1,10 @@
-﻿namespace F1Desktop.Services.Local;
+﻿#if RELEASE
+using System.Reflection;
+using F1Desktop.Misc;
+using Microsoft.Win32;
+#endif
+
+namespace F1Desktop.Services.Local;
 
 public class RegistryService
 {
