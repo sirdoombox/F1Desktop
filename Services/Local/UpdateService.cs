@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using NuGet.Versioning;
 using Squirrel;
 using Squirrel.Sources;
 
@@ -8,13 +9,14 @@ public class UpdateService : IDisposable
 {
     private readonly UpdateManager _mgr;
     private bool IsPortable => !_mgr.IsInstalledApp;
-    private UpdateInfo _availableUpdate = null;
+    private UpdateInfo _availableUpdate;
+    private IAppTools _appTools;
+
+    public string Version { get; private set; } = "DEBUG";
+    public bool FirstRun { get; private set; }
     
-    public string Version { get; }
-    
-    public UpdateService(string version)
+    public UpdateService()
     {
-        Version = version;
         var githubSource = new GithubSource("https://github.com/sirdoombox/F1Desktop", string.Empty, false);
         _mgr = new UpdateManager(githubSource);
     }
@@ -33,9 +35,26 @@ public class UpdateService : IDisposable
         return newVersion != null;
     }
 
+    public void CreateDesktopShortcut() => _appTools?.CreateShortcutForThisExe();
+    
+    public void OnAppInstall(SemanticVersion version, IAppTools tools) =>
+        _appTools ??= tools;
+
+    public void OnAppUninstall(SemanticVersion version, IAppTools tools) => 
+        tools.RemoveShortcutForThisExe();
+
+    public void OnAppRun(SemanticVersion version, IAppTools tools, bool firstRun)
+    {
+        if (version is null) return;
+        _appTools ??= tools;
+        Version = $"{version.Major}.{version.Minor}.{version.Patch}";
+        FirstRun = firstRun;
+    }
+
     public void Dispose()
     {
         GC.SuppressFinalize(this);
         _mgr.Dispose();
     }
+
 }

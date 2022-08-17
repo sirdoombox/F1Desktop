@@ -24,7 +24,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 {
     private TaskbarIcon _icon;
     private Logger _log;
-    private string _version = "DEBUG";
+    private readonly UpdateService _updateService = new();
 
     public override async void Start(string[] args)
     {
@@ -39,37 +39,17 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             .CreateLogger();
 
         SquirrelAwareApp.HandleEvents(
-            onInitialInstall: OnAppInstall,
-            onAppUninstall: OnAppUninstall,
-            onEveryRun: OnAppRun);
+            onInitialInstall: _updateService.OnAppInstall,
+            onAppUninstall: _updateService.OnAppUninstall,
+            onEveryRun: _updateService.OnAppRun);
         base.Start(args);
     }
-    
-    private static void OnAppInstall(SemanticVersion version, IAppTools tools)
-    {
-        tools.CreateShortcutForThisExe(ShortcutLocation.StartMenu | ShortcutLocation.Desktop);
-    }
 
-    private static void OnAppUninstall(SemanticVersion version, IAppTools tools)
-    {
-        tools.RemoveShortcutForThisExe(ShortcutLocation.StartMenu | ShortcutLocation.Desktop);
-    }
-
-    private void OnAppRun(SemanticVersion version, IAppTools tools, bool firstRun)
-    {
-        if (version is null) return;
-        _version = $"{version.Major}.{version.Minor}.{version.Patch}";
-    }
-
-    private void CurrentDomainOnFirstChanceException(object sender, FirstChanceExceptionEventArgs e)
-    {
+    private void CurrentDomainOnFirstChanceException(object sender, FirstChanceExceptionEventArgs e) => 
         _log.Fatal(e.Exception,"");
-    }
 
-    protected override void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e)
-    {
-        _log.Fatal(e.Exception,""); 
-    }
+    protected override void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e) => 
+        _log.Fatal(e.Exception,"");
 
     protected override void OnLaunch()
     {
@@ -91,7 +71,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         builder.Bind<DataResourceService>().ToSelf().InSingletonScope();
         builder.Bind<GlobalConfigService>().ToSelf().InSingletonScope();
         builder.Bind<RegistryService>().ToSelf().InSingletonScope();
-        builder.Bind<UpdateService>().ToInstance(new UpdateService(_version));
+        builder.Bind<UpdateService>().ToInstance(_updateService);
 
         foreach (var type in Assembly.GetExecutingAssembly().GetTypes().Where(x => x.IsSubclassOf(typeof(FeatureBase))))
         {
