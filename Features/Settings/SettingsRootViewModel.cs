@@ -48,7 +48,7 @@ public class SettingsRootViewModel : FeatureBase
     public SettingsRootViewModel(GlobalConfigService config, CreditsViewModel credits, UpdateService update)
         : base("Settings", PackIconMaterialKind.Cog, byte.MaxValue)
     {
-        Version = $"Version: v{update.Version}";
+        Version = $"Version: {update.Version}";
         _config = config;
         _config.OnPropertyChanged += OnGlobalPropertyChanged;
         Credits = credits;
