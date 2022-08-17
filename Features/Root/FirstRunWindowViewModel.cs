@@ -63,8 +63,11 @@ public class FirstRunWindowViewModel : Screen
         CreateShortcut = true;
     }
 
+    private bool _isClosing;
+
     public async void Accept()
     {
+        _isClosing = true;
         if(CreateShortcut)
             _update.CreateDesktopShortcut();
         await _config.SaveConfig();
@@ -72,6 +75,7 @@ public class FirstRunWindowViewModel : Screen
     
     public void OnDeactivated(object sender, EventArgs e)
     {
+        if (_isClosing) return;
         var window = (Window)sender;
         window.Topmost = true;
         window.Activate();
