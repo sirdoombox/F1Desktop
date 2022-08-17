@@ -39,7 +39,7 @@ jobs:
       run: csq pack -u F1Desktop -v ${{github.ref_name}} -p ./bin/Publish -r ./bin/Squirrel -e F1Desktop.exe -i ./Resources/f1.ico
       
     - name: Trim RELEASES
-      run: (Get-Content bin/Squirrel/RELEASES | Select-Object -Skip 1) | Set-Content bin/Squirrel/RELEASES
+      run: (Get-Content bin/Squirrel/RELEASES | Select-Object -Skip 2) | Set-Content bin/Squirrel/RELEASES
 
     - name: Create Release
       id: create_release
@@ -57,25 +57,21 @@ jobs:
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: bin/Squirrel/F1Desktop-${{github.ref_name}}-full.nupkg
-        tag: ${{ github.ref }}
 
     - name: Upload Delta Patch
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: bin/Squirrel/F1Desktop-${{github.ref_name}}-delta.nupkg
-        tag: ${{ github.ref }}
 
     - name: Upload Installer
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: bin/Squirrel/F1DesktopSetup.exe
-        tag: ${{ github.ref }}
 
     - name: Upload RELEASE
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: bin/Squirrel/RELEASES
-        tag: ${{ github.ref }}
