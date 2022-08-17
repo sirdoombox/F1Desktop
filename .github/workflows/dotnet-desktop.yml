@@ -40,17 +40,6 @@ jobs:
       
     - name: Trim RELEASES
       run: (Get-Content bin/Squirrel/RELEASES | Select-Object -Skip 2) | Set-Content bin/Squirrel/RELEASES
-
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: F1 Desktop v${{ github.ref }}
-        draft: true
-        prerelease: false
         
     - name: Upload Release
       uses: svenstaro/upload-release-action@v2
