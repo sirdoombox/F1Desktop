@@ -29,7 +29,7 @@ public class StandingsRootViewModel : FeatureBaseWithConfig<StandingsConfig>
         ConstructorStandings = standingsTable();
     }
 
-    protected override async void OnInitialActivate()
+    protected override void OnInitialActivate()
     {
         
     }

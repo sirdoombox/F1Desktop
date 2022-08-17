@@ -43,7 +43,9 @@ public class TransitioningContentControl : ContentControl
      new PropertyMetadata(TimeSpan.FromSeconds(0.3)));
 
 #pragma warning disable SA1401 // Fields should be private
+#pragma warning disable CS0649
     internal static bool OverrideDpi;
+#pragma warning restore CS0649
 #pragma warning restore SA1401 // Fields should be private
 
     private const string PresentationGroup = "PresentationStates";

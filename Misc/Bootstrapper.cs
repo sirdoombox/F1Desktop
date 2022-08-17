@@ -26,7 +26,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     private Logger _log;
     private readonly UpdateService _updateService = new();
 
-    public override async void Start(string[] args)
+    public override void Start(string[] args)
     {
         if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(AppContext.BaseDirectory)).Length > 1) 
             Process.GetCurrentProcess().Kill();
@@ -42,6 +42,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             onInitialInstall: _updateService.OnAppInstall,
             onAppUninstall: _updateService.OnAppUninstall,
             onEveryRun: _updateService.OnAppRun);
+        
         base.Start(args);
     }
 

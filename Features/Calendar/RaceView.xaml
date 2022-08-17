@@ -9,6 +9,7 @@
           xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
           xmlns:behaviours="clr-namespace:F1Desktop.Behaviours"
           xmlns:controls="clr-namespace:F1Desktop.Controls"
+          xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
           mc:Ignorable="d"
           d:DataContext="{d:DesignInstance local:RaceViewModel}"
           Style="{StaticResource {x:Type Expander}}"
@@ -16,9 +17,9 @@
           Expanded="{s:Action OnExpanded}"
           Collapsed="{s:Action OnCollapsed}"
           Margin="10 0 10 0">
-    <i:Interaction.Behaviors>
+    <b:Interaction.Behaviors>
         <behaviours:BubbleScrollEvent />
-    </i:Interaction.Behaviors>
+    </b:Interaction.Behaviors>
     <Expander.Resources>
     </Expander.Resources>
     <Expander.Header>

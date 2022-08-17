@@ -27,7 +27,7 @@ public abstract class FeatureBaseWithConfig<TConfig> : FeatureBase where TConfig
         OnConfigLoaded();
     }
 
-    protected override async void OnActivate()
+    protected override void OnActivate()
     {
         OnActivationComplete();
     }
