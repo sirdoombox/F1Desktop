@@ -37,10 +37,15 @@ jobs:
       run: dotnet publish -c Release -o ./bin/Publish
       
     - name: Download Live Version
-      run: csq github-down -r ./bin/Squirrel --repoUrl https://github.com/sirdoombox/F1Desktop/
+      run: csq github-down -r ./bin/Squirrel --repoUrl https://github.com/sirdoombox/F1Desktop
         
     - name: Squirrel Release
-      run: csq pack -u F1Desktop -v ${{ env.RELEASE_VERSION }} -p ./bin/Publish -r ./bin/Squirrel -e F1Desktop.exe
+      run: csq pack -u F1Desktop -v ${{ env.RELEASE_VERSION }} -p ./bin/Publish -r ./bin/Squirrel -e F1Desktop.exe -i ./Resources/f1.ico
+      
+    - name: Trim RELEASES
+      run: |
+        more +1 RELEASES > RELEASES_TRIMMED
+        move /Y RELEASES_TRIMMED > RELEASES > nul
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload build artifacts
