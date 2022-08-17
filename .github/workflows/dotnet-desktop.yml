@@ -47,7 +47,7 @@ jobs:
       with:
         name: F1 Desktop v${{github.ref_name}}
         path: |
-          .bin/Squirrel/F1DesktopSetup.exe
-          .bin/Squirrel/F1Desktop-${{github.ref_name}}-full.nupkg
-          .bin/Squirrel/F1Desktop-${{github.ref_name}}-delta.nupkg
-          .bin/Squirrel/RELEASES
+          bin/Squirrel/F1DesktopSetup.exe
+          bin/Squirrel/F1Desktop-${{github.ref_name}}-full.nupkg
+          bin/Squirrel/F1Desktop-${{github.ref_name}}-delta.nupkg
+          bin/Squirrel/RELEASES
