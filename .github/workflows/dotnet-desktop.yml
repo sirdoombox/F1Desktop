@@ -40,7 +40,7 @@ jobs:
       run: csq pack -u F1Desktop -v ${{github.ref_name}} -p ./bin/Publish -r ./bin/Squirrel -e F1Desktop.exe -i ./Resources/f1.ico
       
     - name: Trim RELEASES
-      run: (Get-Content .bin/Squirrel/RELEASES | Select-Object -Skip 1) | Set-Content .bin/Squirrel/RELEASES
+      run: (Get-Content bin/Squirrel/RELEASES | Select-Object -Skip 1) | Set-Content bin/Squirrel/RELEASES
 
     - name: Upload Squirrel Build
       uses: actions/upload-artifact@v3
