@@ -19,7 +19,7 @@ jobs:
         fetch-depth: 0
         
     # Install the .NET Core workload
-    - name: Install .NET Core
+    - name: Install .NET
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
@@ -30,27 +30,24 @@ jobs:
     - name: Restore Packages
       run: dotnet restore
     
-    - name: Build And Publish
+    - name: Publish
       run: dotnet publish -c Release -o ./bin/Publish
       
     - name: Download Live Version
       run: csq github-down -r ./bin/Squirrel --repoUrl https://github.com/sirdoombox/F1Desktop
         
-    - name: Squirrel Release
+    - name: Pack Squirrel Release
       run: csq pack -u F1Desktop -v ${{github.ref_name}} -p ./bin/Publish -r ./bin/Squirrel -e F1Desktop.exe -i ./Resources/f1.ico
       
     - name: Trim RELEASES
-      run: |
-        more +1 RELEASES > RELEASES_TRIMMED
-        move /Y RELEASES_TRIMMED > RELEASES > nul
+      run: (Get-Content .bin/Squirrel/RELEASES | Select-Object -Skip 1) | Set-Content .bin/Squirrel/RELEASES
 
-    # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
-    - name: Upload build artifacts
+    - name: Upload Squirrel Build
       uses: actions/upload-artifact@v3
       with:
-        name: F1 Desktop v${{ env.RELEASE_VERSION }}
+        name: F1 Desktop v${{github.ref_name}}
         path: |
           .bin/Squirrel/F1DesktopSetup.exe
-          .bin/Squirrel/F1Desktop-${{ env.RELEASE_VERSION }}-full.nupkg
-          .bin/Squirrel/F1Desktop-${{ env.RELEASE_VERSION }}-delta.nupkg
+          .bin/Squirrel/F1Desktop-${{github.ref_name}}-full.nupkg
+          .bin/Squirrel/F1Desktop-${{github.ref_name}}-delta.nupkg
           .bin/Squirrel/RELEASES
