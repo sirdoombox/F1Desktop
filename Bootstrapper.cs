@@ -2,23 +2,24 @@
 using System.IO;
 using System.Reflection;
 using System.Runtime.ExceptionServices;
-using System.Threading.Tasks;
 using System.Windows.Threading;
 using F1Desktop.Features.Base;
 using F1Desktop.Features.Root;
 using F1Desktop.Misc.Extensions;
+using F1Desktop.Misc.Logging;
 using F1Desktop.Services.Interfaces;
 using F1Desktop.Services.Local;
 using F1Desktop.Services.Remote;
 using FluentScheduler;
 using H.NotifyIcon;
-using NuGet.Versioning;
 using Serilog;
 using Serilog.Core;
-using StyletIoC;
 using Squirrel;
+using Squirrel.SimpleSplat;
+using StyletIoC;
+using Constants = F1Desktop.Misc.Constants;
 
-namespace F1Desktop.Misc;
+namespace F1Desktop;
 
 public class Bootstrapper : Bootstrapper<RootViewModel>
 {
@@ -33,11 +34,12 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         
         AppDomain.CurrentDomain.FirstChanceException += CurrentDomainOnFirstChanceException;
         
-        File.Delete("log.txt");
         _log = new LoggerConfiguration()
-            .WriteTo.File("log.txt")
+            .WriteTo.File(Path.Combine(Constants.AppLogsPath, $"Log-.log"), rollingInterval: RollingInterval.Day)
             .CreateLogger();
-
+        
+        SquirrelLocator.CurrentMutable.Register(() => new SquirrelLogger(_log), typeof(Squirrel.SimpleSplat.ILogger));
+        
         SquirrelAwareApp.HandleEvents(
             onInitialInstall: _updateService.OnAppInstall,
             onAppUninstall: _updateService.OnAppUninstall,

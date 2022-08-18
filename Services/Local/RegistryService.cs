@@ -25,7 +25,7 @@ public class RegistryService
         {
             var assemblyLocation = Assembly.GetEntryAssembly()?.Location;
             if (assemblyLocation is null) return;
-            var root = Path.GetDirectoryName(Path.GetDirectoryName(assemblyLocation));
+            var root = PathHelper.MoveUp(assemblyLocation, 2);
             var exePath = Path.Combine(root, $"{Constants.AppName}.exe");
             RegistryHelper.SetKey(Constants.RegistryStartupSubKey, Constants.AppName, exePath);
             return;

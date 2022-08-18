@@ -36,10 +36,13 @@ public class UpdateService : IDisposable
         return newVersion != null;
     }
 
-    public void CreateDesktopShortcut() => _appTools?.CreateShortcutForThisExe();
-    
-    public void OnAppInstall(SemanticVersion version, IAppTools tools) =>
-        _appTools ??= tools;
+    public void CreateDesktopShortcut() => 
+        _appTools?.CreateShortcutsForExecutable(Constants.AppExe, ShortcutLocation.StartMenu | ShortcutLocation.Desktop, false, null, null);
+
+    public void OnAppInstall(SemanticVersion version, IAppTools tools)
+    {
+        
+    }
 
     public void OnAppUninstall(SemanticVersion version, IAppTools tools)
     {
@@ -49,8 +52,7 @@ public class UpdateService : IDisposable
 
     public void OnAppRun(SemanticVersion version, IAppTools tools, bool firstRun)
     {
-        if (version is null) return;
-        _appTools ??= tools;
+        if (!tools.IsInstalledApp) return;
         Version = $"{version.Major}.{version.Minor}.{version.Patch}";
         FirstRun = firstRun;
     }

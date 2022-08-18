@@ -51,3 +51,4 @@ jobs:
         release_name: F1 Desktop v${{github.ref_name}}
         file_glob: true
         file: bin/Squirrel/*
+        body: "- New users only need to download and run `F1DesktopSetup.exe`"

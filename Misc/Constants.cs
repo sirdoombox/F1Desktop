@@ -1,10 +1,17 @@
-﻿using F1Desktop.Enums;
+﻿using System.IO;
+using F1Desktop.Enums;
 
 namespace F1Desktop.Misc;
 
 public static class Constants
 {
     public const string AppName = "F1Desktop";
+    public const string AppExe = $"{AppName}.exe";
+    
+    public static string AppDataPath { get; }
+    public static string AppCachePath { get; }
+    public static string AppConfigPath { get; }
+    public static string AppLogsPath { get; }
 
     public const string RegistryStartupSubKey = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
     
@@ -33,4 +40,12 @@ public static class Constants
         SessionType.Qualifying,
         SessionType.Race
     };
+
+    static Constants()
+    {
+        AppDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppName);
+        AppCachePath = Path.Combine(AppDataPath, "Cache");
+        AppConfigPath = Path.Combine(AppDataPath, "Data");
+        AppLogsPath = Path.Combine(AppDataPath, "Logs");
+    }
 }

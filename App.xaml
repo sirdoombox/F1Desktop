@@ -2,16 +2,16 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:s="https://github.com/canton7/Stylet"
-             xmlns:misc="clr-namespace:F1Desktop.Misc"
              xmlns:converters="clr-namespace:F1Desktop.Converters"
              xmlns:flags="clr-namespace:FamFamFam.Flags.Wpf;assembly=FamFamFam.Flags.Wpf"
-             xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI">
+             xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+             xmlns:f1Desktop="clr-namespace:F1Desktop">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <s:ApplicationLoader>
                     <s:ApplicationLoader.Bootstrapper>
-                        <misc:Bootstrapper />
+                        <f1Desktop:Bootstrapper />
                     </s:ApplicationLoader.Bootstrapper>
                 </s:ApplicationLoader>
                 <ResourceDictionary>

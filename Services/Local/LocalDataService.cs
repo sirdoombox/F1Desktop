@@ -12,9 +12,6 @@ namespace F1Desktop.Services.Local;
 
 public class LocalDataService : IDataCacheService, IConfigService
 {
-    private readonly string _cachePath;
-    private readonly string _configPath;
-    
     private readonly Dictionary<Type, object> _cachedConfigs = new();
     
     private static readonly JsonSerializerOptions IndentedJsonOptions;
@@ -35,17 +32,13 @@ public class LocalDataService : IDataCacheService, IConfigService
     
     public LocalDataService()
     {
-        var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        var appDataPath = Path.Combine(appData, Constants.AppName);
-        _cachePath = Path.Combine(appDataPath, "Cache");
-        _configPath = Path.Combine(appDataPath, "Data");
-        Directory.CreateDirectory(_cachePath);
-        Directory.CreateDirectory(_configPath);
+        Directory.CreateDirectory(Constants.AppCachePath);
+        Directory.CreateDirectory(Constants.AppConfigPath);
     }
 
     public async Task<(T, bool)> TryGetCacheAsync<T>() where T : CachedDataBase
     {
-        var data = await TryReadDataFromFile<T>(_cachePath);
+        var data = await TryReadDataFromFile<T>(Constants.AppCachePath);
         if (data is null) return (null, false);
         var attrib = typeof(T).GetAttribute<CacheDurationAttribute>();
         var validUntil = data.CacheTime + attrib.CacheValidFor;
@@ -56,14 +49,14 @@ public class LocalDataService : IDataCacheService, IConfigService
     {
         if (cache is null) return;
         cache.CacheTime = DateTimeOffset.Now;
-        await WriteDataToFile(_cachePath, cache);
+        await WriteDataToFile(Constants.AppCachePath, cache);
     }
 
     public async Task<T> GetConfigAsync<T>() where T : ConfigBase, new()
     {
         if (_cachedConfigs.TryGetValue(typeof(T), out var res))
             return (T)res;
-        var loaded = await TryReadDataFromFile<T>(_configPath, true);
+        var loaded = await TryReadDataFromFile<T>(Constants.AppConfigPath, true);
         loaded ??= new T();
         _cachedConfigs.Add(typeof(T), loaded);
         return loaded;
@@ -73,7 +66,7 @@ public class LocalDataService : IDataCacheService, IConfigService
     {
         if (!_cachedConfigs.TryGetValue(typeof(T), out var res))
             throw new InvalidOperationException($"Config of type {typeof(T).Name} has not been loaded");
-        await WriteDataToFile(_configPath, (T)res, true);
+        await WriteDataToFile(Constants.AppConfigPath, (T)res, true);
     }
 
     private static async Task<T> TryReadDataFromFile<T>(string basePath, bool readIndented = false) where T : class

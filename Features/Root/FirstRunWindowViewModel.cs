@@ -45,7 +45,7 @@ public class FirstRunWindowViewModel : Screen
         set => SetAndNotify(ref _createShortcut, value);
     }
 
-    public Action OnClose { get; set; }
+    public Action OnFirstRunClosed { get; set; }
 
     private readonly UpdateService _update;
     private readonly GlobalConfigService _config;
@@ -73,7 +73,7 @@ public class FirstRunWindowViewModel : Screen
             _update.CreateDesktopShortcut();
         await _config.SaveConfig();
         ((Window)View).Close();
-        OnClose?.Invoke();
+        OnFirstRunClosed?.Invoke();
     }
     
     public void OnDeactivated(object sender, EventArgs e)
