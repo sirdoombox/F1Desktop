@@ -1,31 +1,35 @@
-﻿#if RELEASE
+﻿using System.IO;
 using System.Reflection;
 using F1Desktop.Misc;
-using Microsoft.Win32;
-#endif
 
 namespace F1Desktop.Services.Local;
 
 public class RegistryService
 {
-    public RegistryService(GlobalConfigService config)
+    private readonly GlobalConfigService _config;
+    private readonly UpdateService _update;
+
+    public RegistryService(GlobalConfigService config, UpdateService update)
     {
-        config.OnPropertyChanged += _ => SetKey(config.StartWithWindows);
-        SetKey(config.StartWithWindows);
+        _config = config;
+        _update = update;
+        _config.OnPropertyChanged += GlobalPropertyChanged;
+        GlobalPropertyChanged(nameof(GlobalConfigService.StartWithWindows));
     }
 
-    private void SetKey(bool startWithWindows)
+    private void GlobalPropertyChanged(string obj)
     {
-        // Prevent adding the debug version to startup.
-#if RELEASE
-        var rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-        if (rk is null) return;
-        var assemblyLocation = Assembly.GetEntryAssembly()?.Location;
-        if (assemblyLocation is null) return;
-        if (startWithWindows)
-            rk.SetValue(Constants.AppName, assemblyLocation);
-        else
-            rk.DeleteValue(Constants.AppName);
-#endif
+        if (_update.IsPortable) return;
+        if (obj != nameof(GlobalConfigService.StartWithWindows)) return;
+        if (_config.StartWithWindows)
+        {
+            var assemblyLocation = Assembly.GetEntryAssembly()?.Location;
+            if (assemblyLocation is null) return;
+            var root = Path.GetDirectoryName(Path.GetDirectoryName(assemblyLocation));
+            var exePath = Path.Combine(root, $"{Constants.AppName}.exe");
+            RegistryHelper.SetKey(Constants.RegistryStartupSubKey, Constants.AppName, exePath);
+            return;
+        }
+        RegistryHelper.DeleteKey(Constants.RegistryStartupSubKey, Constants.AppName);
     }
 }

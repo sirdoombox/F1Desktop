@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using F1Desktop.Misc;
 using NuGet.Versioning;
 using Squirrel;
 using Squirrel.Sources;
@@ -8,13 +9,13 @@ namespace F1Desktop.Services.Local;
 public class UpdateService : IDisposable
 {
     private readonly UpdateManager _mgr;
-    private bool IsPortable => !_mgr.IsInstalledApp;
     private UpdateInfo _availableUpdate;
     private IAppTools _appTools;
 
     public string Version { get; private set; } = "DEBUG";
     public bool FirstRun { get; private set; }
-    
+    public bool IsPortable => !_mgr.IsInstalledApp;
+
     public UpdateService()
     {
         var githubSource = new GithubSource("https://github.com/sirdoombox/F1Desktop", string.Empty, false);
@@ -40,8 +41,11 @@ public class UpdateService : IDisposable
     public void OnAppInstall(SemanticVersion version, IAppTools tools) =>
         _appTools ??= tools;
 
-    public void OnAppUninstall(SemanticVersion version, IAppTools tools) => 
+    public void OnAppUninstall(SemanticVersion version, IAppTools tools)
+    {
+        RegistryHelper.DeleteKey(Constants.RegistryStartupSubKey, Constants.AppName);
         tools.RemoveShortcutForThisExe();
+    }
 
     public void OnAppRun(SemanticVersion version, IAppTools tools, bool firstRun)
     {
@@ -56,5 +60,4 @@ public class UpdateService : IDisposable
         GC.SuppressFinalize(this);
         _mgr.Dispose();
     }
-
 }

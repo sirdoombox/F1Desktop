@@ -29,11 +29,6 @@ public class StandingsRootViewModel : FeatureBaseWithConfig<StandingsConfig>
         ConstructorStandings = standingsTable();
     }
 
-    protected override void OnInitialActivate()
-    {
-        
-    }
-
     protected override async void OnFeatureFirstOpened()
     {
         var cTask = _api.GetConstructorStandingsAsync();

@@ -6,6 +6,8 @@ public static class Constants
 {
     public const string AppName = "F1Desktop";
 
+    public const string RegistryStartupSubKey = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
+    
     public const string ShortTimeFormat12Hour = "hh\\:mmtt";
     public const string ShortTimeFormat24Hour = "HH\\:mm";
     public const string DateFormat = "ddd\\, d MMMM";

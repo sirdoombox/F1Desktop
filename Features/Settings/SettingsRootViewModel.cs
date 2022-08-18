@@ -49,16 +49,17 @@ public class SettingsRootViewModel : FeatureBase
         : base("Settings", PackIconMaterialKind.Cog, byte.MaxValue)
     {
         Version = $"Version: {update.Version}";
-        _config = config;
-        _config.OnPropertyChanged += OnGlobalPropertyChanged;
         Credits = credits;
+        _config = config;
+        _config.OnPropertyChanged += _ => OnGlobalPropertyChanged();
+        OnGlobalPropertyChanged();
     }
 
-    private void OnGlobalPropertyChanged(string obj)
+    private void OnGlobalPropertyChanged()
     {
-        SetAndNotify(ref _use24HourClock, _config.Use24HourClock, nameof(Use24HourClock));
-        SetAndNotify(ref _isLight, _config.UseLightTheme, nameof(IsLight));
-        SetAndNotify(ref _startWithWindows, _config.StartWithWindows, nameof(StartWithWindows));
+        Use24HourClock = _config.Use24HourClock;
+        IsLight = _config.UseLightTheme;
+        StartWithWindows = _config.StartWithWindows;
     }
 
     protected override async void OnFeatureFirstOpened() => 

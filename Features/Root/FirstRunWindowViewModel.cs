@@ -52,15 +52,17 @@ public class FirstRunWindowViewModel : Screen
     {
         _update = update;
         _config = config;
+        _config.OnPropertyChanged += _ => LoadConfig();
+        
+        CreateShortcut = true;
         LoadConfig();
     }
 
     private void LoadConfig()
     {
-        SetAndNotify(ref _startWithWindows, _config.StartWithWindows, nameof(StartWithWindows));
-        SetAndNotify(ref _use24HourClock, _config.Use24HourClock, nameof(Use24HourClock));
-        SetAndNotify(ref _useLightTheme, _config.UseLightTheme, nameof(UseLightTheme));
-        CreateShortcut = true;
+        StartWithWindows = _config.StartWithWindows;
+        Use24HourClock = _config.Use24HourClock;
+        UseLightTheme = _config.UseLightTheme;
     }
 
     private bool _isClosing;
