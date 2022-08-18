@@ -7,4 +7,6 @@ namespace F1Desktop.Controls;
 public class ArmouredPopup : Popup
 {
     protected override void OnMouseDown(MouseButtonEventArgs e) => e.Handled = true;
+
+    protected override void OnMouseWheel(MouseWheelEventArgs e) => IsOpen = false;
 }

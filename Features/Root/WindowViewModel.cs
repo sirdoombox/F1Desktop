@@ -137,11 +137,11 @@ public sealed class WindowViewModel : Conductor<IScreen>
 
     private void OnGlobalConfigChanged(string propName)
     {
-        SetAndNotify(ref _userWidth, _globalCfg.Width, nameof(UserWidth));
-        SetAndNotify(ref _userHeight, _globalCfg.Height, nameof(UserHeight));
-        SetAndNotify(ref _userLeft, _globalCfg.Left, nameof(UserLeft));
-        SetAndNotify(ref _userTop, _globalCfg.Top, nameof(UserTop));
-        SetAndNotify(ref _userState, _globalCfg.State, nameof(UserState));
+        UserWidth = _globalCfg.Width;
+        UserHeight = _globalCfg.Height;
+        UserLeft = _globalCfg.Left;
+        UserTop = _globalCfg.Top;
+        UserState = _globalCfg.State;
     }
 
     public void OpenFeature(Type feature = null)

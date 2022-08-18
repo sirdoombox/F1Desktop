@@ -43,7 +43,24 @@
                 </ItemsControl>
             </localControls:ToolbarToggleMenu>
             <localControls:ToolbarToggleMenu ButtonText="Filter By Time">
-                <ContentControl s:View.Model="{Binding Filters}" />
+                <DockPanel Margin="{adonisUi:Space 1,1}" LastChildFill="True" MinWidth="100">
+                    <TextBlock Text="Days" 
+                               DockPanel.Dock="Right"
+                               VerticalAlignment="Center"
+                               Margin="{adonisUi:Space 1,0}"/>
+                    <ComboBox SelectedItem="{Binding MaxDays}" 
+                              ItemsSource="{Binding DayIncrements}"/>
+                </DockPanel>
+            </localControls:ToolbarToggleMenu>
+            <localControls:ToolbarToggleMenu ButtonText="Max Articles">
+                <DockPanel Margin="{adonisUi:Space 1,1}" LastChildFill="True" MinWidth="100">
+                    <TextBlock Text="Articles" 
+                               DockPanel.Dock="Right"
+                               VerticalAlignment="Center"
+                               Margin="{adonisUi:Space 1,0}"/>
+                    <ComboBox SelectedItem="{Binding MaxArticles}" 
+                              ItemsSource="{Binding ArticleIncrements}" />
+                </DockPanel>
             </localControls:ToolbarToggleMenu>
         </UniformGrid>
     </Border>
@@ -52,13 +69,13 @@
         <ItemsControl ItemsSource="{Binding NewsItems}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <ContentControl s:View.Model="{Binding}" 
-                                    Width="{Binding ActualWidth, ElementName=StackPanel}"/>
+                    <ContentControl s:View.Model="{Binding}"
+                                    Width="{Binding ActualWidth, ElementName=StackPanel}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <VirtualizingStackPanel x:Name="StackPanel"/>
+                    <VirtualizingStackPanel x:Name="StackPanel" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.Template>
