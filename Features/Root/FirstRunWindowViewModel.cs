@@ -44,7 +44,9 @@ public class FirstRunWindowViewModel : Screen
         get => _createShortcut;
         set => SetAndNotify(ref _createShortcut, value);
     }
-    
+
+    public Action OnClose { get; set; }
+
     private readonly UpdateService _update;
     private readonly GlobalConfigService _config;
 
@@ -65,19 +67,17 @@ public class FirstRunWindowViewModel : Screen
         UseLightTheme = _config.UseLightTheme;
     }
 
-    private bool _isClosing;
-
     public async void Accept()
     {
-        _isClosing = true;
         if(CreateShortcut)
             _update.CreateDesktopShortcut();
         await _config.SaveConfig();
+        ((Window)View).Close();
+        OnClose?.Invoke();
     }
     
     public void OnDeactivated(object sender, EventArgs e)
     {
-        if (_isClosing) return;
         var window = (Window)sender;
         window.Topmost = true;
         window.Activate();

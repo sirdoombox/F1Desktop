@@ -27,6 +27,7 @@ public sealed class RootViewModel : Conductor<IScreen>.Collection.AllActive
     protected override void OnInitialActivate()
     {
         if (!_update.FirstRun) return;
+        _firstRunWindow.OnClose += OpenDefault; 
         _wm.ShowWindow(_firstRunWindow);
         ((Window)_firstRunWindow.View).Activate();
     }
