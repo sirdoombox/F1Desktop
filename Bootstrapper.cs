@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.Runtime.ExceptionServices;
+using System.Threading.Tasks;
 using System.Windows.Threading;
 using F1Desktop.Features.Base;
 using F1Desktop.Features.Root;
@@ -31,15 +32,17 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     {
         if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(AppContext.BaseDirectory)).Length > 1) 
             Process.GetCurrentProcess().Kill();
-        
+
         AppDomain.CurrentDomain.FirstChanceException += CurrentDomainOnFirstChanceException;
         
         _log = new LoggerConfiguration()
-            .WriteTo.File(Path.Combine(Constants.AppLogsPath, $"Log-.log"), rollingInterval: RollingInterval.Day)
+            .WriteTo.File(Path.Combine(Constants.AppLogsPath, "Log-.log"), rollingInterval: RollingInterval.Hour)
             .CreateLogger();
         
         SquirrelLocator.CurrentMutable.Register(() => new SquirrelLogger(_log), typeof(Squirrel.SimpleSplat.ILogger));
-        
+
+        if (args.Any(x => x.Contains("just-updated"))) _updateService.IsJustUpdated = true;
+
         SquirrelAwareApp.HandleEvents(
             onInitialInstall: _updateService.OnAppInstall,
             onAppUninstall: _updateService.OnAppUninstall,
@@ -47,6 +50,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         
         base.Start(args);
     }
+    
+    
 
     private void CurrentDomainOnFirstChanceException(object sender, FirstChanceExceptionEventArgs e) => 
         _log.Fatal(e.Exception,"");
@@ -54,10 +59,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     protected override void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e) => 
         _log.Fatal(e.Exception,"");
 
-    protected override void OnLaunch()
-    {
+    protected override void OnLaunch() => 
         _icon = Application.MainWindow.GetChildOfType<TaskbarIcon>();
-    }
 
     protected override void ConfigureIoC(IStyletIoCBuilder builder)
     {
@@ -75,6 +78,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         builder.Bind<GlobalConfigService>().ToSelf().InSingletonScope();
         builder.Bind<RegistryService>().ToSelf().InSingletonScope();
         builder.Bind<UpdateService>().ToInstance(_updateService);
+        builder.Bind<Serilog.ILogger>().ToInstance(_log);
 
         foreach (var type in Assembly.GetExecutingAssembly().GetTypes().Where(x => x.IsSubclassOf(typeof(FeatureBase))))
         {

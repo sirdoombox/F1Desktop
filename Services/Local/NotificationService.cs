@@ -15,10 +15,13 @@ public class NotificationService
         _tryGetIcon = tryGetIcon;
     }
 
-    public void ShowNotification(string title, string message)
+    public void ShowNotification(string title, string message, Action onNotificationClicked = null)
     {
         _icon ??= _tryGetIcon();
-        _icon?.ShowNotification(title,message);
+        if (_icon == null) return;
+        if(onNotificationClicked != null)
+            _icon.TrayBalloonTipClicked += (_,_) => onNotificationClicked.Invoke();
+        _icon.ShowNotification(title,message);
     }
 
     public void ScheduleNotification(object owner, DateTimeOffset time, string title, string message)

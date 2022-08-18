@@ -80,25 +80,59 @@ public sealed class WindowViewModel : Conductor<IScreen>
         }
     }
     
-    public string Version { get; }
+    private bool _updateAvailable;
+    public bool UpdateAvailable
+    {
+        get => _updateAvailable;
+        set => SetAndNotify(ref _updateAvailable, value);
+    }
+    
+    private string _updateVersion;
+    public string UpdateVersion
+    {
+        get => _updateVersion;
+        set => SetAndNotify(ref _updateVersion, value);
+    }
 
     public BindableCollection<FeatureBase> Features { get; } = new();
 
     private GlobalConfigService _globalCfg;
+    private UpdateService _update;
     
     public WindowViewModel(IEnumerable<FeatureBase> features, 
         GlobalConfigService globalCfg, 
-        IViewManager viewManager)
+        IViewManager viewManager,
+        UpdateService update,
+        NotificationService notificationService)
     {
         _globalCfg = globalCfg;
         OnGlobalConfigChanged(null);
         _globalCfg.OnPropertyChanged += OnGlobalConfigChanged;
+        _update = update;
+        if (_update.IsJustUpdated)
+        {
+            notificationService.ShowNotification("Update Installed.", 
+                $"Update {_update.Version} Successfully Installed");
+        }
+        _update.OnUpdateAvailable += v =>
+        {
+            UpdateAvailable = true;
+            UpdateVersion = v;
+            notificationService.ShowNotification($"Update Version {v} Available", 
+                $"Update is ready to install, click here to restart now.", 
+                ApplyUpdate);
+        };
         
         foreach (var feature in features.OrderBy(x => x.Order))
         {
             viewManager.CreateAndBindViewForModelIfNecessary(feature);
             Features.Add(feature);
         }
+    }
+
+    public void ApplyUpdate()
+    {
+        _update.ApplyUpdate();
     }
 
     private void OnGlobalConfigChanged(string propName)

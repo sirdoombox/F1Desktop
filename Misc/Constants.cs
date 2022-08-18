@@ -14,6 +14,8 @@ public static class Constants
     public static string AppLogsPath { get; }
 
     public const string RegistryStartupSubKey = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
+
+    public const string GitHubRepoUrl = "https://github.com/sirdoombox/F1Desktop";
     
     public const string ShortTimeFormat12Hour = "hh\\:mmtt";
     public const string ShortTimeFormat24Hour = "HH\\:mm";
