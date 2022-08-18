@@ -30,15 +30,15 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
     public override void Start(string[] args)
     {
-        if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(AppContext.BaseDirectory)).Length > 1) 
+        if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(AppContext.BaseDirectory)).Length > 1)
             Process.GetCurrentProcess().Kill();
 
         AppDomain.CurrentDomain.FirstChanceException += CurrentDomainOnFirstChanceException;
-        
+
         _log = new LoggerConfiguration()
             .WriteTo.File(Path.Combine(Constants.AppLogsPath, "Log-.log"), rollingInterval: RollingInterval.Hour)
             .CreateLogger();
-        
+
         SquirrelLocator.CurrentMutable.Register(() => new SquirrelLogger(_log), typeof(Squirrel.SimpleSplat.ILogger));
 
         if (args.Any(x => x.Contains("just-updated"))) _updateService.IsJustUpdated = true;
@@ -47,19 +47,18 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             onInitialInstall: _updateService.OnAppInstall,
             onAppUninstall: _updateService.OnAppUninstall,
             onEveryRun: _updateService.OnAppRun);
-        
+
         base.Start(args);
     }
-    
-    
 
-    private void CurrentDomainOnFirstChanceException(object sender, FirstChanceExceptionEventArgs e) => 
-        _log.Fatal(e.Exception,"");
 
-    protected override void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e) => 
-        _log.Fatal(e.Exception,"");
+    private void CurrentDomainOnFirstChanceException(object sender, FirstChanceExceptionEventArgs e) =>
+        _log.Fatal(e.Exception, "");
 
-    protected override void OnLaunch() => 
+    protected override void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e) =>
+        _log.Fatal(e.Exception, "");
+
+    protected override void OnLaunch() =>
         _icon = Application.MainWindow.GetChildOfType<TaskbarIcon>();
 
     protected override void ConfigureIoC(IStyletIoCBuilder builder)
@@ -69,7 +68,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         builder.Bind<IDataCacheService>().ToInstance(localDataService);
 
         builder.Bind<TaskbarIcon>().ToFactory(_ => _icon);
-        
+
         builder.Bind<ErgastAPIService>().ToSelf().InSingletonScope();
         builder.Bind<NewsRssService>().ToSelf().InSingletonScope();
         builder.Bind<NotificationService>().ToSelf().InSingletonScope();
@@ -91,7 +90,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     {
         await Container.Get<GlobalConfigService>().LoadConfig();
         // ensure services are built - no type depends on them, but they react to GlobalConfigService changes.
-        Container.Get<RegistryService>(); 
+        Container.Get<RegistryService>();
         Container.Get<ThemeService>();
         // Install updates
         await Container.Get<UpdateService>().Update();

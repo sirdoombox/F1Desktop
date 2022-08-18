@@ -27,18 +27,18 @@ public class SettingsRootViewModel : FeatureBase
             _config.Use24HourClock = _use24HourClock;
         }
     }
-    
+
     private bool _startWithWindows;
     public bool StartWithWindows
     {
         get => _startWithWindows;
         set
         {
-            if(!SetAndNotify(ref _startWithWindows, value)) return;
+            if (!SetAndNotify(ref _startWithWindows, value)) return;
             _config.StartWithWindows = _startWithWindows;
         }
     }
-    
+
     public string Version { get; }
 
     public CreditsViewModel Credits { get; }
@@ -62,7 +62,7 @@ public class SettingsRootViewModel : FeatureBase
         StartWithWindows = _config.StartWithWindows;
     }
 
-    protected override async void OnFeatureFirstOpened() => 
+    protected override async void OnFeatureFirstOpened() =>
         await Credits.LoadCredits();
 
     protected override async void OnFeatureHidden() => await _config.SaveConfig();

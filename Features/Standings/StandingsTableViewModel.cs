@@ -17,10 +17,11 @@ public class StandingsTableViewModel : PropertyChangedBase
                 countryData.GetCountryCodeForNationality(standing.Driver.Nationality)));
     }
 
-    public void PassConstructorStandings(IEnumerable<ConstructorStanding> standings, IEnumerable<CountryData> countryData)
+    public void PassConstructorStandings(IEnumerable<ConstructorStanding> standings,
+        IEnumerable<CountryData> countryData)
     {
         foreach (var standing in standings)
-            Standings.Add(new StandingViewModel(standing, 
+            Standings.Add(new StandingViewModel(standing,
                 countryData.GetCountryCodeForNationality(standing.Constructor.Nationality)));
     }
 }

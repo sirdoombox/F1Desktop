@@ -23,7 +23,7 @@ public class DataResourceService
         if (stream is null) return null;
         using var reader = new StreamReader(stream);
         var newRes = await JsonSerializer.DeserializeAsync<T>(reader.BaseStream);
-        _cache.Add(type,newRes);
+        _cache.Add(type, newRes);
         return newRes;
     }
 }

@@ -20,7 +20,7 @@ public sealed class WindowViewModel : Conductor<IScreen>
             _activeFeature.ShowFeature();
         }
     }
-    
+
     private double _userWidth;
     public double UserWidth
     {
@@ -79,14 +79,14 @@ public sealed class WindowViewModel : Conductor<IScreen>
             _globalCfg.State = _userState;
         }
     }
-    
+
     private bool _updateAvailable;
     public bool UpdateAvailable
     {
         get => _updateAvailable;
         set => SetAndNotify(ref _updateAvailable, value);
     }
-    
+
     private string _updateVersion;
     public string UpdateVersion
     {
@@ -98,9 +98,9 @@ public sealed class WindowViewModel : Conductor<IScreen>
 
     private GlobalConfigService _globalCfg;
     private UpdateService _update;
-    
-    public WindowViewModel(IEnumerable<FeatureBase> features, 
-        GlobalConfigService globalCfg, 
+
+    public WindowViewModel(IEnumerable<FeatureBase> features,
+        GlobalConfigService globalCfg,
         IViewManager viewManager,
         UpdateService update,
         NotificationService notificationService)
@@ -111,18 +111,19 @@ public sealed class WindowViewModel : Conductor<IScreen>
         _update = update;
         if (_update.IsJustUpdated)
         {
-            notificationService.ShowNotification("Update Installed.", 
+            notificationService.ShowNotification("Update Installed.",
                 $"Update {_update.Version} Successfully Installed");
         }
+
         _update.OnUpdateAvailable += v =>
         {
             UpdateAvailable = true;
             UpdateVersion = v;
-            notificationService.ShowNotification($"Update Version {v} Available", 
-                $"Update is ready to install, click here to restart now.", 
+            notificationService.ShowNotification($"Update Version {v} Available",
+                $"Update is ready to install, click here to restart now.",
                 ApplyUpdate);
         };
-        
+
         foreach (var feature in features.OrderBy(x => x.Order))
         {
             viewManager.CreateAndBindViewForModelIfNecessary(feature);
@@ -146,8 +147,8 @@ public sealed class WindowViewModel : Conductor<IScreen>
 
     public void OpenFeature(Type feature = null)
     {
-        ActiveFeature = feature is null 
-            ? Features.First() 
+        ActiveFeature = feature is null
+            ? Features.First()
             : Features.First(x => x.GetType() == feature);
     }
 

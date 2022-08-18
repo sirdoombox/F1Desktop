@@ -24,7 +24,7 @@ public class ThemeService
     public void SetTheme(bool isLight)
     {
         _icon ??= _tryGetIcon();
-        ResourceLocator.SetColorScheme(Application.Current.Resources, 
+        ResourceLocator.SetColorScheme(Application.Current.Resources,
             isLight ? ResourceLocator.LightColorScheme : ResourceLocator.DarkColorScheme);
         _icon?.UpdateDefaultStyle();
     }

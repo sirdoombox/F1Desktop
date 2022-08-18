@@ -8,10 +8,11 @@ namespace F1Desktop.Features.Calendar;
 public class SessionViewModel : SessionViewModelBase
 {
     public string Name { get; }
-    
+
     public SessionType Type { get; }
 
-    public SessionViewModel(SessionType type, Session session, GlobalConfigService config) : base(session.DateTime, config)
+    public SessionViewModel(SessionType type, Session session, GlobalConfigService config) : base(session.DateTime,
+        config)
     {
         Type = type;
         Name = type.ToDisplayString();

@@ -16,17 +16,19 @@ public class CachedUrlImageConverter : IValueConverter
             var img = new BitmapImage(new Uri(s, UriKind.Absolute));
             Cache.Add(s, img);
             return img;
-        } 
+        }
+
         if (value is Uri u)
         {
             if (Cache.TryGetValue(u.AbsoluteUri, out var i)) return i;
             var img = new BitmapImage(u);
-            Cache.Add(u.AbsoluteUri,img);
+            Cache.Add(u.AbsoluteUri, img);
             return img;
         }
 
         return null;
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
+        throw new NotImplementedException();
 }

@@ -58,6 +58,6 @@
         </Grid>
     </Expander.Header>
     <Grid Margin="10">
-        <ContentControl s:View.Model="{Binding RaceContent}"/>
+        <ContentControl s:View.Model="{Binding RaceContent}" />
     </Grid>
 </Expander>

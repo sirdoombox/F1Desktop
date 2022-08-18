@@ -13,7 +13,8 @@ public abstract class FeatureBaseWithConfig<TConfig> : FeatureBase where TConfig
     protected TConfig Config { get; private set; }
     private readonly IConfigService _configService;
 
-    protected FeatureBaseWithConfig(string displayName, PackIconMaterialKind icon, IConfigService configService, byte order = 0) 
+    protected FeatureBaseWithConfig(string displayName, PackIconMaterialKind icon, IConfigService configService,
+        byte order = 0)
         : base(displayName, icon, order)
     {
         DisplayName = displayName;
@@ -31,22 +32,28 @@ public abstract class FeatureBaseWithConfig<TConfig> : FeatureBase where TConfig
     {
         OnActivationComplete();
     }
-    
-    protected virtual bool SetAndNotifyWithConfig<T1>(ref T1 field, Expression<Func<TConfig,T1>> propExpr, T1 value, string propertyName = "")
+
+    protected virtual bool SetAndNotifyWithConfig<T1>(ref T1 field, Expression<Func<TConfig, T1>> propExpr, T1 value,
+        string propertyName = "")
     {
         if (!SetAndNotify(ref field, value, propertyName)) return false;
-        var expr = (MemberExpression) propExpr.Body;
-        var prop = (PropertyInfo) expr.Member;
+        var expr = (MemberExpression)propExpr.Body;
+        var prop = (PropertyInfo)expr.Member;
         prop.SetValue(Config, value, null);
         return true;
     }
-    
-    protected override async void OnClose() => 
-        await _configService.WriteConfigToDiskAsync<TConfig>();
-    
-    protected override async void OnFeatureHidden() => 
+
+    protected override async void OnClose() =>
         await _configService.WriteConfigToDiskAsync<TConfig>();
 
-    protected virtual void OnConfigLoaded() {}
-    protected virtual void OnActivationComplete() {}
+    protected override async void OnFeatureHidden() =>
+        await _configService.WriteConfigToDiskAsync<TConfig>();
+
+    protected virtual void OnConfigLoaded()
+    {
+    }
+
+    protected virtual void OnActivationComplete()
+    {
+    }
 }

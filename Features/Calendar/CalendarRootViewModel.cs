@@ -17,7 +17,6 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     public BindableCollection<RaceViewModel> Races { get; } = new();
 
     private bool _showPreviousRaces;
-
     public bool ShowPreviousRaces
     {
         get => _showPreviousRaces;
@@ -25,7 +24,6 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     }
 
     private bool _enableNotifications;
-
     public bool EnableNotifications
     {
         get => _enableNotifications;
@@ -33,7 +31,6 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     }
 
     private TimeSpan _timeUntilNextSession;
-
     public TimeSpan TimeUntilNextSession
     {
         get => _timeUntilNextSession;
@@ -41,7 +38,6 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     }
 
     private TimeSpan _timeUntilNextRace;
-
     public TimeSpan TimeUntilNextRace
     {
         get => _timeUntilNextRace;
@@ -49,7 +45,6 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     }
 
     private RaceViewModel _nextRace;
-
     public RaceViewModel NextRace
     {
         get => _nextRace;
@@ -57,7 +52,6 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     }
 
     private bool _isRacesUnavailable;
-
     public bool IsRacesUnavailable
     {
         get => _isRacesUnavailable;

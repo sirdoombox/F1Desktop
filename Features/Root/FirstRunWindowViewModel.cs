@@ -11,7 +11,7 @@ public class FirstRunWindowViewModel : Screen
         get => _useLightTheme;
         set
         {
-            if(!SetAndNotify(ref _useLightTheme, value)) return;
+            if (!SetAndNotify(ref _useLightTheme, value)) return;
             _config.UseLightTheme = _useLightTheme;
         }
     }
@@ -22,18 +22,18 @@ public class FirstRunWindowViewModel : Screen
         get => _startWithWindows;
         set
         {
-            if(!SetAndNotify(ref _startWithWindows, value)) return;
+            if (!SetAndNotify(ref _startWithWindows, value)) return;
             _config.StartWithWindows = _startWithWindows;
         }
     }
-    
+
     private bool _use24HourClock;
     public bool Use24HourClock
     {
         get => _use24HourClock;
         set
         {
-            if(!SetAndNotify(ref _use24HourClock, value)) return;
+            if (!SetAndNotify(ref _use24HourClock, value)) return;
             _config.Use24HourClock = _use24HourClock;
         }
     }
@@ -55,7 +55,7 @@ public class FirstRunWindowViewModel : Screen
         _update = update;
         _config = config;
         _config.OnPropertyChanged += _ => LoadConfig();
-        
+
         CreateShortcut = true;
         LoadConfig();
     }
@@ -69,13 +69,13 @@ public class FirstRunWindowViewModel : Screen
 
     public async void Accept()
     {
-        if(CreateShortcut)
+        if (CreateShortcut)
             _update.CreateDesktopShortcut();
         await _config.SaveConfig();
         ((Window)View).Close();
         OnFirstRunClosed?.Invoke();
     }
-    
+
     public void OnDeactivated(object sender, EventArgs e)
     {
         var window = (Window)sender;

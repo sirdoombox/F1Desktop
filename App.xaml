@@ -15,24 +15,24 @@
                     </s:ApplicationLoader.Bootstrapper>
                 </s:ApplicationLoader>
                 <ResourceDictionary>
-                    <converters:IntThresholdConverter x:Key="IntThreshold"/>
-                    <converters:MultiBoolToVisibilityConverter x:Key="MultiBoolToVisibility"/>
-                    <converters:CachedUrlImageConverter x:Key="CachedUrlImage"/>
-                    <converters:BooleanToStringConverter x:Key="BooleanToString"/>
-                    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
-                    <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibility"/>
-                    <converters:NullToVisibilityConverter x:Key="NullToVisibility"/>
-                    <converters:InverseNullToVisibilityConverter x:Key="InverseNullToVisibility"/>
-                    <converters:NullToBoolConverter x:Key="NullToBoolConverter"/>
-                    <converters:InverseNullToBoolConverter x:Key="InverseNullToBool"/>
-                    <converters:BooleanInverseConverter x:Key="BooleanInverse"/>
-                    <flags:CountryIdToFlagImageSourceConverter x:Key="CountryIdToFlagImageSource"/>
+                    <converters:IntThresholdConverter x:Key="IntThreshold" />
+                    <converters:MultiBoolToVisibilityConverter x:Key="MultiBoolToVisibility" />
+                    <converters:CachedUrlImageConverter x:Key="CachedUrlImage" />
+                    <converters:BooleanToStringConverter x:Key="BooleanToString" />
+                    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+                    <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibility" />
+                    <converters:NullToVisibilityConverter x:Key="NullToVisibility" />
+                    <converters:InverseNullToVisibilityConverter x:Key="InverseNullToVisibility" />
+                    <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
+                    <converters:InverseNullToBoolConverter x:Key="InverseNullToBool" />
+                    <converters:BooleanInverseConverter x:Key="BooleanInverse" />
+                    <flags:CountryIdToFlagImageSourceConverter x:Key="CountryIdToFlagImageSource" />
                 </ResourceDictionary>
-                <ResourceDictionary Source="pack://application:,,,/AdonisUI;component/ColorSchemes/Dark.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/AdonisUI.ClassicTheme;component/Resources.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources/Resources.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Styles/Styles.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Templates/Templates.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/AdonisUI;component/ColorSchemes/Dark.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/AdonisUI.ClassicTheme;component/Resources.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Resources/Resources.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Styles/Styles.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Templates/Templates.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <!-- Color Overrides -->
             <Color x:Key="{x:Static adonisUi:Colors.AccentColor}">#E10600</Color>

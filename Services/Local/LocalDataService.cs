@@ -13,10 +13,10 @@ namespace F1Desktop.Services.Local;
 public class LocalDataService : IDataCacheService, IConfigService
 {
     private readonly Dictionary<Type, object> _cachedConfigs = new();
-    
+
     private static readonly JsonSerializerOptions IndentedJsonOptions;
     private static readonly JsonSerializerOptions DefaultJsonOptions;
-    
+
     static LocalDataService()
     {
         IndentedJsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.General)
@@ -29,7 +29,7 @@ public class LocalDataService : IDataCacheService, IConfigService
             Converters = { new TypeJsonConverter() }
         };
     }
-    
+
     public LocalDataService()
     {
         Directory.CreateDirectory(Constants.AppCachePath);
@@ -74,7 +74,8 @@ public class LocalDataService : IDataCacheService, IConfigService
         var filepath = GetFilePath<T>(basePath);
         if (!File.Exists(filepath)) return null;
         await using var filestream = File.Open(filepath, FileMode.Open);
-        return await JsonSerializer.DeserializeAsync<T>(filestream, readIndented ? IndentedJsonOptions : DefaultJsonOptions);
+        return await JsonSerializer.DeserializeAsync<T>(filestream,
+            readIndented ? IndentedJsonOptions : DefaultJsonOptions);
     }
 
     private static async Task WriteDataToFile<T>(string basePath, T data, bool writeIndented = false) where T : class

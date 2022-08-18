@@ -25,15 +25,16 @@
                        FontFamily="{StaticResource F1Font}">
     <controls:AdonisWindow.TitleBarContent>
         <Grid MinHeight="{adonisUi:Space 3}">
-                <Button Visibility="{Binding UpdateAvailable, Converter={StaticResource BooleanToVisibility}}"
-                        HorizontalAlignment="Right"
-                        Style="{DynamicResource {x:Static adonisUi:Styles.AccentButton}}"
-                        Margin="{adonisUi:Space 0.5, 0.5}"
-                        Command="{s:Action ApplyUpdate}">
-                    <Button.Content>
-                        <TextBlock Text="{Binding UpdateVersion, StringFormat='Update Version {0} Available - Click To Restart'}"/>
-                    </Button.Content>
-                </Button>
+            <Button Visibility="{Binding UpdateAvailable, Converter={StaticResource BooleanToVisibility}}"
+                    HorizontalAlignment="Right"
+                    Style="{DynamicResource {x:Static adonisUi:Styles.AccentButton}}"
+                    Margin="{adonisUi:Space 0.5, 0.5}"
+                    Command="{s:Action ApplyUpdate}">
+                <Button.Content>
+                    <TextBlock
+                        Text="{Binding UpdateVersion, StringFormat='Update Version {0} Available - Click To Restart'}" />
+                </Button.Content>
+            </Button>
         </Grid>
     </controls:AdonisWindow.TitleBarContent>
     <Grid>

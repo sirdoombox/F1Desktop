@@ -20,7 +20,6 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
     public BindableCollection<ProviderViewModel> Providers { get; } = new();
 
     private bool _isNewsItemsUnavailable;
-
     public bool IsNewsItemsUnavailable
     {
         get => _isNewsItemsUnavailable;
@@ -28,7 +27,6 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
     }
 
     private int _maxArticles;
-
     public int MaxArticles
     {
         get => _maxArticles;
@@ -41,7 +39,6 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
 
     private DateTimeOffset _articleCutoff;
     private int _maxDays;
-
     public int MaxDays
     {
         get => _maxDays;

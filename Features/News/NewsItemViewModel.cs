@@ -13,7 +13,7 @@ public class NewsItemViewModel : PropertyChangedBase
     public string Image { get; }
     public string ProviderName { get; }
     public DateTimeOffset Published { get; }
-    
+
     private bool _use24HourClock;
     public bool Use24HourClock
     {
@@ -23,7 +23,8 @@ public class NewsItemViewModel : PropertyChangedBase
 
     public NewsItemViewModel(NewsItem item, GlobalConfigService global)
     {
-        Title = HttpUtility.HtmlDecode(item.Title);;
+        Title = HttpUtility.HtmlDecode(item.Title);
+        ;
         Text = HttpUtility.HtmlDecode(item.Content);
         Url = item.Url;
         Image = item.ImageUrl;

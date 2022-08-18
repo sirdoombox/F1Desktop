@@ -26,7 +26,7 @@ public class ErgastAPIService
         };
         Options = new JsonSerializerOptions(JsonSerializerDefaults.Web);
     }
-    
+
     public ErgastAPIService(IDataCacheService cacheService)
     {
         _cacheService = cacheService;

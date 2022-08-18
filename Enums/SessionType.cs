@@ -6,8 +6,10 @@ public enum SessionType
 {
     [Description("First Practice")]
     FirstPractice,
+
     [Description("Second Practice")]
     SecondPractice,
+
     [Description("Third Practice")]
     ThirdPractice,
     Qualifying,

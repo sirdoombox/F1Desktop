@@ -10,7 +10,7 @@ public sealed class RootViewModel : Conductor<IScreen>.Collection.AllActive
     private readonly IWindowManager _wm;
     private readonly WindowViewModel _window;
     private readonly FirstRunWindowViewModel _firstRunWindow;
-    
+
     private readonly GlobalConfigService _cfg;
     private readonly UpdateService _update;
 
@@ -27,7 +27,7 @@ public sealed class RootViewModel : Conductor<IScreen>.Collection.AllActive
     protected override void OnInitialActivate()
     {
         if (!_update.FirstRun) return;
-        _firstRunWindow.OnFirstRunClosed += OpenDefault; 
+        _firstRunWindow.OnFirstRunClosed += OpenDefault;
         _wm.ShowWindow(_firstRunWindow);
         ((Window)_firstRunWindow.View).Activate();
     }

@@ -12,9 +12,9 @@ public abstract class SessionViewModelBase : PropertyChangedBase
     }
 
     public DateTimeOffset SessionTime { get; }
-    
+
     public bool IsUpcoming { get; }
-    
+
     private bool _use24HourClock;
     public bool Use24HourClock
     {
@@ -29,5 +29,4 @@ public abstract class SessionViewModelBase : PropertyChangedBase
         Use24HourClock = cfg.Use24HourClock;
         cfg.OnPropertyChanged += _ => Use24HourClock = cfg.Use24HourClock;
     }
-
 }

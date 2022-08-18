@@ -15,7 +15,7 @@
                                Text="{TemplateBinding Text}"
                                TextAlignment="{TemplateBinding TextAlignment}"
                                Foreground="{TemplateBinding Foreground}"
-                               FontFamily="{TemplateBinding FontFamily}"/>
+                               FontFamily="{TemplateBinding FontFamily}" />
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsHighlighted" Value="True">
                             <Setter TargetName="PART_TextBlock" Property="FontWeight" Value="Bold" />
@@ -28,11 +28,12 @@
                                     Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Foreground}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="True">
-                            <Setter TargetName="PART_TextBlock" Property="TextDecorations" Value="{x:Null}"/>
+                            <Setter TargetName="PART_TextBlock" Property="TextDecorations" Value="{x:Null}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="PART_TextBlock" Property="TextDecorations" Value="Strikethrough"/>
-                            <Setter TargetName="PART_TextBlock" Property="Foreground" Value="{DynamicResource {x:Static adonisUi:Brushes.DisabledForegroundBrush}}"/>
+                            <Setter TargetName="PART_TextBlock" Property="TextDecorations" Value="Strikethrough" />
+                            <Setter TargetName="PART_TextBlock" Property="Foreground"
+                                    Value="{DynamicResource {x:Static adonisUi:Brushes.DisabledForegroundBrush}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

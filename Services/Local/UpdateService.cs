@@ -14,9 +14,9 @@ public class UpdateService : IDisposable
     public string Version { get; private set; } = "DEBUG";
     public bool FirstRun { get; private set; }
     public bool IsPortable => !_mgr.IsInstalledApp;
-    
+
     public Action<string> OnUpdateAvailable { get; set; }
-    
+
     public bool IsJustUpdated { get; set; }
 
     public UpdateService()
@@ -33,19 +33,20 @@ public class UpdateService : IDisposable
         OnUpdateAvailable?.Invoke(newVersion.Version.ToString());
     }
 
-    public void ApplyUpdate() => 
+    public void ApplyUpdate() =>
         UpdateManager.RestartApp(arguments: "--just-updated");
 
-    public void CreateDesktopShortcut() => 
-        _appTools?.CreateShortcutsForExecutable(Constants.AppExe, ShortcutLocation.StartMenu | ShortcutLocation.Desktop, false, null, null);
+    public void CreateDesktopShortcut() =>
+        _appTools?.CreateShortcutsForExecutable(Constants.AppExe, ShortcutLocation.StartMenu | ShortcutLocation.Desktop,
+            false, null, null);
 
     public void OnAppUninstall(SemanticVersion version, IAppTools tools)
     {
         RegistryHelper.DeleteKey(Constants.RegistryStartupSubKey, Constants.AppName);
         tools.RemoveShortcutForThisExe();
     }
-    
-    public void OnAppInstall(SemanticVersion version, IAppTools tools) => 
+
+    public void OnAppInstall(SemanticVersion version, IAppTools tools) =>
         tools.CreateShortcutForThisExe(ShortcutLocation.StartMenu);
 
     public void OnAppRun(SemanticVersion version, IAppTools tools, bool firstRun)
@@ -61,5 +62,4 @@ public class UpdateService : IDisposable
         GC.SuppressFinalize(this);
         _mgr.Dispose();
     }
-
 }

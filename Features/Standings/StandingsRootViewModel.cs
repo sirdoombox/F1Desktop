@@ -13,15 +13,15 @@ public class StandingsRootViewModel : FeatureBaseWithConfig<StandingsConfig>
 {
     public StandingsTableViewModel DriverStandings { get; }
     public StandingsTableViewModel ConstructorStandings { get; }
-    
+
     private readonly ErgastAPIService _api;
     private readonly DataResourceService _data;
-    
-    public StandingsRootViewModel(IConfigService configService, 
+
+    public StandingsRootViewModel(IConfigService configService,
         ErgastAPIService api,
         Func<StandingsTableViewModel> standingsTable,
-        DataResourceService dataResourceService) 
-        : base("Standings", PackIconMaterialKind.PodiumGold , configService, 2)
+        DataResourceService dataResourceService)
+        : base("Standings", PackIconMaterialKind.PodiumGold, configService, 2)
     {
         _api = api;
         _data = dataResourceService;
@@ -35,7 +35,9 @@ public class StandingsRootViewModel : FeatureBaseWithConfig<StandingsConfig>
         var dTask = _api.GetDriverStandingsAsync();
         await Task.WhenAll(cTask, dTask);
         var countries = await _data.LoadJsonResourceAsync<List<CountryData>>();
-        DriverStandings.PassDriverStandings(dTask.Result.Data.StandingsTable.StandingsLists[0].DriverStandings, countries);
-        ConstructorStandings.PassConstructorStandings(cTask.Result.Data.StandingsTable.StandingsLists[0].ConstructorStandings, countries);
+        DriverStandings.PassDriverStandings(dTask.Result.Data.StandingsTable.StandingsLists[0].DriverStandings,
+            countries);
+        ConstructorStandings.PassConstructorStandings(
+            cTask.Result.Data.StandingsTable.StandingsLists[0].ConstructorStandings, countries);
     }
 }

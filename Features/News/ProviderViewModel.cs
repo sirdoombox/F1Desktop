@@ -1,10 +1,9 @@
-﻿
-namespace F1Desktop.Features.News;
+﻿namespace F1Desktop.Features.News;
 
 public class ProviderViewModel : PropertyChangedBase
 {
     public string ProviderName { get; }
-    
+
     private bool _isEnabled;
     public bool IsEnabled
     {
@@ -12,10 +11,10 @@ public class ProviderViewModel : PropertyChangedBase
         set => SetAndNotify(ref _isEnabled, value);
     }
 
-    public ProviderViewModel(string providerName, bool isEnabled, Action<string,bool> propChanged)
+    public ProviderViewModel(string providerName, bool isEnabled, Action<string, bool> propChanged)
     {
         ProviderName = providerName;
         IsEnabled = isEnabled;
-        PropertyChanged += (_,_) => propChanged?.Invoke(ProviderName, IsEnabled);
+        PropertyChanged += (_, _) => propChanged?.Invoke(ProviderName, IsEnabled);
     }
 }

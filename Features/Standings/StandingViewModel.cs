@@ -13,9 +13,9 @@ public class StandingViewModel : PropertyChangedBase
     public ushort Points { get; }
     public string CountryCode { get; }
     public string Nationality { get; }
-    
+
     private readonly string _wikiUrl;
-    
+
     public StandingViewModel(DriverStanding standing, string countryCode)
     {
         GivenName = standing.Driver.GivenName;
@@ -27,7 +27,7 @@ public class StandingViewModel : PropertyChangedBase
         Nationality = standing.Driver.Nationality;
         _wikiUrl = standing.Driver.Url;
     }
-    
+
     public StandingViewModel(ConstructorStanding standing, string countryCode)
     {
         GivenName = standing.Constructor.Name;

@@ -15,8 +15,9 @@ public static class EnumerableExtensions
 
     public static string GetCountryCodeForNationality(this IEnumerable<CountryData> data, string nationality)
     {
-        return data.FirstOrDefault(x => x.Adjectives.Any(adj => 
-            string.Compare(adj,nationality, CultureInfo.CurrentCulture, CompareOptions.IgnoreNonSpace | CompareOptions.IgnoreCase) == 0))
+        return data.FirstOrDefault(x => x.Adjectives.Any(adj =>
+                string.Compare(adj, nationality, CultureInfo.CurrentCulture,
+                    CompareOptions.IgnoreNonSpace | CompareOptions.IgnoreCase) == 0))
             ?.IsoCode;
     }
 }

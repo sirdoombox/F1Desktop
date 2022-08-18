@@ -6,5 +6,4 @@ namespace F1Desktop.Models.Config;
 [Filename("Standings.cfg")]
 public class StandingsConfig : ConfigBase
 {
-    
 }

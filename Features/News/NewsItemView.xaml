@@ -20,7 +20,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" /> 
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <controls:ContentSwitcher Grid.Column="0"
                                   HorizontalAlignment="Center"
@@ -59,7 +59,7 @@
                        TextWrapping="Wrap" />
             <TextBlock Grid.Row="1"
                        Text="{Binding Text}" TextWrapping="Wrap"
-                       Margin="{adonisUi:Space 0, 1}"/>
+                       Margin="{adonisUi:Space 0, 1}" />
             <Label Grid.Row="2"
                    helpers:StringFormatHelper.Format="{x:Static misc:Constants.LongTimeFormat12Hour}"
                    helpers:StringFormatHelper.AlternateFormat="{x:Static misc:Constants.LongTimeFormat24Hour}"

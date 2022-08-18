@@ -30,6 +30,7 @@ public class RegistryService
             RegistryHelper.SetKey(Constants.RegistryStartupSubKey, Constants.AppName, exePath);
             return;
         }
+
         RegistryHelper.DeleteKey(Constants.RegistryStartupSubKey, Constants.AppName);
     }
 }

@@ -9,9 +9,9 @@
                 <ControlTemplate TargetType="{x:Type controls:CountdownControl}">
                     <Grid MaxWidth="350">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <controls:CountdownElement Grid.Column="0"
                                                    x:Name="Days"

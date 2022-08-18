@@ -19,9 +19,9 @@ public class NotificationService
     {
         _icon ??= _tryGetIcon();
         if (_icon == null) return;
-        if(onNotificationClicked != null)
-            _icon.TrayBalloonTipClicked += (_,_) => onNotificationClicked.Invoke();
-        _icon.ShowNotification(title,message);
+        if (onNotificationClicked != null)
+            _icon.TrayBalloonTipClicked += (_, _) => onNotificationClicked.Invoke();
+        _icon.ShowNotification(title, message);
     }
 
     public void ScheduleNotification(object owner, DateTimeOffset time, string title, string message)
@@ -30,14 +30,14 @@ public class NotificationService
         if (_owners.TryGetValue(owner, out var list))
             list.Add(notification);
         else
-            _owners.Add(owner, new List<Notification>{notification});
+            _owners.Add(owner, new List<Notification> { notification });
         _scheduled.Add(notification);
     }
-    
+
     public void CancelNotification(Notification notification)
     {
         _scheduled.Remove(notification);
-        foreach (var owner in _owners) 
+        foreach (var owner in _owners)
             owner.Value.Remove(notification);
     }
 

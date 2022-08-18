@@ -9,44 +9,44 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <DebugType>none</DebugType>
+        <DebugType>none</DebugType>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="AdonisUI" Version="1.17.1" />
-      <PackageReference Include="AdonisUI.ClassicTheme" Version="1.17.1" />
-      <PackageReference Include="Clowd.Squirrel" Version="3.0.170-unstable-ge14820" />
-      <PackageReference Include="FamFamFam.Flags.Wpf" Version="1.2.1" />
-      <PackageReference Include="FluentScheduler" Version="5.5.1" />
-      <PackageReference Include="H.NotifyIcon.Wpf" Version="2.0.58" />
-      <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
-      <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
-      <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
-      <PackageReference Include="Serilog" Version="2.12.0-dev-01494" />
-      <PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00947" />
-      <PackageReference Include="Stylet" Version="1.3.6" />
-      <PackageReference Include="System.ServiceModel.Syndication" Version="7.0.0-preview.6.22324.4" />
+        <PackageReference Include="AdonisUI" Version="1.17.1"/>
+        <PackageReference Include="AdonisUI.ClassicTheme" Version="1.17.1"/>
+        <PackageReference Include="Clowd.Squirrel" Version="3.0.170-unstable-ge14820"/>
+        <PackageReference Include="FamFamFam.Flags.Wpf" Version="1.2.1"/>
+        <PackageReference Include="FluentScheduler" Version="5.5.1"/>
+        <PackageReference Include="H.NotifyIcon.Wpf" Version="2.0.58"/>
+        <PackageReference Include="JetBrains.Annotations" Version="2022.1.0"/>
+        <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.11.0"/>
+        <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39"/>
+        <PackageReference Include="Serilog" Version="2.12.0-dev-01494"/>
+        <PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00947"/>
+        <PackageReference Include="Stylet" Version="1.3.6"/>
+        <PackageReference Include="System.ServiceModel.Syndication" Version="7.0.0-preview.6.22324.4"/>
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="f1.ico" />
-      <None Remove="Fonts\Formula1-Bold.otf" />
-      <None Remove="Fonts\Formula1-Regular.otf" />
-      <None Remove="Fonts\Formula1-Wide.otf" />
-      <Resource Include="Resources\f1.ico" />
-      <None Remove="Resources\Fonts\Formula1-Bold.ttf" />
-      <Resource Include="Resources\Fonts\Formula1-Bold.ttf" />
-      <None Remove="Resources\Fonts\Formula1-Regular.ttf" />
-      <None Remove="Resources\Data\Countries.json" />
-      <EmbeddedResource Include="Resources\Data\Countries.json" />
-      <None Remove="Resources\Data\Credits.json" />
-      <EmbeddedResource Include="Resources\Data\Credits.json" />
-      <None Remove="Resources\Data\RssProviders.json" />
-      <EmbeddedResource Include="Resources\Data\RssProviders.json" />
+        <None Remove="f1.ico"/>
+        <None Remove="Fonts\Formula1-Bold.otf"/>
+        <None Remove="Fonts\Formula1-Regular.otf"/>
+        <None Remove="Fonts\Formula1-Wide.otf"/>
+        <Resource Include="Resources\f1.ico"/>
+        <None Remove="Resources\Fonts\Formula1-Bold.ttf"/>
+        <Resource Include="Resources\Fonts\Formula1-Bold.ttf"/>
+        <None Remove="Resources\Fonts\Formula1-Regular.ttf"/>
+        <None Remove="Resources\Data\Countries.json"/>
+        <EmbeddedResource Include="Resources\Data\Countries.json"/>
+        <None Remove="Resources\Data\Credits.json"/>
+        <EmbeddedResource Include="Resources\Data\Credits.json"/>
+        <None Remove="Resources\Data\RssProviders.json"/>
+        <EmbeddedResource Include="Resources\Data\RssProviders.json"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Resource Include="Resources\Fonts\Formula1-Regular.ttf" />
+        <Resource Include="Resources\Fonts\Formula1-Regular.ttf"/>
     </ItemGroup>
 
 </Project>

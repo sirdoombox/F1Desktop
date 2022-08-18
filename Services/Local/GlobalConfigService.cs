@@ -11,84 +11,85 @@ namespace F1Desktop.Services.Local;
 public class GlobalConfigService
 {
     public Action<string> OnPropertyChanged { get; set; }
-    
+
     private bool _use24HourClock;
     public bool Use24HourClock
     {
         get => _use24HourClock;
         set => SetAndNotify(ref _use24HourClock, c => c.Use24HourClock, value);
     }
-    
+
     private bool _useLightTheme;
     public bool UseLightTheme
     {
         get => _useLightTheme;
         set => SetAndNotify(ref _useLightTheme, c => c.LightTheme, value);
     }
-    
+
     private double _width;
     public double Width
     {
         get => _width;
         set => SetAndNotify(ref _width, c => c.Width, value);
     }
-    
+
     private double _height;
     public double Height
     {
         get => _height;
-        set => SetAndNotify(ref _height, c => c.Height,  value);
+        set => SetAndNotify(ref _height, c => c.Height, value);
     }
-    
+
     private double _left;
     public double Left
     {
         get => _left;
         set => SetAndNotify(ref _left, c => c.Left, value);
     }
-    
+
     private double _top;
     public double Top
     {
         get => _top;
         set => SetAndNotify(ref _top, c => c.Top, value);
     }
-    
+
     private WindowState _state;
     public WindowState State
     {
         get => _state;
         set => SetAndNotify(ref _state, c => c.State, value);
     }
-    
+
     private Type _lastOpenedFeature;
     public Type LastOpenedFeature
     {
         get => _lastOpenedFeature;
         set => SetAndNotify(ref _lastOpenedFeature, c => c.LastOpenedFeature, value);
     }
-    
+
     private bool _startWithWindows;
     public bool StartWithWindows
     {
         get => _startWithWindows;
         set => SetAndNotify(ref _startWithWindows, c => c.StartWithWindows, value);
     }
-    
+
     private readonly IConfigService _configService;
     private GlobalConfig _config;
-    
+
     public GlobalConfigService(IConfigService configService)
     {
         _configService = configService;
     }
 
-    private void SetAndNotify<T>(ref T field, Expression<Func<GlobalConfig,T>> propExpr, T value, [CallerMemberName] string propertyName = "")
+    private void SetAndNotify<T>(ref T field, Expression<Func<GlobalConfig, T>> propExpr, T value,
+        [CallerMemberName] string propertyName = "")
     {
         if (EqualityComparer<T>.Default.Equals(field, value)) return;
         field = value;
-        var expr = (MemberExpression) propExpr.Body;
-        var prop = (PropertyInfo) expr.Member;
+        var expr = (MemberExpression)propExpr.Body;
+        var prop = (PropertyInfo)expr.Member;
         prop.SetValue(_config, value, null);
         OnPropertyChanged?.Invoke(propertyName);
     }

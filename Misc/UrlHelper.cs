@@ -7,7 +7,8 @@ public static class UrlHelper
 {
     public static void OpenMap(Circuit circuit, byte depth = 15)
     {
-        var mapsUrl = $@"https://www.google.com/maps/@{circuit.Location.Lat},{circuit.Location.Long},{depth}z/data=!3m1!1e3";
+        var mapsUrl =
+            $@"https://www.google.com/maps/@{circuit.Location.Lat},{circuit.Location.Long},{depth}z/data=!3m1!1e3";
         Open(mapsUrl);
     }
 
@@ -28,6 +29,6 @@ public static class UrlHelper
         Process.Start(psi);
     }
 
-    public static bool IsValidUrl(string url) => 
+    public static bool IsValidUrl(string url) =>
         Uri.TryCreate(url, UriKind.Absolute, out _);
 }

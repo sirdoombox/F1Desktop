@@ -8,7 +8,7 @@ public abstract class FeatureBase : Screen
     public byte Order { get; }
 
     private bool _featureHasBeenOpened;
-    
+
     protected FeatureBase(string displayName, PackIconMaterialKind icon, byte order = byte.MinValue)
     {
         DisplayName = displayName;
@@ -30,7 +30,11 @@ public abstract class FeatureBase : Screen
         OnFeatureHidden();
     }
 
-    protected virtual void OnFeatureHidden(){}
-    
-    protected virtual void OnFeatureFirstOpened(){}
+    protected virtual void OnFeatureHidden()
+    {
+    }
+
+    protected virtual void OnFeatureFirstOpened()
+    {
+    }
 }

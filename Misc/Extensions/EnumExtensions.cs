@@ -10,8 +10,8 @@ public static class EnumExtensions
             .GetType()
             .GetField(value.ToString())?
             .GetCustomAttributes(typeof(DescriptionAttribute), false)
-            .SingleOrDefault() is DescriptionAttribute attrib 
-                ? attrib.Description 
-                : value.ToString();
+            .SingleOrDefault() is DescriptionAttribute attrib
+            ? attrib.Description
+            : value.ToString();
     }
 }

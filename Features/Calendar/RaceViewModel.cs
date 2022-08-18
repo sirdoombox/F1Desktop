@@ -10,11 +10,11 @@ namespace F1Desktop.Features.Calendar;
 public class RaceViewModel : SessionViewModelBase, IViewAware
 {
     public string Name { get; }
-    
+
     public int RaceNumber { get; }
-    
+
     public int TotalRaces { get; }
-    
+
     private RaceContentViewModel _raceContent;
     public RaceContentViewModel RaceContent
     {
@@ -24,7 +24,7 @@ public class RaceViewModel : SessionViewModelBase, IViewAware
 
     private readonly RaceContentViewModel _content;
     private bool _isCollapsing;
-    
+
     private SessionViewModel _nextSession;
     public SessionViewModel NextSession
     {
@@ -53,7 +53,7 @@ public class RaceViewModel : SessionViewModelBase, IViewAware
         if (!_isCollapsing) return;
         RaceContent = null;
     }
-    
+
     /// <summary>
     /// Checks to see if the next session should change.
     /// </summary>
@@ -65,12 +65,13 @@ public class RaceViewModel : SessionViewModelBase, IViewAware
             NextSession = _content.Sessions.GetNextSession();
             return true;
         }
+
         if (DateTimeOffset.Now < NextSession.SessionTime) return false;
         NextSession.IsNext = false;
         NextSession = _content.Sessions.GetNextSession();
         return true;
     }
-    
+
     public void AttachView(UIElement view) => View = view;
     public UIElement View { get; private set; }
 }

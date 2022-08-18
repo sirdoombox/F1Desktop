@@ -7,7 +7,7 @@ public static class Constants
 {
     public const string AppName = "F1Desktop";
     public const string AppExe = $"{AppName}.exe";
-    
+
     public static string AppDataPath { get; }
     public static string AppCachePath { get; }
     public static string AppConfigPath { get; }
@@ -16,7 +16,7 @@ public static class Constants
     public const string RegistryStartupSubKey = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
 
     public const string GitHubRepoUrl = "https://github.com/sirdoombox/F1Desktop";
-    
+
     public const string ShortTimeFormat12Hour = "hh\\:mmtt";
     public const string ShortTimeFormat24Hour = "HH\\:mm";
     public const string DateFormat = "ddd\\, d MMMM";
@@ -24,7 +24,7 @@ public static class Constants
     public const string LongTimeFormat24Hour = $"{DateFormat} \\- {ShortTimeFormat24Hour}";
 
     public const int GlobalToolTipDelay = 100;
-        
+
     public static readonly IReadOnlyList<SessionType> SprintWeekendOrder = new[]
     {
         SessionType.FirstPractice,

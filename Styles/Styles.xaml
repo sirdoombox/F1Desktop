@@ -2,17 +2,18 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:F1Desktop.Controls">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/Styles/CountdownControl.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/Styles/CountdownElement.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/Styles/HighlightableTextBlock.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/Styles/TransitioningContentControl.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/Styles/NavigationListBoxItem.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/Styles/ContentSwitcher.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/Styles/ToolbarBorder.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/Styles/HoverableBorder.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/Styles/ToolbarToggleMenu.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Styles/CountdownControl.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Styles/CountdownElement.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Styles/HighlightableTextBlock.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Styles/TransitioningContentControl.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Styles/NavigationListBoxItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Styles/ContentSwitcher.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Styles/ToolbarBorder.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Styles/HoverableBorder.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Styles/ToolbarToggleMenu.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    <Style BasedOn="{StaticResource Styles.CountdownElement}" TargetType="{x:Type controls:CountdownElement}"/>
-    <Style BasedOn="{StaticResource Styles.CountdownControl}" TargetType="{x:Type controls:CountdownControl}"/>
-    <Style BasedOn="{StaticResource Styles.HighlightableTextBlock}" TargetType="{x:Type controls:HighlightableTextBlock}"/>
+    <Style BasedOn="{StaticResource Styles.CountdownElement}" TargetType="{x:Type controls:CountdownElement}" />
+    <Style BasedOn="{StaticResource Styles.CountdownControl}" TargetType="{x:Type controls:CountdownControl}" />
+    <Style BasedOn="{StaticResource Styles.HighlightableTextBlock}"
+           TargetType="{x:Type controls:HighlightableTextBlock}" />
 </ResourceDictionary>
