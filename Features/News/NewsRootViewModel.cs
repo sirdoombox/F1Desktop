@@ -16,6 +16,7 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
     public List<int> DayIncrements { get; } = new() { 1, 7, 14, 30, 365 };
     public List<int> ArticleIncrements { get; } = new() { 10, 25, 50, 100 };
 
+    private List<NewsItemViewModel> _allNewsItems = new();
     public BindableCollection<NewsItemViewModel> NewsItems { get; } = new();
     public BindableCollection<ProviderViewModel> Providers { get; } = new();
 
@@ -33,7 +34,7 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
         set
         {
             if (!SetAndNotifyWithConfig(ref _maxArticles, c => c.MaxArticles, value)) return;
-            _newsItemsFilter.Refresh();
+            RefreshFilter();
         }
     }
 
@@ -46,30 +47,18 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
         {
             if (!SetAndNotifyWithConfig(ref _maxDays, c => c.MaxDays, value)) return;
             _articleCutoff = DateTimeOffset.Now - TimeSpan.FromDays(_maxDays);
-            _newsItemsFilter.Refresh();
+            RefreshFilter();
         }
     }
 
     private readonly NewsRssService _rss;
     private readonly GlobalConfigService _global;
-    private readonly ICollectionView _newsItemsFilter;
 
     public NewsRootViewModel(IConfigService cfg, NewsRssService rss, GlobalConfigService global)
         : base("News", PackIconMaterialKind.Newspaper, cfg, 3)
     {
         _rss = rss;
         _global = global;
-        _newsItemsFilter = CollectionViewSource.GetDefaultView(NewsItems);
-        _newsItemsFilter.SortDescriptions.Clear();
-        _newsItemsFilter.SortDescriptions.Add(new SortDescription("Published", ListSortDirection.Descending));
-        _newsItemsFilter.Filter = o =>
-        {
-            var newsItem = (NewsItemViewModel)o;
-            var index = NewsItems.IndexOf(newsItem);
-            if (index > MaxArticles || newsItem.Published < _articleCutoff) return false;
-            return Providers.First(x => x.ProviderName == newsItem.ProviderName).IsEnabled;
-        };
-        NewsItems.CollectionChanged += (_, _) => IsNewsItemsUnavailable = NewsItems.Count <= 0;
     }
 
     protected override void OnConfigLoaded()
@@ -96,16 +85,28 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
 
     private void ProviderStatusChanged(string provider, bool isEnabled)
     {
-        _newsItemsFilter.Refresh();
+        RefreshFilter();
         Config.Providers[provider] = isEnabled;
+    }
+
+    public void RefreshFilter()
+    {
+        NewsItems.Clear();
+        NewsItems.AddRange(_allNewsItems
+            .Where(x => x.Published >= _articleCutoff)
+            .Where(x => Providers.First(p => p.ProviderName == x.ProviderName).IsEnabled)
+            .OrderByDescending(x => x.Published)
+            .Take(MaxArticles));
     }
 
     public async void RefreshNews()
     {
+        IsNewsItemsUnavailable = true;
+        _allNewsItems.Clear();
         NewsItems.Clear();
         var items = await _rss.GetNewsAsync();
-        var newsItems = items.Select(newsItem => new NewsItemViewModel(newsItem, _global))
-            .OrderByDescending(x => x.Published);
-        NewsItems.AddRange(newsItems);
+        _allNewsItems.AddRange(items.Select(newsItem => new NewsItemViewModel(newsItem, _global)));
+        RefreshFilter();
+        IsNewsItemsUnavailable = false;
     }
 }
