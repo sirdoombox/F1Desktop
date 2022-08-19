@@ -1,5 +1,5 @@
 # F1Desktop
-![](https://github.com/sirdoombox/F1Desktop/actions/workflows/dotnet-desktop.yml/badge.svg)
+![](https://github.com/sirdoombox/F1Desktop/actions/workflows/build.yml/badge.svg)
 ![](https://img.shields.io/github/v/release/sirdoombox/f1desktop?label=Release)
 ![](https://img.shields.io/github/downloads/sirdoombox/f1desktop/total?label=Downloads)
 
