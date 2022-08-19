@@ -6,6 +6,7 @@
       xmlns:local="clr-namespace:F1Desktop.Features.Settings"
       xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
       xmlns:s="https://github.com/canton7/Stylet"
+      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
       mc:Ignorable="d"
       x:Name="SettingsGrid"
       d:DataContext="{d:DesignInstance local:SettingsRootViewModel}">
@@ -25,11 +26,23 @@
         <RowDefinition Height="Auto" />
         <RowDefinition Height="*" />
     </Grid.RowDefinitions>
-    <TextBlock Grid.Row="1" Grid.Column="0"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Bottom"
-               Text="{Binding Version}"
-               Margin="{adonisUi:Space 1,1}" />
+    <Button Grid.Row="1" Grid.Column="0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Margin="{adonisUi:Space 1, 1}"
+            Style="{DynamicResource {x:Static adonisUi:Styles.AccentButton}}"
+            Command="{s:Action OpenGithubRepo}"
+            ToolTip="View Source GitHub">
+        <Button.Content>
+            <DockPanel LastChildFill="True">
+                <iconPacks:PackIconMaterial Kind="Github" 
+                                            DockPanel.Dock="Left"/>
+                <TextBlock Text="{Binding Version, StringFormat='Version: {0}'}" 
+                           Margin="5 0 0 0"
+                           VerticalAlignment="Center"/>
+            </DockPanel>
+        </Button.Content>
+    </Button>
     <TextBlock Grid.Row="0" Grid.Column="0" Text="Settings" Style="{DynamicResource HeaderStyle}" />
     <StackPanel Grid.Row="1" Grid.Column="0">
         <StackPanel.Resources>

@@ -1,4 +1,5 @@
 ﻿using F1Desktop.Features.Base;
+using F1Desktop.Misc;
 using F1Desktop.Services.Local;
 using MahApps.Metro.IconPacks;
 
@@ -59,13 +60,15 @@ public class SettingsRootViewModel : FeatureBase
     public SettingsRootViewModel(GlobalConfigService config, CreditsViewModel credits, UpdateService update)
         : base("Settings", PackIconMaterialKind.Cog, byte.MaxValue)
     {
-        Version = $"Version: {update.Version}";
+        Version = update.Version;
         Credits = credits;
         _config = config;
         _config.OnPropertyChanged += _ => OnGlobalPropertyChanged();
         OnGlobalPropertyChanged();
     }
 
+    public void OpenGithubRepo() => UrlHelper.Open(Constants.GitHubRepoUrl);
+    
     private void OnGlobalPropertyChanged()
     {
         Use24HourClock = _config.Use24HourClock;
@@ -77,5 +80,6 @@ public class SettingsRootViewModel : FeatureBase
     protected override async void OnFeatureFirstOpened() =>
         await Credits.LoadCredits();
 
-    protected override async void OnFeatureHidden() => await _config.SaveConfig();
+    protected override async void OnFeatureHidden() => 
+        await _config.SaveConfig();
 }
