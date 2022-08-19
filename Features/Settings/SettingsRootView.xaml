@@ -56,6 +56,11 @@
                           IsChecked="{Binding StartWithWindows}" />
             <TextBlock Text="Start With Windows" />
         </DockPanel>
+        <DockPanel>
+            <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"
+                          IsChecked="{Binding ShowWindowOnStartup}" />
+            <TextBlock Text="Show Window On Startup" />
+        </DockPanel>
     </StackPanel>
     <Border Grid.RowSpan="2"
             Grid.Row="0"

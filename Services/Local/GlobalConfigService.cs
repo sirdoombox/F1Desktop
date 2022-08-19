@@ -74,6 +74,13 @@ public class GlobalConfigService
         get => _startWithWindows;
         set => SetAndNotify(ref _startWithWindows, c => c.StartWithWindows, value);
     }
+    
+    private bool _showWindowOnStartup;
+    public bool ShowWindowOnStartup
+    {
+        get => _showWindowOnStartup;
+        set => SetAndNotify(ref _showWindowOnStartup, c => c.ShowWindowOnStartup, value);
+    }
 
     private readonly IConfigService _configService;
     private GlobalConfig _config;
@@ -112,6 +119,7 @@ public class GlobalConfigService
         _use24HourClock = _config.Use24HourClock;
         _lastOpenedFeature = _config.LastOpenedFeature;
         _startWithWindows = _config.StartWithWindows;
+        _showWindowOnStartup = _config.ShowWindowOnStartup;
         OnPropertyChanged?.Invoke(null);
     }
 

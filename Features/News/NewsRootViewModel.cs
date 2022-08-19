@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using System.Windows.Data;
-using F1Desktop.Features.Base;
+﻿using F1Desktop.Features.Base;
 using F1Desktop.Models.Config;
 using F1Desktop.Services.Interfaces;
 using F1Desktop.Services.Local;

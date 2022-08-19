@@ -38,6 +38,17 @@ public class SettingsRootViewModel : FeatureBase
             _config.StartWithWindows = _startWithWindows;
         }
     }
+    
+    private bool _showWindowOnStartup;
+    public bool ShowWindowOnStartup
+    {
+        get => _showWindowOnStartup;
+        set
+        {
+            if(!SetAndNotify(ref _showWindowOnStartup, value)) return;
+            _config.ShowWindowOnStartup = _showWindowOnStartup;
+        }
+    }
 
     public string Version { get; }
 
@@ -60,6 +71,7 @@ public class SettingsRootViewModel : FeatureBase
         Use24HourClock = _config.Use24HourClock;
         IsLight = _config.UseLightTheme;
         StartWithWindows = _config.StartWithWindows;
+        ShowWindowOnStartup = _config.ShowWindowOnStartup;
     }
 
     protected override async void OnFeatureFirstOpened() =>
