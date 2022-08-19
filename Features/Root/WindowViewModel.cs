@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using F1Desktop.Features.Base;
+using F1Desktop.Features.Settings;
 using F1Desktop.Services.Local;
 using JetBrains.Annotations;
 
@@ -16,7 +17,8 @@ public sealed class WindowViewModel : Conductor<IScreen>
         {
             _activeFeature?.HideFeature();
             SetAndNotify(ref _activeFeature, value);
-            _globalCfg.LastOpenedFeature = _activeFeature.GetType();
+            if(_activeFeature is not SettingsRootViewModel)
+                _globalCfg.LastOpenedFeature = _activeFeature.GetType();
             _activeFeature.ShowFeature();
         }
     }

@@ -14,8 +14,8 @@ public class RaceContentViewModel : PropertyChangedBase
     {
         _race = race;
         var weekendOrder = race.IsSprintWeekend
-            ? Constants.SprintWeekendOrder
-            : Constants.NormalWeekendOrder;
+            ? Constants.F1.SprintWeekendOrder
+            : Constants.F1.NormalWeekendOrder;
         Sessions.AddRange(weekendOrder.Select(x => new SessionViewModel(x, race.Sessions[x], global)));
     }
 

@@ -36,7 +36,7 @@
                            HorizontalAlignment="Center"
                            RenderOptions.BitmapScalingMode="HighQuality"
                            ToolTip="{Binding Nationality}"
-                           ToolTipService.InitialShowDelay="{x:Static misc:Constants.GlobalToolTipDelay}" />
+                           ToolTipService.InitialShowDelay="{x:Static misc:Constants+UI.GlobalToolTipDelay}" />
                     <TextBlock Grid.Column="2">
                         <Run Text="{Binding GivenName, Mode=OneWay}" />
                         <Run Text="{Binding FamilyName, Mode=OneWay}" FontWeight="Bold" />

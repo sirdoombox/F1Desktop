@@ -28,8 +28,8 @@
     <controls:HighlightableTextBlock Grid.Column="0"
                                      Text="{Binding Name}" />
     <controls:HighlightableTextBlock Grid.Column="1"
-                                     helpers:StringFormatHelper.Format="{x:Static misc:Constants.LongTimeFormat12Hour}"
-                                     helpers:StringFormatHelper.AlternateFormat="{x:Static misc:Constants.LongTimeFormat24Hour}"
+                                     helpers:StringFormatHelper.Format="{x:Static misc:Constants+UI.LongTimeFormat12Hour}"
+                                     helpers:StringFormatHelper.AlternateFormat="{x:Static misc:Constants+UI.LongTimeFormat24Hour}"
                                      helpers:StringFormatHelper.Value="{Binding SessionTime}"
                                      helpers:StringFormatHelper.UseAlternateFormat="{Binding Use24HourClock}"
                                      Text="{Binding Path=(helpers:StringFormatHelper.FormattedValue), Mode=TwoWay, RelativeSource={RelativeSource Self}}" />

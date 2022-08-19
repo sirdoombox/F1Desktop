@@ -74,6 +74,9 @@
                           IsChecked="{Binding ShowWindowOnStartup}" />
             <TextBlock Text="Show Window On Startup" />
         </DockPanel>
+        <Button Content="Reset Settings To Default"
+                Margin="{adonisUi:Space 2,0}"
+                Command="{s:Action ResetToDefault}"/>
     </StackPanel>
     <Border Grid.RowSpan="2"
             Grid.Row="0"

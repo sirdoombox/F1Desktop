@@ -35,7 +35,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         AppDomain.CurrentDomain.FirstChanceException += CurrentDomainOnFirstChanceException;
 
         _log = new LoggerConfiguration()
-            .WriteTo.File(Path.Combine(Constants.AppLogsPath, "Log-.log"), rollingInterval: RollingInterval.Hour)
+            .WriteTo.File(Path.Combine(Constants.App.LogsPath, "Log-.log"), rollingInterval: RollingInterval.Hour)
             .CreateLogger();
 
         SquirrelLocator.CurrentMutable.Register(() => new SquirrelLogger(_log), typeof(Squirrel.SimpleSplat.ILogger));

@@ -32,13 +32,13 @@ public class LocalDataService : IDataCacheService, IConfigService
 
     public LocalDataService()
     {
-        Directory.CreateDirectory(Constants.AppCachePath);
-        Directory.CreateDirectory(Constants.AppConfigPath);
+        Directory.CreateDirectory(Constants.App.CachePath);
+        Directory.CreateDirectory(Constants.App.ConfigPath);
     }
 
     public async Task<(T, bool)> TryGetCacheAsync<T>() where T : CachedDataBase
     {
-        var data = await TryReadDataFromFile<T>(Constants.AppCachePath);
+        var data = await TryReadDataFromFile<T>(Constants.App.CachePath);
         if (data is null) return (null, false);
         var attrib = typeof(T).GetAttribute<CacheDurationAttribute>();
         var validUntil = data.CacheTime + attrib.CacheValidFor;
@@ -49,14 +49,14 @@ public class LocalDataService : IDataCacheService, IConfigService
     {
         if (cache is null) return;
         cache.CacheTime = DateTimeOffset.Now;
-        await WriteDataToFile(Constants.AppCachePath, cache);
+        await WriteDataToFile(Constants.App.CachePath, cache);
     }
 
     public async Task<T> GetConfigAsync<T>() where T : ConfigBase, new()
     {
         if (_cachedConfigs.TryGetValue(typeof(T), out var res))
             return (T)res;
-        var loaded = await TryReadDataFromFile<T>(Constants.AppConfigPath, true);
+        var loaded = await TryReadDataFromFile<T>(Constants.App.ConfigPath, true);
         loaded ??= new T();
         _cachedConfigs.Add(typeof(T), loaded);
         return loaded;
@@ -66,7 +66,7 @@ public class LocalDataService : IDataCacheService, IConfigService
     {
         if (!_cachedConfigs.TryGetValue(typeof(T), out var res))
             throw new InvalidOperationException($"Config of type {typeof(T).Name} has not been loaded");
-        await WriteDataToFile(Constants.AppConfigPath, (T)res, true);
+        await WriteDataToFile(Constants.App.ConfigPath, (T)res, true);
     }
 
     private static async Task<T> TryReadDataFromFile<T>(string basePath, bool readIndented = false) where T : class

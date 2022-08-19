@@ -42,14 +42,14 @@
                             Command="{s:Action OpenUrl}"
                             Content="Homepage"
                             ToolTip="{Binding Url}"
-                            ToolTipService.InitialShowDelay="{x:Static misc:Constants.GlobalToolTipDelay}" />
+                            ToolTipService.InitialShowDelay="{x:Static misc:Constants+UI.GlobalToolTipDelay}" />
                     <Button Grid.Row="1"
                             Grid.Column="1"
                             IsEnabled="{Binding LicenseUrl, Converter={StaticResource InverseNullToBool}}"
                             Command="{s:Action OpenLicense}"
                             Content="License"
                             ToolTip="{Binding LicenseUrl}"
-                            ToolTipService.InitialShowDelay="{x:Static misc:Constants.GlobalToolTipDelay}" />
+                            ToolTipService.InitialShowDelay="{x:Static misc:Constants+UI.GlobalToolTipDelay}" />
 
                 </Grid>
             </Border>

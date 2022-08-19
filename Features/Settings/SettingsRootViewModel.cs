@@ -1,4 +1,6 @@
-﻿using F1Desktop.Features.Base;
+﻿using System.Threading.Tasks;
+using AdonisUI.Controls;
+using F1Desktop.Features.Base;
 using F1Desktop.Misc;
 using F1Desktop.Services.Local;
 using MahApps.Metro.IconPacks;
@@ -67,8 +69,22 @@ public class SettingsRootViewModel : FeatureBase
         OnGlobalPropertyChanged();
     }
 
-    public void OpenGithubRepo() => UrlHelper.Open(Constants.GitHubRepoUrl);
+    public void OpenGithubRepo() => UrlHelper.Open(Constants.Url.GitHubRepo);
     
+    private static readonly MessageBoxModel _msgBox = new MessageBoxModel()
+    {
+        Buttons = MessageBoxButtons.YesNo(),
+        Icon = MessageBoxImage.Warning,
+        Caption = "Reset Settings To Default.",
+        Text = "Are you sure you want to reset settings back to the default?"
+    };
+    
+    public Task ResetToDefault()
+    {
+        var res = MessageBox.Show(_msgBox);
+        return res == MessageBoxResult.Yes ? _config.ResetDefault() : Task.CompletedTask;
+    }
+
     private void OnGlobalPropertyChanged()
     {
         Use24HourClock = _config.Use24HourClock;

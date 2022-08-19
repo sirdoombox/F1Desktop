@@ -3,7 +3,6 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
-using F1Desktop.Features.Settings;
 using F1Desktop.Models.Config;
 using F1Desktop.Services.Interfaces;
 
@@ -66,11 +65,7 @@ public class GlobalConfigService
     public Type LastOpenedFeature
     {
         get => _lastOpenedFeature;
-        set
-        {
-            if (value == typeof(SettingsRootViewModel)) return;
-            SetAndNotify(ref _lastOpenedFeature, c => c.LastOpenedFeature, value);
-        }
+        set => SetAndNotify(ref _lastOpenedFeature, c => c.LastOpenedFeature, value);
     }
 
     private bool _startWithWindows;

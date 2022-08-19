@@ -26,11 +26,11 @@ public class RegistryService
             var assemblyLocation = Assembly.GetEntryAssembly()?.Location;
             if (assemblyLocation is null) return;
             var root = PathHelper.MoveUp(assemblyLocation, 2);
-            var exePath = Path.Combine(root, $"{Constants.AppName}.exe");
-            RegistryHelper.SetKey(Constants.RegistryStartupSubKey, Constants.AppName, exePath);
+            var exePath = Path.Combine(root, $"{Constants.App.Name}.exe");
+            RegistryHelper.SetKey(Constants.Misc.RegistryStartupSubKey, Constants.App.Name, exePath);
             return;
         }
 
-        RegistryHelper.DeleteKey(Constants.RegistryStartupSubKey, Constants.AppName);
+        RegistryHelper.DeleteKey(Constants.Misc.RegistryStartupSubKey, Constants.App.Name);
     }
 }

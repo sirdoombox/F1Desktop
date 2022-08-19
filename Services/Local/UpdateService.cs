@@ -21,7 +21,7 @@ public class UpdateService : IDisposable
 
     public UpdateService()
     {
-        var githubSource = new GithubSource(Constants.GitHubRepoUrl, string.Empty, false);
+        var githubSource = new GithubSource(Constants.Url.GitHubRepo, string.Empty, false);
         _mgr = new UpdateManager(githubSource);
     }
 
@@ -37,12 +37,12 @@ public class UpdateService : IDisposable
         UpdateManager.RestartApp(arguments: "--just-updated");
 
     public void CreateDesktopShortcut() =>
-        _appTools?.CreateShortcutsForExecutable(Constants.AppExe, ShortcutLocation.StartMenu | ShortcutLocation.Desktop,
+        _appTools?.CreateShortcutsForExecutable(Constants.App.Exe, ShortcutLocation.StartMenu | ShortcutLocation.Desktop,
             false, null, null);
 
     public void OnAppUninstall(SemanticVersion version, IAppTools tools)
     {
-        RegistryHelper.DeleteKey(Constants.RegistryStartupSubKey, Constants.AppName);
+        RegistryHelper.DeleteKey(Constants.Misc.RegistryStartupSubKey, Constants.App.Name);
         tools.RemoveShortcutForThisExe();
     }
 

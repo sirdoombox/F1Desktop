@@ -31,7 +31,7 @@
                    Width="50"
                    Height="50"
                    ToolTip="{Binding ProviderName}"
-                   ToolTipService.InitialShowDelay="{x:Static misc:Constants.GlobalToolTipDelay}" />
+                   ToolTipService.InitialShowDelay="{x:Static misc:Constants+UI.GlobalToolTipDelay}" />
             <controls:ContentSwitcher.AlternateContent>
                 <iconPacks:PackIconMaterial Grid.Column="0"
                                             Kind="Newspaper"
@@ -39,7 +39,7 @@
                                             Height="50"
                                             Opacity="0.4"
                                             ToolTip="{Binding ProviderName}"
-                                            ToolTipService.InitialShowDelay="{x:Static misc:Constants.GlobalToolTipDelay}" />
+                                            ToolTipService.InitialShowDelay="{x:Static misc:Constants+UI.GlobalToolTipDelay}" />
             </controls:ContentSwitcher.AlternateContent>
         </controls:ContentSwitcher>
         <Border Grid.Column="1"
@@ -61,8 +61,8 @@
                        Text="{Binding Text}" TextWrapping="Wrap"
                        Margin="{adonisUi:Space 0, 1}" />
             <Label Grid.Row="2"
-                   helpers:StringFormatHelper.Format="{x:Static misc:Constants.LongTimeFormat12Hour}"
-                   helpers:StringFormatHelper.AlternateFormat="{x:Static misc:Constants.LongTimeFormat24Hour}"
+                   helpers:StringFormatHelper.Format="{x:Static misc:Constants+UI.LongTimeFormat12Hour}"
+                   helpers:StringFormatHelper.AlternateFormat="{x:Static misc:Constants+UI.LongTimeFormat24Hour}"
                    helpers:StringFormatHelper.Value="{Binding Published}"
                    helpers:StringFormatHelper.UseAlternateFormat="{Binding Use24HourClock}"
                    Content="{Binding Path=(helpers:StringFormatHelper.FormattedValue), Mode=TwoWay, RelativeSource={RelativeSource Self}}"
