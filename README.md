@@ -10,7 +10,7 @@ A WPF based standalone desktop app with F1 information.
 See [Screenshots](#screenshots)
 
 # Installation
-Head over to [Releases](/releases/latest) and download `F1DesktopSetup.exe`. After the app is installed it will stay up-to-date automatically whenever a new version is released.
+Head over to [Releases](https://github.com/sirdoombox/F1Desktop/releases/latest) and download `F1DesktopSetup.exe`. After the app is installed it will stay up-to-date automatically whenever a new version is released.
 
 # Screenshots
 ![Calendar Page](https://dl.dropboxusercontent.com/s/q1jrlnp4orqhoyt/F1Desktop_2022-08-19_10-41-34.png)
