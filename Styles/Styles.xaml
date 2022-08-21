@@ -4,6 +4,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Styles/CountdownControl.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Styles/CountdownElement.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Styles/CountdownElement.Hollow.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Styles/HighlightableTextBlock.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Styles/TransitioningContentControl.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Styles/NavigationListBoxItem.xaml" />

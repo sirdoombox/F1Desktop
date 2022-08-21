@@ -45,6 +45,14 @@ public class CountdownElement : Control
     {
         base.OnPropertyChanged(e);
         if (e.Property.Name is nameof(CountdownValue))
-            IsLightOut = IsPreviousLightOut && CountdownValue == 0;
+        {
+            IsLightOut = IsPreviousLightOut && CountdownValue <= 0;
+        }
+    }
+
+    protected override void OnInitialized(EventArgs e)
+    {
+        base.OnInitialized(e);
+        IsLightOut = IsPreviousLightOut && CountdownValue <= 0;
     }
 }

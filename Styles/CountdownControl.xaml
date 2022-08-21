@@ -12,18 +12,24 @@
                             <ColumnDefinition />
                             <ColumnDefinition />
                             <ColumnDefinition />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <controls:CountdownElement Grid.Column="0"
+                                                   x:Name="Weeks"
+                                                   DisplayText="Weeks"
+                                                   IsPreviousLightOut="True"
+                                                   CountdownValue="{Binding WeeksRemaining, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        <controls:CountdownElement Grid.Column="1"
                                                    x:Name="Days"
                                                    DisplayText="Days"
-                                                   IsPreviousLightOut="True"
-                                                   CountdownValue="{Binding TimeRemaining.Days, RelativeSource={RelativeSource TemplatedParent}}" />
-                        <controls:CountdownElement Grid.Column="1"
+                                                   IsPreviousLightOut="{Binding IsLightOut, ElementName=Weeks}"
+                                                   CountdownValue="{Binding DaysRemaining, RelativeSource={RelativeSource TemplatedParent}}" />
+                        <controls:CountdownElement Grid.Column="2"
                                                    x:Name="Hours"
                                                    DisplayText="Hours"
                                                    IsPreviousLightOut="{Binding IsLightOut, ElementName=Days}"
                                                    CountdownValue="{Binding TimeRemaining.Hours, RelativeSource={RelativeSource TemplatedParent}}" />
-                        <controls:CountdownElement Grid.Column="2"
+                        <controls:CountdownElement Grid.Column="3"
                                                    DisplayText="Minutes"
                                                    IsPreviousLightOut="{Binding IsLightOut, ElementName=Hours}"
                                                    CountdownValue="{Binding TimeRemaining.Minutes, RelativeSource={RelativeSource TemplatedParent}}" />
