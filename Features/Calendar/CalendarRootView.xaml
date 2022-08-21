@@ -10,6 +10,7 @@
       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
       xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
       xmlns:controls="clr-namespace:F1Desktop.Controls"
+      xmlns:helpers="clr-namespace:F1Desktop.Helpers"
       mc:Ignorable="d"
       d:DataContext="{d:DesignInstance local:CalendarRootViewModel}"
       Focusable="True">
@@ -32,11 +33,15 @@
                     Style="{DynamicResource Styles.ToolbarBorder}">
                 <UniformGrid Rows="1" HorizontalAlignment="Left">
                     <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
-                            Content="{Binding ShowPreviousRaces, Converter={StaticResource BooleanToString}, ConverterParameter=Showing Previous Races|Hiding Previous Races}"
+                            helpers:MultiContentHelper.Content="Hiding Previous Races"
+                            helpers:MultiContentHelper.AlternateContent="Showing Previous Races"
+                            helpers:MultiContentHelper.UseAlternateContent="{Binding ShowPreviousRaces}"
                             MinWidth="200"
                             Command="{s:Action ToggleShowPreviousRaces}" />
                     <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
-                            Content="{Binding EnableNotifications, Converter={StaticResource BooleanToString}, ConverterParameter=Notifications Enabled|Notifications Disabled}"
+                            helpers:MultiContentHelper.Content="Notifications Disabled"
+                            helpers:MultiContentHelper.AlternateContent="Notifications Enabled"
+                            helpers:MultiContentHelper.UseAlternateContent="{Binding EnableNotifications}"
                             Command="{s:Action ToggleEnableNotifications}" />
                 </UniformGrid>
             </Border>

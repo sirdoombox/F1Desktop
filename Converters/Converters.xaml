@@ -1,0 +1,20 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:F1Desktop.Converters"
+                    xmlns:wpf="clr-namespace:FamFamFam.Flags.Wpf;assembly=FamFamFam.Flags.Wpf">
+    <converters:IntThresholdConverter x:Key="IntThreshold" />
+    <converters:MultiBoolToVisibilityConverter x:Key="MultiBoolToVisibility" />
+    
+    <converters:CachedUrlImageConverter x:Key="CachedUrlImage" />
+    
+    <converters:BooleanInverseConverter x:Key="BooleanInverse" />
+    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibility" />
+    
+    <converters:NullToVisibilityConverter x:Key="NullToVisibility" />
+    <converters:InverseNullToVisibilityConverter x:Key="InverseNullToVisibility" />
+    <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
+    <converters:InverseNullToBoolConverter x:Key="InverseNullToBool" />
+    
+    <wpf:CountryIdToFlagImageSourceConverter x:Key="CountryIdToFlagImageSource" />
+</ResourceDictionary>
