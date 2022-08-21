@@ -34,6 +34,7 @@ public class DataResourceService
         await using var stream = assembly.GetManifestResourceStream(resourceName);
         if (stream is null) yield break;
         using var reader = new StreamReader(stream);
-        yield return await reader.ReadLineAsync();
+        while(!reader.EndOfStream)
+            yield return await reader.ReadLineAsync();
     }
 }

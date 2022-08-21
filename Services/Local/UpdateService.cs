@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using F1Desktop.Misc;
+using F1Desktop.Models.Misc;
 using NuGet.Versioning;
 using Squirrel;
 using Squirrel.Sources;
@@ -8,23 +9,34 @@ namespace F1Desktop.Services.Local;
 
 public class UpdateService : IDisposable
 {
-    private readonly UpdateManager _mgr;
-    private IAppTools _appTools;
-
-    public string Version { get; private set; } = "DEBUG";
-    public bool FirstRun { get; private set; }
+    public bool IsJustUpdated { get; }
+    public string Version => _version is null ? "DEBUG" : _version.ToString();
+    public bool FirstRun { get; }
     public bool IsPortable => !_mgr.IsInstalledApp;
-
     public Action<string> OnUpdateAvailable { get; set; }
-
-    public bool IsJustUpdated { get; set; }
     
-    public IReadOnlyList<string> Changelog { get; private set; }
-
-    public UpdateService()
+    private IReadOnlyList<string> changelog;
+    
+    private readonly UpdateManager _mgr;
+    private readonly IAppTools _appTools;
+    private readonly NotificationService _notification;
+    private readonly DataResourceService _dataResource;
+    private readonly SemanticVersion _version;
+    
+    public UpdateService(StartupState startupState, NotificationService notification, DataResourceService dataResource)
     {
         var githubSource = new GithubSource(Constants.Url.GitHubRepo, string.Empty, false);
         _mgr = new UpdateManager(githubSource);
+        _notification = notification;
+        _dataResource = dataResource;
+        if (IsPortable) return;
+        _appTools = startupState.AppTools;
+        FirstRun = startupState.FirstRun;
+        IsJustUpdated = startupState.JustUpdated;
+        _version = startupState.Version;
+        
+        if(IsJustUpdated)
+            _notification.ShowNotification("Update Installed.", $"Update {Version} Successfully Installed");;
     }
 
     public async Task Update()
@@ -35,14 +47,14 @@ public class UpdateService : IDisposable
         OnUpdateAvailable?.Invoke(newVersion.Version.ToString());
     }
 
-    public async Task SetChangeLog(DataResourceService _data)
+    public async Task<IReadOnlyList<string>> GetChangeLog()
     {
+        if (changelog != null) return changelog;
         if (IsPortable)
-        {
-            Changelog = Enumerable.Range(1, 10).Select(x => $"- Debug Change {x}.").ToList();
-            return;
-        }
-        await _data.LoadChangelogForVersion(Version).ToListAsync();
+            changelog = Enumerable.Range(1, 10).Select(x => $"- Debug Change {x}.").ToList();
+        else
+            changelog = await _dataResource.LoadChangelogForVersion(Version).ToListAsync();
+        return changelog;
     }
 
     public void ApplyUpdate() =>
@@ -51,23 +63,6 @@ public class UpdateService : IDisposable
     public void CreateDesktopShortcut() =>
         _appTools?.CreateShortcutsForExecutable(Constants.App.Exe, ShortcutLocation.StartMenu | ShortcutLocation.Desktop,
             false, null, null);
-
-    public void OnAppUninstall(SemanticVersion version, IAppTools tools)
-    {
-        RegistryHelper.DeleteKey(Constants.Misc.RegistryStartupSubKey, Constants.App.Name);
-        tools.RemoveShortcutForThisExe();
-    }
-
-    public void OnAppInstall(SemanticVersion version, IAppTools tools) =>
-        tools.CreateShortcutForThisExe(ShortcutLocation.StartMenu);
-
-    public void OnAppRun(SemanticVersion version, IAppTools tools, bool firstRun)
-    {
-        if (!tools.IsInstalledApp) return;
-        _appTools = tools;
-        Version = version.ToString();
-        FirstRun = firstRun;
-    }
 
     public void Dispose()
     {

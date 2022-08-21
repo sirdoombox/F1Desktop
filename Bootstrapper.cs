@@ -5,13 +5,16 @@ using System.Runtime.ExceptionServices;
 using System.Windows.Threading;
 using F1Desktop.Features.Base;
 using F1Desktop.Features.Root;
+using F1Desktop.Misc;
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Misc.Logging;
+using F1Desktop.Models.Misc;
 using F1Desktop.Services.Interfaces;
 using F1Desktop.Services.Local;
 using F1Desktop.Services.Remote;
 using FluentScheduler;
 using H.NotifyIcon;
+using NuGet.Versioning;
 using Serilog;
 using Serilog.Core;
 using Squirrel;
@@ -25,7 +28,10 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 {
     private TaskbarIcon _icon;
     private Logger _log;
-    private readonly UpdateService _updateService = new();
+    private IAppTools _appTools;
+    private SemanticVersion _version;
+    private bool _firstRun;
+    private bool _justUpdated;
 
     public override void Start(string[] args)
     {
@@ -35,17 +41,30 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         AppDomain.CurrentDomain.FirstChanceException += CurrentDomainOnFirstChanceException;
 
         _log = new LoggerConfiguration()
-            .WriteTo.File(Path.Combine(Constants.App.LogsPath, "Log-.log"), rollingInterval: RollingInterval.Hour, retainedFileCountLimit: 5)
+            .WriteTo.File(Path.Combine(Constants.App.LogsPath, "Log-.log"), 
+                rollingInterval: RollingInterval.Hour,
+                retainedFileCountLimit: 5)
             .CreateLogger();
 
         SquirrelLocator.CurrentMutable.Register(() => new SquirrelLogger(_log), typeof(Squirrel.SimpleSplat.ILogger));
 
-        if (args.Any(x => x.Contains("just-updated"))) _updateService.IsJustUpdated = true;
+        if (args.Any(x => x.Contains("just-updated"))) 
+            _justUpdated = true;
 
         SquirrelAwareApp.HandleEvents(
-            onInitialInstall: _updateService.OnAppInstall,
-            onAppUninstall: _updateService.OnAppUninstall,
-            onEveryRun: _updateService.OnAppRun);
+            onInitialInstall: (_, t) => 
+                t.CreateShortcutForThisExe(ShortcutLocation.StartMenu),
+            onAppUninstall: (_, t) =>
+            {
+                RegistryHelper.DeleteKey(Constants.Misc.RegistryStartupSubKey, Constants.App.Name);
+                t.RemoveShortcutForThisExe();
+            },
+            onEveryRun: (v, t, f) =>
+            {
+                _version = v;
+                _appTools = t;
+                _firstRun = f;
+            });
 
         base.Start(args);
     }
@@ -67,6 +86,14 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         builder.Bind<TaskbarIcon>().ToFactory(_ => _icon);
 
+        builder.Bind<StartupState>().ToFactory(_ => new StartupState()
+        {
+            AppTools = _appTools,
+            FirstRun = _firstRun,
+            JustUpdated = _justUpdated,
+            Version = _version
+        });
+        
         builder.Bind<ErgastAPIService>().ToSelf().InSingletonScope();
         builder.Bind<NewsRssService>().ToSelf().InSingletonScope();
         builder.Bind<NotificationService>().ToSelf().InSingletonScope();
@@ -74,7 +101,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         builder.Bind<DataResourceService>().ToSelf().InSingletonScope();
         builder.Bind<GlobalConfigService>().ToSelf().InSingletonScope();
         builder.Bind<RegistryService>().ToSelf().InSingletonScope();
-        builder.Bind<UpdateService>().ToInstance(_updateService);
+        builder.Bind<UpdateService>().ToSelf().InSingletonScope();
         builder.Bind<Serilog.ILogger>().ToInstance(_log);
 
         foreach (var type in Assembly.GetExecutingAssembly().GetTypes().Where(x => x.IsSubclassOf(typeof(FeatureBase))))
@@ -91,18 +118,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         Container.Get<RegistryService>();
         Container.Get<ThemeService>();
         // Install updates
-        var update = Container.Get<UpdateService>();
-        await update.Update();
-        await update.SetChangeLog(Container.Get<DataResourceService>());
-    }
-
-    protected override void Launch()
-    {
-        base.Launch();
-        var update = Container.Get<UpdateService>();
-        if(update.IsJustUpdated)
-            Container.Get<NotificationService>().ShowNotification("Update Installed.",
-                $"Update {update.Version} Successfully Installed");
+        await Container.Get<UpdateService>().Update();
     }
 
     public override void Dispose()

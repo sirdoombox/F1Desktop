@@ -74,11 +74,11 @@ public class SettingsRootViewModel : FeatureBase
     public void OpenGithubRepo() => 
         UrlHelper.Open(Constants.Url.GitHubRepo);
 
-    public void OpenChangelog()
+    public async void OpenChangelog()
     {
         var changeLog = MessageBoxModels.ChangeLog;
         changeLog.Caption = $"Changelog for version: v{_update.Version}";
-        changeLog.Text = string.Join("\r\n", _update.Changelog);
+        changeLog.Text = string.Join("\r\n", await _update.GetChangeLog());
         MessageBox.Show(changeLog);
     }
 
