@@ -36,7 +36,7 @@ jobs:
       run: csq github-down -r ./bin/Squirrel --repoUrl https://github.com/sirdoombox/F1Desktop
         
     - name: Pack Squirrel Release
-      run: csq pack -u F1Desktop -v ${{github.ref_name}} -p ./bin/Publish -r ./bin/Squirrel -e F1Desktop.exe -i ./Resources/f1.ico
+      run: csq pack -u F1Desktop -v ${{github.ref_name}} -p ./bin/Publish -r ./bin/Squirrel -e F1Desktop.exe -i ./Resources/f1.ico --appIcon ./Resources/f1.ico --releaseNotes ./Resources/Changelogs/${{ github.ref_name }}.MD
       
     - name: Trim RELEASES
       run: (Get-Content bin/Squirrel/RELEASES | Select-Object -Skip 2) | Set-Content bin/Squirrel/RELEASES
