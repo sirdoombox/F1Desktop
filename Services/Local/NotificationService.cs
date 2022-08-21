@@ -8,20 +8,37 @@ public class NotificationService
     private readonly Func<TaskbarIcon> _tryGetIcon;
     private readonly SortedSet<Notification> _scheduled = new();
     private readonly Dictionary<object, List<Notification>> _owners = new();
+    private bool _notificationShowing;
 
     public NotificationService(Func<TaskbarIcon> tryGetIcon, TickService tickService)
     {
-        tickService.TenSeconds += Tick;
+        tickService.OneSecond += Tick;
         _tryGetIcon = tryGetIcon;
     }
 
     public void ShowNotification(string title, string message, Action onNotificationClicked = null)
     {
-        _icon ??= _tryGetIcon();
-        if (_icon == null) return;
-        if (onNotificationClicked != null)
-            _icon.TrayBalloonTipClicked += (_, _) => onNotificationClicked.Invoke();
+        if (!TrySetupIcon() || _notificationShowing)
+        {
+            ScheduleNotification(this, DateTimeOffset.Now, title, message);
+            return;
+        }
+
+        if (onNotificationClicked is not null)
+            _icon.TrayBalloonTipClicked += (_, _) => onNotificationClicked();
+        
         _icon.ShowNotification(title, message);
+    }
+
+    private bool TrySetupIcon()
+    {
+        if (_icon is not null) return true;
+        _icon = _tryGetIcon();
+        if (_icon is null) return false;
+        _icon.TrayBalloonTipShown += (_, _) => _notificationShowing = true;
+        _icon.TrayBalloonTipClosed += (_, _) => _notificationShowing = false;
+        _icon.TrayBalloonTipClicked += (_, _) => _notificationShowing = false;
+        return true;
     }
 
     public void ScheduleNotification(object owner, DateTimeOffset time, string title, string message)
@@ -51,6 +68,7 @@ public class NotificationService
 
     private void Tick()
     {
+        if (_notificationShowing) return;
         var first = _scheduled.Min;
         if (first is null) return;
         if (first.Time > DateTimeOffset.Now) return;

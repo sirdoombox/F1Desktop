@@ -35,7 +35,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         AppDomain.CurrentDomain.FirstChanceException += CurrentDomainOnFirstChanceException;
 
         _log = new LoggerConfiguration()
-            .WriteTo.File(Path.Combine(Constants.App.LogsPath, "Log-.log"), rollingInterval: RollingInterval.Hour)
+            .WriteTo.File(Path.Combine(Constants.App.LogsPath, "Log-.log"), rollingInterval: RollingInterval.Hour, retainedFileCountLimit: 5)
             .CreateLogger();
 
         SquirrelLocator.CurrentMutable.Register(() => new SquirrelLogger(_log), typeof(Squirrel.SimpleSplat.ILogger));
@@ -49,7 +49,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         base.Start(args);
     }
-
 
     private void CurrentDomainOnFirstChanceException(object sender, FirstChanceExceptionEventArgs e) =>
         _log.Fatal(e.Exception, "");
@@ -93,6 +92,15 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         Container.Get<ThemeService>();
         // Install updates
         await Container.Get<UpdateService>().Update();
+    }
+
+    protected override void Launch()
+    {
+        base.Launch();
+        var update = Container.Get<UpdateService>();
+        if(update.IsJustUpdated)
+            Container.Get<NotificationService>().ShowNotification("Update Installed.",
+                $"Update {update.Version} Successfully Installed");
     }
 
     public override void Dispose()

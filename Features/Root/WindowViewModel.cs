@@ -105,23 +105,17 @@ public sealed class WindowViewModel : Conductor<IScreen>
         GlobalConfigService globalCfg,
         IViewManager viewManager,
         UpdateService update,
-        NotificationService notificationService)
+        NotificationService notification)
     {
         _globalCfg = globalCfg;
         OnGlobalConfigChanged(null);
         _globalCfg.OnPropertyChanged += OnGlobalConfigChanged;
         _update = update;
-        if (_update.IsJustUpdated)
-        {
-            notificationService.ShowNotification("Update Installed.",
-                $"Update {_update.Version} Successfully Installed");
-        }
-
         _update.OnUpdateAvailable += v =>
         {
             UpdateAvailable = true;
             UpdateVersion = v;
-            notificationService.ShowNotification($"Update Version {v} Available",
+            notification.ShowNotification($"Update Version {v} Available",
                 $"Update is ready to install, click here to restart now.",
                 ApplyUpdate);
         };
