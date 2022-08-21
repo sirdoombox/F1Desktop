@@ -91,7 +91,9 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         Container.Get<RegistryService>();
         Container.Get<ThemeService>();
         // Install updates
-        await Container.Get<UpdateService>().Update();
+        var update = Container.Get<UpdateService>();
+        await update.Update();
+        await update.SetChangeLog(Container.Get<DataResourceService>());
     }
 
     protected override void Launch()

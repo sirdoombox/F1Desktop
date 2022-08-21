@@ -18,6 +18,8 @@ public class UpdateService : IDisposable
     public Action<string> OnUpdateAvailable { get; set; }
 
     public bool IsJustUpdated { get; set; }
+    
+    public IReadOnlyList<string> Changelog { get; private set; }
 
     public UpdateService()
     {
@@ -31,6 +33,16 @@ public class UpdateService : IDisposable
         var newVersion = await _mgr.UpdateApp();
         if (newVersion == null) return;
         OnUpdateAvailable?.Invoke(newVersion.Version.ToString());
+    }
+
+    public async Task SetChangeLog(DataResourceService _data)
+    {
+        if (IsPortable)
+        {
+            Changelog = Enumerable.Range(1, 10).Select(x => $"- Debug Change {x}.").ToList();
+            return;
+        }
+        await _data.LoadChangelogForVersion(Version).ToListAsync();
     }
 
     public void ApplyUpdate() =>

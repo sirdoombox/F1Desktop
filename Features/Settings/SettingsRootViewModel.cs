@@ -58,32 +58,34 @@ public class SettingsRootViewModel : FeatureBase
     public CreditsViewModel Credits { get; }
 
     private readonly GlobalConfigService _config;
+    private readonly UpdateService _update;
 
     public SettingsRootViewModel(GlobalConfigService config, CreditsViewModel credits, UpdateService update)
         : base("Settings", PackIconMaterialKind.Cog, byte.MaxValue)
     {
-        Version = update.Version;
-        Credits = credits;
+        _update = update;
         _config = config;
+        Credits = credits;
+        Version = _update.Version;
         _config.OnPropertyChanged += _ => OnGlobalPropertyChanged();
         OnGlobalPropertyChanged();
     }
 
-    public void OpenGithubRepo() => UrlHelper.Open(Constants.Url.GitHubRepo);
-    
-    private static readonly MessageBoxModel _msgBox = new MessageBoxModel()
+    public void OpenGithubRepo() => 
+        UrlHelper.Open(Constants.Url.GitHubRepo);
+
+    public void OpenChangelog()
     {
-        Buttons = MessageBoxButtons.YesNo(),
-        Icon = MessageBoxImage.Warning,
-        Caption = "Reset Settings To Default.",
-        Text = "Are you sure you want to reset settings back to the default?"
-    };
-    
-    public Task ResetToDefault()
-    {
-        var res = MessageBox.Show(_msgBox);
-        return res == MessageBoxResult.Yes ? _config.ResetDefault() : Task.CompletedTask;
+        var changeLog = MessageBoxModels.ChangeLog;
+        changeLog.Caption = $"Changelog for version: v{_update.Version}";
+        changeLog.Text = string.Join("\r\n", _update.Changelog);
+        MessageBox.Show(changeLog);
     }
+
+    public Task ResetToDefault() =>
+        MessageBox.Show(MessageBoxModels.ResetToDefault) == MessageBoxResult.Yes 
+            ? _config.ResetDefault() 
+            : Task.CompletedTask;
 
     private void OnGlobalPropertyChanged()
     {
