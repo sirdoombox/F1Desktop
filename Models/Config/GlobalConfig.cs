@@ -5,7 +5,7 @@ using F1Desktop.Models.Base;
 namespace F1Desktop.Models.Config;
 
 [Filename("Global.cfg")]
-public class GlobalConfig : ConfigBase
+public sealed class GlobalConfig : ConfigBase
 {
     public double Width { get; set; }
     public double Height { get; set; }
@@ -25,6 +25,11 @@ public class GlobalConfig : ConfigBase
         Left = SystemParameters.PrimaryScreenWidth / 2 - Width / 2;
         Top = SystemParameters.PrimaryScreenHeight / 2 - Height / 2;
         State = WindowState.Normal;
+        Default();
+    }
+
+    public override void Default()
+    {
         LightTheme = false;
         Use24HourClock = true;
         LastOpenedFeature = null;

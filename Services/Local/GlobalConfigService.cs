@@ -103,7 +103,8 @@ public class GlobalConfigService
 
     public async Task ResetDefault()
     {
-        _config = new GlobalConfig();
+        _config.Default();
+        _configService.OnGlobalConfigReset?.Invoke();
         await LoadConfig();
     }
 

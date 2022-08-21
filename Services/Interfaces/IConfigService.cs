@@ -7,4 +7,5 @@ public interface IConfigService
 {
     public Task<T> GetConfigAsync<T>() where T : ConfigBase, new();
     public Task WriteConfigToDiskAsync<T>() where T : ConfigBase;
+    public Action OnGlobalConfigReset { get; set; }
 }

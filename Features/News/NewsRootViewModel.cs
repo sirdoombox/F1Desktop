@@ -65,6 +65,12 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
         MaxDays = Config.MaxDays;
     }
 
+    protected override void OnGlobalConfigReset()
+    {
+        foreach (var provider in Providers)
+            provider.IsEnabled = true;
+    }
+
     protected override void OnFeatureFirstOpened()
     {
         var providers = _rss.GetProviders();

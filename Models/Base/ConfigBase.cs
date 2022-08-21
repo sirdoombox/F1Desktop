@@ -2,4 +2,5 @@
 
 public abstract class ConfigBase
 {
+    public abstract void Default();
 }

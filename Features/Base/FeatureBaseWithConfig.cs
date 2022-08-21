@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 using F1Desktop.Models.Base;
 using F1Desktop.Services.Interfaces;
 using JetBrains.Annotations;
@@ -19,7 +20,17 @@ public abstract class FeatureBaseWithConfig<TConfig> : FeatureBase where TConfig
     {
         DisplayName = displayName;
         _configService = configService;
+        _configService.OnGlobalConfigReset += async () => await HandleGlobalConfigReset();
     }
+
+    private async Task HandleGlobalConfigReset()
+    {
+        Config.Default();
+        await _configService.WriteConfigToDiskAsync<TConfig>();
+        OnConfigLoaded();
+        OnGlobalConfigReset();
+    }
+
 
     public sealed override async void ShowFeature()
     {
@@ -49,6 +60,11 @@ public abstract class FeatureBaseWithConfig<TConfig> : FeatureBase where TConfig
     protected override async void OnFeatureHidden() =>
         await _configService.WriteConfigToDiskAsync<TConfig>();
 
+        
+    protected virtual void OnGlobalConfigReset()
+    {
+    }
+    
     protected virtual void OnConfigLoaded()
     {
     }

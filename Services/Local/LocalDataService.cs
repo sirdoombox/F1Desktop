@@ -12,11 +12,10 @@ namespace F1Desktop.Services.Local;
 
 public class LocalDataService : IDataCacheService, IConfigService
 {
-    private readonly Dictionary<Type, object> _cachedConfigs = new();
-
     private static readonly JsonSerializerOptions IndentedJsonOptions;
     private static readonly JsonSerializerOptions DefaultJsonOptions;
-
+    
+    
     static LocalDataService()
     {
         IndentedJsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.General)
@@ -29,6 +28,10 @@ public class LocalDataService : IDataCacheService, IConfigService
             Converters = { new TypeJsonConverter() }
         };
     }
+
+    public Action OnGlobalConfigReset { get; set; }
+    
+    private readonly Dictionary<Type, object> _cachedConfigs = new();
 
     public LocalDataService()
     {
