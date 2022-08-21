@@ -4,27 +4,33 @@
                     xmlns:controls="clr-namespace:F1Desktop.Controls"
                     xmlns:converters="clr-namespace:F1Desktop.Converters"
                     xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI">
-        <Style x:Key="Styles.CountdownElement" TargetType="{x:Type controls:CountdownElement}">
+    <Style x:Key="Styles.CountdownElement" TargetType="{x:Type controls:CountdownElement}">
         <Style.Resources>
-            <system:Double x:Key="CircleSize">75</system:Double>
+            <system:Double x:Key="CircleSize">65</system:Double>
             <converters:IntThresholdConverter x:Key="IntThresholdConverter" />
             <Style TargetType="TextBlock">
                 <Setter Property="HorizontalAlignment" Value="Center" />
                 <Setter Property="VerticalAlignment" Value="Center" />
-                <Setter Property="Grid.Column" Value="1" />
-                <Setter Property="FontWeight" Value="Bold"/>
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static adonisUi:Brushes.AccentForegroundBrush}}"/>
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="Foreground"
+                        Value="{DynamicResource {x:Static adonisUi:Brushes.AccentForegroundBrush}}" />
             </Style>
         </Style.Resources>
+        <Setter Property="Margin" Value="{adonisUi:Space 1}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:CountdownElement}">
-                    <Grid Margin="5">
-                        <Ellipse Stroke="{DynamicResource {x:Static adonisUi:Brushes.AccentHighlightBrush}}"
-                                StrokeThickness="2"
-                                HorizontalAlignment="Center"
-                                Width="{StaticResource CircleSize}"
-                                Height="{StaticResource CircleSize}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Ellipse Grid.Row="0"
+                                 Stroke="{DynamicResource {x:Static adonisUi:Brushes.AccentHighlightBrush}}"
+                                 StrokeThickness="2"
+                                 HorizontalAlignment="Center"
+                                 Width="{StaticResource CircleSize}"
+                                 Height="{StaticResource CircleSize}">
                             <Ellipse.Style>
                                 <Style TargetType="{x:Type Ellipse}">
                                     <Style.Triggers>
@@ -38,31 +44,22 @@
                                             Binding="{Binding IsLightOut, RelativeSource={RelativeSource TemplatedParent}}"
                                             Value="False">
                                             <Setter Property="Fill"
-                                                    Value="{DynamicResource {x:Static adonisUi:Brushes.AccentBrush}}" />
+                                                    Value="DarkRed" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Ellipse.Style>
                         </Ellipse>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="1*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="1*" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="1*" />
-                            </Grid.RowDefinitions>
-                            <TextBlock Text="{Binding CountdownValue, RelativeSource={RelativeSource TemplatedParent}}"
-                                       Grid.Row="1"
-                                       Grid.Column="1" />
-                            <TextBlock Text="{Binding DisplayText, RelativeSource={RelativeSource TemplatedParent}}"
-                                       Grid.Row="2"
-                                       Grid.Column="1" />
-                        </Grid>
+                        <TextBlock Grid.Row="0"
+                                   Text="{Binding CountdownValue, RelativeSource={RelativeSource TemplatedParent}}"
+                                   FontSize="24">
+                            <TextBlock.Effect>
+                                <DropShadowEffect />
+                            </TextBlock.Effect>
+                        </TextBlock>
+                        <TextBlock Grid.Row="1"
+                                   Margin="0 8 0 0"
+                                   Text="{Binding DisplayText, RelativeSource={RelativeSource TemplatedParent}}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

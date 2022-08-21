@@ -40,25 +40,29 @@
                             Command="{s:Action ToggleEnableNotifications}" />
                 </UniformGrid>
             </Border>
-            <Grid Grid.Row="1" Margin="0 10 0 10">
+            <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <DockPanel Grid.Column="0">
+                <DockPanel Grid.Column="0"
+                           Margin="{adonisUi:Space 0, 2}">
                     <Label DockPanel.Dock="Top"
                            Content="{Binding NextRace.Name}" ContentStringFormat="Next Race - {0}" />
                     <controls:CountdownControl DockPanel.Dock="Bottom"
-                                               TimeRemaining="{Binding TimeUntilNextRace}" />
+                                               TimeRemaining="{Binding TimeUntilNextRace}"/>
                 </DockPanel>
-                <DockPanel Grid.Column="1">
+                <Border Grid.Column="1" Style="{DynamicResource Styles.Border.Separator.Vertical}" />
+                <DockPanel Grid.Column="2"
+                           Margin="{adonisUi:Space 0, 2}">
                     <Label DockPanel.Dock="Top"
                            Content="{Binding NextRace.NextSession.Name}" ContentStringFormat="Next Session - {0}" />
                     <controls:CountdownControl DockPanel.Dock="Bottom"
-                                               TimeRemaining="{Binding TimeUntilNextSession}" />
+                                               TimeRemaining="{Binding TimeUntilNextSession}"/>
                 </DockPanel>
             </Grid>
-            <Separator Grid.Row="2" />
+            <Border Grid.Row="2" Style="{DynamicResource Styles.Border.Separator.Horizontal}"/>
             <ItemsControl ItemsSource="{Binding Races}" Grid.Row="3">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
