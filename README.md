@@ -1,4 +1,4 @@
-# [F1Desktop - Click Here To Download](sirdoombox/F1Desktop/releases/latest/download/F1DesktopInstaller.exe)
+# [F1Desktop - Click Here To Download](https://github.com/sirdoombox/F1Desktop/releases/latest/download/F1DesktopSetup.exe)
 ![](https://github.com/sirdoombox/F1Desktop/actions/workflows/build.yml/badge.svg)
 ![](https://img.shields.io/github/v/release/sirdoombox/f1desktop?label=Release)
 ![](https://img.shields.io/github/downloads/sirdoombox/f1desktop/total?label=Downloads)
