@@ -13,13 +13,15 @@ public sealed class RootViewModel : Conductor<IScreen>.Collection.AllActive
 
     private readonly GlobalConfigService _cfg;
     private readonly UpdateService _update;
+    private readonly NotificationService _notification;
 
     public RootViewModel(IWindowManager wm, WindowViewModel window, FirstRunWindowViewModel firstRunWindow,
-        GlobalConfigService cfg, UpdateService update)
+        GlobalConfigService cfg, UpdateService update, NotificationService notification)
     {
         _wm = wm;
         _window = window;
         _update = update;
+        _notification = notification;
         _firstRunWindow = firstRunWindow;
         _cfg = cfg;
     }
@@ -31,6 +33,12 @@ public sealed class RootViewModel : Conductor<IScreen>.Collection.AllActive
             _firstRunWindow.OnFirstRunClosed += OpenDefault;
             _wm.ShowWindow(_firstRunWindow);
             ((Window)_firstRunWindow.View).Activate();
+        }
+        else if (_update.IsJustUpdated)
+        {
+            _notification.ShowNotification("Update Installed.", 
+                $"Update {_update.Version} Successfully Installed",
+                OpenDefault);
         }
         else if (_cfg.ShowWindowOnStartup) 
             OpenDefault();

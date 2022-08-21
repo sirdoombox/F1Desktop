@@ -21,7 +21,7 @@
         ShowInTaskbar="False"
         WindowStyle="None">
     <tb:TaskbarIcon IconSource="pack://application:,,,/Resources/f1.ico"
-                    ToolTip="F1 Desktop"
+                    ToolTipText="F1 Desktop"
                     LeftClickCommand="{s:Action OpenDefault}"
                     NoLeftClickDelay="True">
         <tb:TaskbarIcon.ContextMenu>

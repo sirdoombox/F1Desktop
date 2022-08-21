@@ -19,24 +19,19 @@ public class UpdateService : IDisposable
     
     private readonly UpdateManager _mgr;
     private readonly IAppTools _appTools;
-    private readonly NotificationService _notification;
     private readonly DataResourceService _dataResource;
     private readonly SemanticVersion _version;
     
-    public UpdateService(StartupState startupState, NotificationService notification, DataResourceService dataResource)
+    public UpdateService(StartupState startupState, DataResourceService dataResource)
     {
         var githubSource = new GithubSource(Constants.Url.GitHubRepo, string.Empty, false);
         _mgr = new UpdateManager(githubSource);
-        _notification = notification;
         _dataResource = dataResource;
         if (IsPortable) return;
         _appTools = startupState.AppTools;
         FirstRun = startupState.FirstRun;
         IsJustUpdated = startupState.JustUpdated;
         _version = startupState.Version;
-        
-        if(IsJustUpdated)
-            _notification.ShowNotification("Update Installed.", $"Update {Version} Successfully Installed");;
     }
 
     public async Task Update()
