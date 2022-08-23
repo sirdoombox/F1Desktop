@@ -9,7 +9,7 @@
             <system:Double x:Key="OuterRadius">50</system:Double>
             <system:Double x:Key="InnerRadius">40</system:Double>
             <Point x:Key="Point" X="{StaticResource OuterRadius}" Y="{StaticResource OuterRadius}" />
-            <converters:IntThresholdConverter x:Key="IntThresholdConverter" />
+            <converters:IntThresholdToBoolConverter x:Key="IntThresholdConverter" />
             <Style TargetType="TextBlock">
                 <Setter Property="HorizontalAlignment" Value="Center" />
                 <Setter Property="VerticalAlignment" Value="Center" />

@@ -7,7 +7,7 @@
     <Style x:Key="Styles.CountdownElement" TargetType="{x:Type controls:CountdownElement}">
         <Style.Resources>
             <system:Double x:Key="CircleSize">65</system:Double>
-            <converters:IntThresholdConverter x:Key="IntThresholdConverter" />
+            <converters:IntThresholdToBoolConverter x:Key="IntThresholdConverter" />
             <Style TargetType="TextBlock">
                 <Setter Property="HorizontalAlignment" Value="Center" />
                 <Setter Property="VerticalAlignment" Value="Center" />

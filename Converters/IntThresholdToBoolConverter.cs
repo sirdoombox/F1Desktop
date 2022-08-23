@@ -3,7 +3,7 @@ using System.Windows.Data;
 
 namespace F1Desktop.Converters;
 
-public class IntThresholdConverter : IValueConverter
+public class IntThresholdToBoolConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {

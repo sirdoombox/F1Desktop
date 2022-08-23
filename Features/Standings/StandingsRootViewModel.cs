@@ -13,7 +13,14 @@ public class StandingsRootViewModel : FeatureBaseWithConfig<StandingsConfig>
 {
     public StandingsTableViewModel DriverStandings { get; }
     public StandingsTableViewModel ConstructorStandings { get; }
-
+    
+    private bool _pointsDiffFromLeader;
+    public bool PointsDiffFromLeader
+    {
+        get => _pointsDiffFromLeader;
+        set => SetAndNotify(ref _pointsDiffFromLeader, value);
+    }
+    
     private readonly ErgastAPIService _api;
     private readonly DataResourceService _data;
 
@@ -35,9 +42,9 @@ public class StandingsRootViewModel : FeatureBaseWithConfig<StandingsConfig>
         var dTask = _api.GetDriverStandingsAsync();
         await Task.WhenAll(cTask, dTask);
         var countries = await _data.LoadJsonResourceAsync<List<CountryData>>();
-        DriverStandings.PassDriverStandings(dTask.Result.Data.StandingsTable.StandingsLists[0].DriverStandings,
-            countries);
-        ConstructorStandings.PassConstructorStandings(
+        DriverStandings.InitStandings(
+            dTask.Result.Data.StandingsTable.StandingsLists[0].DriverStandings, countries);
+        ConstructorStandings.InitStandings(
             cTask.Result.Data.StandingsTable.StandingsLists[0].ConstructorStandings, countries);
     }
 }

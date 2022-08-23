@@ -24,6 +24,7 @@
                         <ColumnDefinition Width="Auto" MinWidth="{adonisUi:Space 4}" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" MinWidth="{adonisUi:Space 4}"/>
                         <ColumnDefinition Width="Auto" MinWidth="{adonisUi:Space 4}" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0"
@@ -45,6 +46,12 @@
                                Text="{Binding ConstructorName}"
                                HorizontalAlignment="Right" />
                     <TextBlock Grid.Column="4"
+                               Text="{Binding LeaderPointsDiff, StringFormat='-{0}'}"
+                               Foreground="{DynamicResource {x:Static adonisUi:Brushes.AccentBrush}}"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Right"
+                               Visibility="{Binding LeaderPointsDiff, Converter={StaticResource IntThresholdToVisibility}}"/>
+                    <TextBlock Grid.Column="5"
                                Text="{Binding Points}"
                                HorizontalAlignment="Right"
                                FontWeight="Bold" />

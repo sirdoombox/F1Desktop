@@ -1,45 +1,22 @@
 ﻿using F1Desktop.Misc;
-using F1Desktop.Models.ErgastAPI.ConstructorStandings;
-using F1Desktop.Models.ErgastAPI.DriverStandings;
 
 namespace F1Desktop.Features.Standings;
 
 public class StandingViewModel : PropertyChangedBase
 {
-    public string GivenName { get; }
-    public string FamilyName { get; }
-    public ushort Position { get; }
-    public string ConstructorName { get; }
-    public ushort Points { get; }
-    public string CountryCode { get; }
-    public string Nationality { get; }
-
-    private readonly string _wikiUrl;
-
-    public StandingViewModel(DriverStanding standing, string countryCode)
-    {
-        GivenName = standing.Driver.GivenName;
-        FamilyName = standing.Driver.FamilyName;
-        Position = standing.Position;
-        ConstructorName = standing.Constructors[0].Name;
-        Points = standing.Points;
-        CountryCode = countryCode;
-        Nationality = standing.Driver.Nationality;
-        _wikiUrl = standing.Driver.Url;
-    }
-
-    public StandingViewModel(ConstructorStanding standing, string countryCode)
-    {
-        GivenName = standing.Constructor.Name;
-        Position = standing.Position;
-        Points = standing.Points;
-        CountryCode = countryCode;
-        Nationality = standing.Constructor.Nationality;
-        _wikiUrl = standing.Constructor.Url;
-    }
+    public string GivenName { get; init; }
+    public string FamilyName { get; init; }
+    public ushort Position { get; init; }
+    public string ConstructorName { get; init; }
+    public ushort Points { get; init; }
+    public int LeaderPointsDiff { get; init; }
+    public int PointsDiff { get; init; }
+    public string CountryCode { get; init; }
+    public string Nationality { get; init; }
+    public string WikiUrl { get; init; }
 
     public void OpenWiki()
     {
-        UrlHelper.Open(_wikiUrl);
+        UrlHelper.Open(WikiUrl);
     }
 }
