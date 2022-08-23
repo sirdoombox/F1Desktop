@@ -6,5 +6,15 @@ namespace F1Desktop.Models.Config;
 [Filename("Standings.cfg")]
 public sealed class StandingsConfig : ConfigBase
 {
-    public override void Default(){}
+    public bool PointsDiffFromLeader { get; set; }
+    
+    public StandingsConfig()
+    {
+        Default();
+    }
+
+    public override void Default()
+    {
+        PointsDiffFromLeader = false;
+    }
 }

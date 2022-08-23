@@ -8,6 +8,7 @@
               xmlns:s="https://github.com/canton7/Stylet"
               xmlns:adonisExt="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
               xmlns:misc="clr-namespace:F1Desktop.Misc"
+              xmlns:controls="clr-namespace:F1Desktop.Controls"
               mc:Ignorable="d"
               d:DataContext="{d:DesignInstance local:StandingsTableViewModel}"
               ItemsSource="{Binding Standings}">
@@ -45,12 +46,22 @@
                     <TextBlock Grid.Column="3"
                                Text="{Binding ConstructorName}"
                                HorizontalAlignment="Right" />
-                    <TextBlock Grid.Column="4"
-                               Text="{Binding LeaderPointsDiff, StringFormat='-{0}'}"
-                               Foreground="{DynamicResource {x:Static adonisUi:Brushes.AccentBrush}}"
-                               FontWeight="Bold"
-                               HorizontalAlignment="Right"
-                               Visibility="{Binding LeaderPointsDiff, Converter={StaticResource IntThresholdToVisibility}}"/>
+                    <controls:ContentSwitcher Grid.Column="4"
+                                              UseAlternateContent="{Binding DataContext.PointsDiffFromLeader, RelativeSource={RelativeSource AncestorType=ItemsControl}}">
+                        <TextBlock Text="{Binding PointsDiff, StringFormat='-{0}'}"
+                                   Foreground="{DynamicResource {x:Static adonisUi:Brushes.AccentBrush}}"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Right"
+                                   Visibility="{Binding PointsDiff, Converter={StaticResource IntThresholdToVisibility}}"/>
+                        <controls:ContentSwitcher.AlternateContent>
+                            <TextBlock Grid.Column="4"
+                                       Text="{Binding LeaderPointsDiff, StringFormat='-{0}'}"
+                                       Foreground="{DynamicResource {x:Static adonisUi:Brushes.AccentBrush}}"
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Right"
+                                       Visibility="{Binding LeaderPointsDiff, Converter={StaticResource IntThresholdToVisibility}}"/>
+                        </controls:ContentSwitcher.AlternateContent>
+                    </controls:ContentSwitcher>
                     <TextBlock Grid.Column="5"
                                Text="{Binding Points}"
                                HorizontalAlignment="Right"

@@ -9,6 +9,13 @@ namespace F1Desktop.Features.Standings;
 public class StandingsTableViewModel : PropertyChangedBase
 {
     public BindableCollection<StandingViewModel> Standings { get; } = new();
+    
+    private bool _pointsDiffFromLeader;
+    public bool PointsDiffFromLeader
+    {
+        get => _pointsDiffFromLeader;
+        set => SetAndNotify(ref _pointsDiffFromLeader, value);
+    }
 
     public void InitStandings<T>(IEnumerable<T> standings, IEnumerable<CountryData> countryData) where T : StandingBase
     {

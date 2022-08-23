@@ -5,9 +5,12 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:F1Desktop.Features.Standings"
       xmlns:s="https://github.com/canton7/Stylet"
+      xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+      xmlns:helpers="clr-namespace:F1Desktop.Helpers"
       mc:Ignorable="d"
       d:DataContext="{d:DesignInstance local:StandingsRootViewModel}">
     <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />
         <RowDefinition Height="*" />
     </Grid.RowDefinitions>
@@ -22,9 +25,19 @@
             <Setter Property="Grid.Row" Value="0" />
         </Style>
     </Grid.Resources>
-    <TextBlock Grid.Column="0" Grid.Row="0" Text="Driver Standings" />
-    <ContentControl Grid.Column="0" Grid.Row="1" s:View.Model="{Binding DriverStandings}" />
+    <Border Style="{DynamicResource Styles.ToolbarBorder}" Grid.ColumnSpan="2">
+        <UniformGrid Rows="1" HorizontalAlignment="Left">
+            <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
+                    helpers:MultiContentHelper.Content="Points From Next"
+                    helpers:MultiContentHelper.AlternateContent="Points From Leader"
+                    helpers:MultiContentHelper.UseAlternateContent="{Binding PointsDiffFromLeader}"
+                    MinWidth="200"
+                    Command="{s:Action TogglePointsDiffFromLeader}" />
+        </UniformGrid>
+    </Border>
+    <TextBlock Grid.Column="0" Grid.Row="1" Text="Driver Standings" />
+    <ContentControl Grid.Column="0" Grid.Row="2" s:View.Model="{Binding DriverStandings}" />
 
-    <TextBlock Grid.Column="1" Grid.Row="0" Text="Constructor Standings" />
-    <ContentControl Grid.Column="1" Grid.Row="1" s:View.Model="{Binding ConstructorStandings}" />
+    <TextBlock Grid.Column="1" Grid.Row="1" Text="Constructor Standings" />
+    <ContentControl Grid.Column="1" Grid.Row="2" s:View.Model="{Binding ConstructorStandings}" />
 </Grid>

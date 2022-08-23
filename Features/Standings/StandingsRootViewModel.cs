@@ -18,9 +18,14 @@ public class StandingsRootViewModel : FeatureBaseWithConfig<StandingsConfig>
     public bool PointsDiffFromLeader
     {
         get => _pointsDiffFromLeader;
-        set => SetAndNotify(ref _pointsDiffFromLeader, value);
+        set
+        {
+            SetAndNotifyWithConfig(ref _pointsDiffFromLeader, c => c.PointsDiffFromLeader, value);
+            DriverStandings.PointsDiffFromLeader = value;
+            ConstructorStandings.PointsDiffFromLeader = value;
+        }
     }
-    
+
     private readonly ErgastAPIService _api;
     private readonly DataResourceService _data;
 
@@ -36,6 +41,11 @@ public class StandingsRootViewModel : FeatureBaseWithConfig<StandingsConfig>
         ConstructorStandings = standingsTable();
     }
 
+    protected override void OnConfigLoaded()
+    {
+        PointsDiffFromLeader = Config.PointsDiffFromLeader;
+    }
+
     protected override async void OnFeatureFirstOpened()
     {
         var cTask = _api.GetConstructorStandingsAsync();
@@ -47,4 +57,6 @@ public class StandingsRootViewModel : FeatureBaseWithConfig<StandingsConfig>
         ConstructorStandings.InitStandings(
             cTask.Result.Data.StandingsTable.StandingsLists[0].ConstructorStandings, countries);
     }
+
+    public void TogglePointsDiffFromLeader() => PointsDiffFromLeader = !PointsDiffFromLeader;
 }
