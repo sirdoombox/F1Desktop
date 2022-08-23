@@ -4,6 +4,13 @@ namespace F1Desktop.Features.Base;
 
 public abstract class FeatureBase : Screen
 {
+    private bool _featureLoading;
+    public bool FeatureLoading
+    {
+        get => _featureLoading;
+        set => SetAndNotify(ref _featureLoading, value);
+    }
+    
     public PackIconMaterialKind Icon { get; }
     public byte Order { get; }
 

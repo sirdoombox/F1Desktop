@@ -19,6 +19,7 @@ public class StandingsTableViewModel : PropertyChangedBase
 
     public void InitStandings<T>(IEnumerable<T> standings, IEnumerable<CountryData> countryData) where T : StandingBase
     {
+        Standings.Clear();
         var leader = standings.First();
         var prev = leader;
         foreach (var standing in standings)

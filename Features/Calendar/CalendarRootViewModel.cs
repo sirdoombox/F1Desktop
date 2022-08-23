@@ -13,7 +13,7 @@ using MahApps.Metro.IconPacks;
 namespace F1Desktop.Features.Calendar;
 
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
+public class CalendarRootViewModel : FeatureBaseWIthConfigAndCache<CalendarConfig>
 {
     public BindableCollection<RaceViewModel> Races { get; } = new();
 
@@ -52,13 +52,6 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         private set => SetAndNotify(ref _nextRace, value);
     }
 
-    private bool _isRacesUnavailable;
-    public bool IsRacesUnavailable
-    {
-        get => _isRacesUnavailable;
-        set => SetAndNotify(ref _isRacesUnavailable, value);
-    }
-
     private readonly ErgastAPIService _api;
     private readonly NotificationService _notifications;
     private readonly GlobalConfigService _global;
@@ -76,7 +69,7 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         _notifications = notifications;
         _global = global;
         tick.TenSeconds += UpdateTimers;
-        IsRacesUnavailable = true;
+        FeatureLoading = true;
     }
 
     protected override void OnConfigLoaded()
@@ -85,14 +78,18 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         EnableNotifications = Config.EnableNotifications;
     }
 
-    protected override async void OnFeatureFirstOpened()
+    protected override async void OnFeatureFirstOpened() => await LoadData(false);
+
+    public override async void ForceRefresh() => await LoadData(true);
+
+    private async Task LoadData(bool invalidate)
     {
         Races.Clear();
         
         var data = await _api.GetAsync<ScheduleRoot>(schedule => 
             schedule.ScheduleData.RaceTable.Races
                 .OrderBy(x => x.DateTime)
-                .First(x => x.IsUpcoming).DateTime + TimeSpan.FromHours(2));
+                .First(x => x.IsUpcoming).DateTime + TimeSpan.FromHours(2), invalidate);
         
         if (data is null) return;
         var races = data.ScheduleData.RaceTable.Races
@@ -104,7 +101,9 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
             await Task.Delay(5);
         }
 
-        IsRacesUnavailable = false;
+        CachedAt = data.CacheTime;
+        CacheInvalidAt = data.CacheInvalidAt;
+        FeatureLoading = false;
         UpdateTimers();
     }
 

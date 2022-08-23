@@ -11,10 +11,11 @@
       xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
       xmlns:controls="clr-namespace:F1Desktop.Controls"
       xmlns:helpers="clr-namespace:F1Desktop.Helpers"
+      xmlns:misc="clr-namespace:F1Desktop.Misc"
       mc:Ignorable="d"
       d:DataContext="{d:DesignInstance local:CalendarRootViewModel}"
       Focusable="True">
-    <controls:ContentSwitcher UseAlternateContent="{Binding IsRacesUnavailable}">
+    <controls:ContentSwitcher UseAlternateContent="{Binding FeatureLoading}">
         <Grid>
             <Grid.Resources>
                 <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
@@ -31,19 +32,42 @@
             </Grid.RowDefinitions>
             <Border Grid.Row="0"
                     Style="{DynamicResource Styles.ToolbarBorder}">
-                <UniformGrid Rows="1" HorizontalAlignment="Left">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <UniformGrid Rows="1" HorizontalAlignment="Left">
+                        <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
+                                helpers:MultiContentHelper.Content="Hiding Previous Races"
+                                helpers:MultiContentHelper.AlternateContent="Showing Previous Races"
+                                helpers:MultiContentHelper.UseAlternateContent="{Binding ShowPreviousRaces}"
+                                MinWidth="200"
+                                Command="{s:Action ToggleShowPreviousRaces}" />
+                        <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
+                                helpers:MultiContentHelper.Content="Notifications Disabled"
+                                helpers:MultiContentHelper.AlternateContent="Notifications Enabled"
+                                helpers:MultiContentHelper.UseAlternateContent="{Binding EnableNotifications}"
+                                Command="{s:Action ToggleEnableNotifications}" />
+                    </UniformGrid>
                     <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
-                            helpers:MultiContentHelper.Content="Hiding Previous Races"
-                            helpers:MultiContentHelper.AlternateContent="Showing Previous Races"
-                            helpers:MultiContentHelper.UseAlternateContent="{Binding ShowPreviousRaces}"
-                            MinWidth="200"
-                            Command="{s:Action ToggleShowPreviousRaces}" />
-                    <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
-                            helpers:MultiContentHelper.Content="Notifications Disabled"
-                            helpers:MultiContentHelper.AlternateContent="Notifications Enabled"
-                            helpers:MultiContentHelper.UseAlternateContent="{Binding EnableNotifications}"
-                            Command="{s:Action ToggleEnableNotifications}" />
-                </UniformGrid>
+                            Grid.Column="1"
+                            ToolTipService.InitialShowDelay="0"
+                            Command="{s:Action ForceRefresh}">
+                        <iconPacks:PackIconMaterial Kind="Cached" />
+                        <Button.ToolTip>
+                            <TextBlock>
+                                <Run Text="Updated At: " />
+                                <Run
+                                    Text="{Binding CachedAt, StringFormat={x:Static misc:Constants+UI.LongTimeFormat24Hour}}" />
+                                <LineBreak />
+                                <Run Text="Next Update: " />
+                                <Run
+                                    Text="{Binding CacheInvalidAt, StringFormat={x:Static misc:Constants+UI.LongTimeFormat24Hour}}" />
+                            </TextBlock>
+                        </Button.ToolTip>
+                    </Button>
+                </Grid>
             </Border>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>

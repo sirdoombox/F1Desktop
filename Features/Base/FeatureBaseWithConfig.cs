@@ -71,4 +71,9 @@ public abstract class FeatureBaseWithConfig<TConfig> : FeatureBase where TConfig
     protected virtual void OnActivationComplete()
     {
     }
+
+    public abstract class WithTest
+    {
+        public bool TestBool { get; set; }
+    }
 }

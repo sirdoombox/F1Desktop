@@ -65,7 +65,7 @@
         </UniformGrid>
     </Border>
     <localControls:ContentSwitcher Grid.Row="1"
-                                   UseAlternateContent="{Binding IsNewsItemsUnavailable}">
+                                   UseAlternateContent="{Binding FeatureLoading}">
         <ItemsControl ItemsSource="{Binding NewsItems}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>

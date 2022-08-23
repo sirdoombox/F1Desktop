@@ -7,37 +7,76 @@
       xmlns:s="https://github.com/canton7/Stylet"
       xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
       xmlns:helpers="clr-namespace:F1Desktop.Helpers"
+      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:misc="clr-namespace:F1Desktop.Misc"
+      xmlns:controls="clr-namespace:F1Desktop.Controls"
       mc:Ignorable="d"
       d:DataContext="{d:DesignInstance local:StandingsRootViewModel}">
-    <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="*" />
-    </Grid.RowDefinitions>
-    <Grid.ColumnDefinitions>
-        <ColumnDefinition />
-        <ColumnDefinition />
-    </Grid.ColumnDefinitions>
-    <Grid.Resources>
-        <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="15" />
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="Grid.Row" Value="0" />
-        </Style>
-    </Grid.Resources>
-    <Border Style="{DynamicResource Styles.ToolbarBorder}" Grid.ColumnSpan="2">
-        <UniformGrid Rows="1" HorizontalAlignment="Left">
-            <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
-                    helpers:MultiContentHelper.Content="Points From Next"
-                    helpers:MultiContentHelper.AlternateContent="Points From Leader"
-                    helpers:MultiContentHelper.UseAlternateContent="{Binding PointsDiffFromLeader}"
-                    MinWidth="200"
-                    Command="{s:Action TogglePointsDiffFromLeader}" />
-        </UniformGrid>
-    </Border>
-    <TextBlock Grid.Column="0" Grid.Row="1" Text="Driver Standings" />
-    <ContentControl Grid.Column="0" Grid.Row="2" s:View.Model="{Binding DriverStandings}" />
+    <controls:ContentSwitcher UseAlternateContent="{Binding FeatureLoading}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style TargetType="TextBlock" x:Key="HeaderStyle">
+                    <Setter Property="FontSize" Value="15" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="Grid.Row" Value="0" />
+                </Style>
+            </Grid.Resources>
+            <Border Style="{DynamicResource Styles.ToolbarBorder}" Grid.ColumnSpan="2">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <UniformGrid Rows="1" HorizontalAlignment="Left">
+                        <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
+                                helpers:MultiContentHelper.Content="Points From Next"
+                                helpers:MultiContentHelper.AlternateContent="Points From Leader"
+                                helpers:MultiContentHelper.UseAlternateContent="{Binding PointsDiffFromLeader}"
+                                MinWidth="200"
+                                Command="{s:Action TogglePointsDiffFromLeader}" />
+                    </UniformGrid>
+                    <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
+                            Grid.Column="1"
+                            ToolTipService.InitialShowDelay="0"
+                            Command="{s:Action ForceRefresh}">
+                        <iconPacks:PackIconMaterial Kind="Cached" />
+                        <Button.ToolTip>
+                            <TextBlock>
+                                <Run Text="Updated At: " />
+                                <Run
+                                    Text="{Binding CachedAt, StringFormat={x:Static misc:Constants+UI.LongTimeFormat24Hour}}" />
+                                <LineBreak />
+                                <Run Text="Next Update: " />
+                                <Run
+                                    Text="{Binding CacheInvalidAt, StringFormat={x:Static misc:Constants+UI.LongTimeFormat24Hour}}" />
+                            </TextBlock>
+                        </Button.ToolTip>
+                    </Button>
+                </Grid>
+            </Border>
+            <TextBlock Grid.Column="0" Grid.Row="1" Text="Driver Standings" Style="{DynamicResource HeaderStyle}" />
+            <ContentControl Grid.Column="0" Grid.Row="2" s:View.Model="{Binding DriverStandings}" />
 
-    <TextBlock Grid.Column="1" Grid.Row="1" Text="Constructor Standings" />
-    <ContentControl Grid.Column="1" Grid.Row="2" s:View.Model="{Binding ConstructorStandings}" />
+            <TextBlock Grid.Column="1" Grid.Row="1" Text="Constructor Standings" Style="{DynamicResource HeaderStyle}" />
+            <ContentControl Grid.Column="1" Grid.Row="2" s:View.Model="{Binding ConstructorStandings}" />
+        </Grid>
+        <controls:ContentSwitcher.AlternateContent>
+            <ContentControl HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Focusable="False"
+                            ContentTemplate="{DynamicResource {x:Static adonisUi:Templates.LoadingBars}}"
+                            Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}"
+                            Width="50"
+                            Height="50" />
+        </controls:ContentSwitcher.AlternateContent>
+    </controls:ContentSwitcher>
 </Grid>

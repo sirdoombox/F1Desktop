@@ -18,13 +18,6 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
     public BindableCollection<NewsItemViewModel> NewsItems { get; } = new();
     public BindableCollection<ProviderViewModel> Providers { get; } = new();
 
-    private bool _isNewsItemsUnavailable;
-    public bool IsNewsItemsUnavailable
-    {
-        get => _isNewsItemsUnavailable;
-        set => SetAndNotify(ref _isNewsItemsUnavailable, value);
-    }
-
     private int _maxArticles;
     public int MaxArticles
     {
@@ -105,12 +98,12 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
 
     public async void RefreshNews()
     {
-        IsNewsItemsUnavailable = true;
+        FeatureLoading = true;
         _allNewsItems.Clear();
         NewsItems.Clear();
         var items = await _rss.GetNewsAsync();
         _allNewsItems.AddRange(items.Select(newsItem => new NewsItemViewModel(newsItem, _global)));
         RefreshFilter();
-        IsNewsItemsUnavailable = false;
+        FeatureLoading = false;
     }
 }

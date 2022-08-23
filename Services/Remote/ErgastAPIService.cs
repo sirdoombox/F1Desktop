@@ -63,7 +63,7 @@ public class ErgastAPIService
         bool invalidateCache = false) 
         where TRequires : CachedDataBase where TResult : CachedDataBase
     {
-        var requires = await GetAsync<TRequires>(invalidateCache: invalidateCache);
+        var requires = await GetAsync<TRequires>();
         return await GetAsync<TResult>(res => setCacheInvalidTime(requires, res), invalidateCache);
     }
 }
