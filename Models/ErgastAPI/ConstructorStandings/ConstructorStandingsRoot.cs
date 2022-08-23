@@ -4,8 +4,8 @@ using F1Desktop.Models.Base;
 
 namespace F1Desktop.Models.ErgastAPI.ConstructorStandings;
 
+[ApiEndpoint("current/constructorStandings.json")]
 [Filename("Constructor.dat")]
-[CacheDuration(days: 1)]
 public class ConstructorStandingsRoot : CachedDataBase
 {
     [JsonPropertyName("MRData")]

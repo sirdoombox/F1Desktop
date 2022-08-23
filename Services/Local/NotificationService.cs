@@ -41,7 +41,10 @@ public class NotificationService
         return true;
     }
 
-    public void ScheduleNotification(object owner, DateTimeOffset time, string title, string message)
+    public void ScheduleNotification(object owner, DateTimeOffset time, string title, string message) =>
+        ScheduleNotification(owner, time, title, () => message);
+
+    public void ScheduleNotification(object owner, DateTimeOffset time, string title, Func<string> message)
     {
         var notification = new Notification(time, title, message);
         if (_owners.TryGetValue(owner, out var list))
@@ -72,7 +75,7 @@ public class NotificationService
         var first = _scheduled.Min;
         if (first is null) return;
         if (first.Time > DateTimeOffset.Now) return;
-        ShowNotification(first.Title, first.Message);
+        ShowNotification(first.Title, first.Message());
         CancelNotification(first);
     }
 
@@ -80,9 +83,9 @@ public class NotificationService
     {
         public DateTimeOffset Time { get; }
         public string Title { get; }
-        public string Message { get; }
+        public Func<string> Message { get; }
 
-        public Notification(DateTimeOffset time, string title, string message)
+        public Notification(DateTimeOffset time, string title, Func<string> message)
         {
             Time = time;
             Title = title;

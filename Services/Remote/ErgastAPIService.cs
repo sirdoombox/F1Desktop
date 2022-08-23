@@ -1,6 +1,8 @@
 ﻿using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using F1Desktop.Attributes;
+using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.Base;
 using F1Desktop.Models.ErgastAPI.ConstructorStandings;
 using F1Desktop.Models.ErgastAPI.DriverStandings;
@@ -31,18 +33,10 @@ public class ErgastAPIService
     {
         _cacheService = cacheService;
     }
-
-    public Task<ScheduleRoot> GetScheduleAsync(bool invalidateCache = false) =>
-        GetAsync<ScheduleRoot>("current.json", invalidateCache);
-
-    public Task<DriverStandingsRoot> GetDriverStandingsAsync(bool invalidateCache = false) =>
-        GetAsync<DriverStandingsRoot>("current/driverStandings.json", invalidateCache);
-
-    public Task<ConstructorStandingsRoot> GetConstructorStandingsAsync(bool invalidateCache = false) =>
-        GetAsync<ConstructorStandingsRoot>("current/constructorStandings.json", invalidateCache);
-
-    private async Task<T> GetAsync<T>(string endpoint, bool invalidateCache) where T : CachedDataBase
+    
+    public async Task<T> GetAsync<T>(bool invalidateCache = false) where T : CachedDataBase
     {
+        var endpoint = typeof(T).GetAttribute<ApiEndpointAttribute>().Endpoint;
         var cache = await _cacheService.TryGetCacheAsync<T>();
         if (cache.cache is not null && cache.isValid && !invalidateCache) return cache.cache;
         try

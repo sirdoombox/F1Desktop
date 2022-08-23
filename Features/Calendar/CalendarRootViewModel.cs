@@ -3,6 +3,7 @@ using F1Desktop.Enums;
 using F1Desktop.Features.Base;
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.Config;
+using F1Desktop.Models.ErgastAPI.Schedule;
 using F1Desktop.Services.Interfaces;
 using F1Desktop.Services.Local;
 using F1Desktop.Services.Remote;
@@ -87,7 +88,7 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     protected override async void OnFeatureFirstOpened()
     {
         Races.Clear();
-        var data = await _api.GetScheduleAsync();
+        var data = await _api.GetAsync<ScheduleRoot>();
         if (data is null) return;
         var races = data.ScheduleData.RaceTable.Races
             .OrderBy(x => x.DateTime)
@@ -147,7 +148,7 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
             _notifications.ScheduleNotification(this,
                 NextRace.SessionTime - NotificationTime,
                 NextRace.Name,
-                "Lights Out In 30 Minutes.");
+                () => $"Lights Out In {NextRace.SessionTime:m} Minutes");
         }
 
         if (sessionChanged && NextRace.NextSession.Type != SessionType.Race)
@@ -155,7 +156,7 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
             _notifications.ScheduleNotification(this,
                 NextRace.NextSession.SessionTime - NotificationTime,
                 NextRace.Name,
-                $"{NextRace.NextSession.Name} Starts In 30 Minutes.");
+                () => $"{NextRace.NextSession.Name} Starts In {NextRace.NextSession.SessionTime:m} Minutes.");
         }
     }
 }

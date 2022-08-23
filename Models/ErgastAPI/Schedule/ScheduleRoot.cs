@@ -4,8 +4,8 @@ using F1Desktop.Models.Base;
 
 namespace F1Desktop.Models.ErgastAPI.Schedule;
 
+[ApiEndpoint("current.json")]
 [Filename("Schedule.dat")]
-[CacheDuration(days: 7)]
 public class ScheduleRoot : CachedDataBase
 {
     [JsonPropertyName("MRData")]

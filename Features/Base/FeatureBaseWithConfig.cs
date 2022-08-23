@@ -32,7 +32,7 @@ public abstract class FeatureBaseWithConfig<TConfig> : FeatureBase where TConfig
     }
 
 
-    public sealed override async void ShowFeature()
+    public override async void ShowFeature()
     {
         Config ??= await _configService.GetConfigAsync<TConfig>();
         base.ShowFeature();
@@ -60,7 +60,6 @@ public abstract class FeatureBaseWithConfig<TConfig> : FeatureBase where TConfig
     protected override async void OnFeatureHidden() =>
         await _configService.WriteConfigToDiskAsync<TConfig>();
 
-        
     protected virtual void OnGlobalConfigReset()
     {
     }

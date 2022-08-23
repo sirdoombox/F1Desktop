@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using F1Desktop.Features.Base;
 using F1Desktop.Models.Config;
+using F1Desktop.Models.ErgastAPI.ConstructorStandings;
+using F1Desktop.Models.ErgastAPI.DriverStandings;
 using F1Desktop.Models.Resources;
 using F1Desktop.Services.Interfaces;
 using F1Desktop.Services.Local;
@@ -48,8 +50,8 @@ public class StandingsRootViewModel : FeatureBaseWithConfig<StandingsConfig>
 
     protected override async void OnFeatureFirstOpened()
     {
-        var cTask = _api.GetConstructorStandingsAsync();
-        var dTask = _api.GetDriverStandingsAsync();
+        var cTask = _api.GetAsync<ConstructorStandingsRoot>();
+        var dTask = _api.GetAsync<DriverStandingsRoot>();
         await Task.WhenAll(cTask, dTask);
         var countries = await _data.LoadJsonResourceAsync<List<CountryData>>();
         DriverStandings.InitStandings(
@@ -58,5 +60,6 @@ public class StandingsRootViewModel : FeatureBaseWithConfig<StandingsConfig>
             cTask.Result.Data.StandingsTable.StandingsLists[0].ConstructorStandings, countries);
     }
 
-    public void TogglePointsDiffFromLeader() => PointsDiffFromLeader = !PointsDiffFromLeader;
+    public void TogglePointsDiffFromLeader() => 
+        PointsDiffFromLeader = !PointsDiffFromLeader;
 }

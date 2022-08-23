@@ -3,4 +3,5 @@
 public abstract class CachedDataBase
 {
     public DateTimeOffset CacheTime { get; set; }
+    public DateTimeOffset CacheInvalidAt { get; set; }
 }
