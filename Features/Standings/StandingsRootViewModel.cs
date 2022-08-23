@@ -3,6 +3,7 @@ using F1Desktop.Features.Base;
 using F1Desktop.Models.Config;
 using F1Desktop.Models.ErgastAPI.ConstructorStandings;
 using F1Desktop.Models.ErgastAPI.DriverStandings;
+using F1Desktop.Models.ErgastAPI.Schedule;
 using F1Desktop.Models.Resources;
 using F1Desktop.Services.Interfaces;
 using F1Desktop.Services.Local;
@@ -50,14 +51,28 @@ public class StandingsRootViewModel : FeatureBaseWithConfig<StandingsConfig>
 
     protected override async void OnFeatureFirstOpened()
     {
-        var cTask = _api.GetAsync<ConstructorStandingsRoot>();
-        var dTask = _api.GetAsync<DriverStandingsRoot>();
-        await Task.WhenAll(cTask, dTask);
+        // var cTask = _api.GetAsync<ConstructorStandingsRoot, ScheduleRoot>((s,_) => GetCacheInvalidTime(s));
+        // var dTask = _api.GetAsync<DriverStandingsRoot, ScheduleRoot>((s,_) => GetCacheInvalidTime(s));
+        // await Task.WhenAll(cTask, dTask);
+        // var countries = await _data.LoadJsonResourceAsync<List<CountryData>>();
+        // DriverStandings.InitStandings(
+        //     dTask.Result.Data.StandingsTable.StandingsLists[0].DriverStandings, countries);
+        // ConstructorStandings.InitStandings(
+        //     cTask.Result.Data.StandingsTable.StandingsLists[0].ConstructorStandings, countries);
+        var constructors = await _api.GetAsync<ConstructorStandingsRoot, ScheduleRoot>((s,_) => GetCacheInvalidTime(s));
+        var drivers = await _api.GetAsync<DriverStandingsRoot, ScheduleRoot>((s,_) => GetCacheInvalidTime(s));
         var countries = await _data.LoadJsonResourceAsync<List<CountryData>>();
         DriverStandings.InitStandings(
-            dTask.Result.Data.StandingsTable.StandingsLists[0].DriverStandings, countries);
+            drivers.Data.StandingsTable.StandingsLists[0].DriverStandings, countries);
         ConstructorStandings.InitStandings(
-            cTask.Result.Data.StandingsTable.StandingsLists[0].ConstructorStandings, countries);
+            constructors.Data.StandingsTable.StandingsLists[0].ConstructorStandings, countries);
+    }
+
+    private static DateTimeOffset GetCacheInvalidTime(ScheduleRoot schedule)
+    {
+        return schedule.ScheduleData.RaceTable.Races
+            .OrderBy(x => x.DateTime)
+            .First(x => x.IsUpcoming).DateTime + TimeSpan.FromHours(8);
     }
 
     public void TogglePointsDiffFromLeader() => 

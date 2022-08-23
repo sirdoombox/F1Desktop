@@ -4,9 +4,6 @@ using System.Threading.Tasks;
 using F1Desktop.Attributes;
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.Base;
-using F1Desktop.Models.ErgastAPI.ConstructorStandings;
-using F1Desktop.Models.ErgastAPI.DriverStandings;
-using F1Desktop.Models.ErgastAPI.Schedule;
 using F1Desktop.Services.Interfaces;
 using JetBrains.Annotations;
 
@@ -34,7 +31,11 @@ public class ErgastAPIService
         _cacheService = cacheService;
     }
     
-    public async Task<T> GetAsync<T>(bool invalidateCache = false) where T : CachedDataBase
+    /// <summary>
+    /// Get the specified type from either the API or the local cache (if available and still valid)
+    /// </summary>
+    public async Task<T> GetAsync<T>(Func<T,DateTimeOffset> setCacheInvalidTime = null, bool invalidateCache = false) 
+        where T : CachedDataBase
     {
         var endpoint = typeof(T).GetAttribute<ApiEndpointAttribute>().Endpoint;
         var cache = await _cacheService.TryGetCacheAsync<T>();
@@ -43,7 +44,7 @@ public class ErgastAPIService
         {
             await using var data = await Client.GetStreamAsync(endpoint);
             var deserialized = await JsonSerializer.DeserializeAsync<T>(data, Options);
-            await _cacheService.WriteCacheToDisk(deserialized);
+            await _cacheService.WriteCacheToDisk(deserialized, setCacheInvalidTime);
             return deserialized;
         }
         catch
@@ -51,5 +52,18 @@ public class ErgastAPIService
             // return the cache regardless as a fallback.
             return cache.cache;
         }
+    }
+    
+    /// <summary>
+    /// Get the specified type from either the API or the local cache (if available and still valid)
+    /// Also gets another type that it is dependent on for setting the cache time. (usually ScheduleRoot)
+    /// </summary>
+    public async Task<TResult> GetAsync<TResult, TRequires>(
+        Func<TRequires, TResult, DateTimeOffset> setCacheInvalidTime, 
+        bool invalidateCache = false) 
+        where TRequires : CachedDataBase where TResult : CachedDataBase
+    {
+        var requires = await GetAsync<TRequires>(invalidateCache: invalidateCache);
+        return await GetAsync<TResult>(res => setCacheInvalidTime(requires, res), invalidateCache);
     }
 }

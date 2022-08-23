@@ -88,7 +88,12 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     protected override async void OnFeatureFirstOpened()
     {
         Races.Clear();
-        var data = await _api.GetAsync<ScheduleRoot>();
+        
+        var data = await _api.GetAsync<ScheduleRoot>(schedule => 
+            schedule.ScheduleData.RaceTable.Races
+                .OrderBy(x => x.DateTime)
+                .First(x => x.IsUpcoming).DateTime + TimeSpan.FromHours(2));
+        
         if (data is null) return;
         var races = data.ScheduleData.RaceTable.Races
             .OrderBy(x => x.DateTime)

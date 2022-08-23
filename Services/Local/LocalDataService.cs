@@ -3,7 +3,6 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using F1Desktop.Attributes;
 using F1Desktop.Misc;
-using F1Desktop.Misc.Extensions;
 using F1Desktop.Misc.JsonConverters;
 using F1Desktop.Models.Base;
 using F1Desktop.Services.Interfaces;
@@ -47,10 +46,12 @@ public class LocalDataService : IDataCacheService, IConfigService
             : (data, data.CacheInvalidAt >= DateTimeOffset.Now);
     }
 
-    public async Task WriteCacheToDisk<T>(T cache) where T : CachedDataBase
+    public async Task WriteCacheToDisk<T>(T cache, Func<T,DateTimeOffset> setCacheInvalid = null) where T : CachedDataBase
     {
         if (cache is null) return;
         cache.CacheTime = DateTimeOffset.Now;
+        if(setCacheInvalid != null) 
+            cache.CacheInvalidAt = setCacheInvalid(cache);
         await WriteDataToFile(Constants.App.CachePath, cache);
     }
 

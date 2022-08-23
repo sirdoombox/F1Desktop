@@ -6,5 +6,5 @@ namespace F1Desktop.Services.Interfaces;
 public interface IDataCacheService
 {
     public Task<(T cache, bool isValid)> TryGetCacheAsync<T>() where T : CachedDataBase;
-    public Task WriteCacheToDisk<T>(T cache) where T : CachedDataBase;
+    public Task WriteCacheToDisk<T>(T cache, Func<T,DateTimeOffset> setCacheInvalid) where T : CachedDataBase;
 }
