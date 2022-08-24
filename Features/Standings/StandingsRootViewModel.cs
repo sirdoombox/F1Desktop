@@ -60,9 +60,8 @@ public class StandingsRootViewModel : FeatureBaseWithConfig<StandingsConfig>
         FeatureLoading = true;
         var cTask = _api.GetAsync<ConstructorStandingsRoot>();
         var dTask = _api.GetAsync<DriverStandingsRoot>();
-        await Task.WhenAll(cTask, dTask);
-        var constructors = cTask.GetAwaiter().GetResult();
-        var drivers = dTask.GetAwaiter().GetResult();
+        var constructors = await cTask;
+        var drivers = await dTask;
         if (constructors.status != ApiRequestStatus.Success && drivers.status != ApiRequestStatus.Success)
             return;
         var countries = await _data.LoadJsonResourceAsync<List<CountryData>>();
