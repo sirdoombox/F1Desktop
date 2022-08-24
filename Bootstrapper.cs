@@ -59,6 +59,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             {
                 RegistryHelper.DeleteKey(Constants.Misc.RegistryStartupSubKey, Constants.App.Name);
                 t.RemoveShortcutForThisExe();
+                MessageBox.Show("F1 Desktop Successfully Uninstalled.", "Uninstall Complete.");
             },
             onEveryRun: (v, t, f) =>
             {

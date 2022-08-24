@@ -47,6 +47,10 @@
         <EmbeddedResource Include="Resources\Data\RssProviders.json" />
         <None Remove="Resources\Changelogs\1.0.6.MD" />
         <EmbeddedResource Include="Resources\Changelogs\1.0.6.MD" />
+        <None Remove="Resources\Changelogs\1.1.0.MD" />
+        <EmbeddedResource Include="Resources\Changelogs\1.1.0.MD" />
+        <None Remove="Resources\Changelogs\1.1.1.MD" />
+        <EmbeddedResource Include="Resources\Changelogs\1.1.1.MD" />
     </ItemGroup>
 
     <ItemGroup>

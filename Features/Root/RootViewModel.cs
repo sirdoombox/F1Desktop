@@ -25,6 +25,13 @@ public sealed class RootViewModel : Conductor<IScreen>.Collection.AllActive
         _notification = notification;
         _firstRunWindow = firstRunWindow;
         _cfg = cfg;
+        _cfg.OnConfigLoaded += OnGlobalConfigLoaded;
+    }
+
+    private void OnGlobalConfigLoaded()
+    {
+        if (!_update.FirstRun && !_update.IsJustUpdated && _cfg.ShowWindowOnStartup) 
+            OpenDefault();
     }
 
     protected override void OnInitialActivate()
@@ -41,7 +48,7 @@ public sealed class RootViewModel : Conductor<IScreen>.Collection.AllActive
                 $"Update {_update.Version} Successfully Installed",
                 OpenDefault);
         }
-        else if (_cfg.ShowWindowOnStartup) 
+        else if (_cfg.ShowWindowOnStartup)
             OpenDefault();
     }
 
