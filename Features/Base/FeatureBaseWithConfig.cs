@@ -31,12 +31,12 @@ public abstract class FeatureBaseWithConfig<TConfig> : FeatureBase where TConfig
 
     private async Task HandleGlobalConfigReset()
     {
+        Config ??= await ConfigService.GetConfigAsync<TConfig>();
         Config.Default();
         await ConfigService.WriteConfigToDiskAsync<TConfig>();
         OnConfigLoaded();
         OnGlobalConfigReset();
     }
-
 
     public override async void ShowFeature()
     {

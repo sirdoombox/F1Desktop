@@ -25,6 +25,7 @@ public sealed class GlobalConfig : ConfigBase
         Left = SystemParameters.PrimaryScreenWidth / 2 - Width / 2;
         Top = SystemParameters.PrimaryScreenHeight / 2 - Height / 2;
         State = WindowState.Normal;
+        LastOpenedFeature = null;
         Default();
     }
 
@@ -32,7 +33,6 @@ public sealed class GlobalConfig : ConfigBase
     {
         LightTheme = false;
         Use24HourClock = true;
-        LastOpenedFeature = null;
         StartWithWindows = true;
         ShowWindowOnStartup = true;
     }

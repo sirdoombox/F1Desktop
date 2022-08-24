@@ -12,7 +12,9 @@ namespace F1Desktop.Services.Local;
 public class GlobalConfigService : ServiceBase
 {
     public Action<string> OnPropertyChanged { get; set; }
-    public Action OnConfigLoaded { get; set; }
+    
+    public Action OnGlobalConfigFirstLoaded { get; set; }
+    public Action OnGlobalConfigResetToDefault { get; set; }
 
     private bool _use24HourClock;
     public bool Use24HourClock
@@ -86,6 +88,7 @@ public class GlobalConfigService : ServiceBase
 
     private readonly IConfigService _configService;
     private GlobalConfig _config;
+    private bool _configLoaded;
 
     public GlobalConfigService(IConfigService configService)
     {
@@ -124,7 +127,9 @@ public class GlobalConfigService : ServiceBase
         _startWithWindows = _config.StartWithWindows;
         _showWindowOnStartup = _config.ShowWindowOnStartup;
         OnPropertyChanged?.Invoke(null);
-        OnConfigLoaded?.Invoke();
+        if (_configLoaded) return;
+        _configLoaded = true;
+        OnGlobalConfigFirstLoaded?.Invoke();
     }
 
     public async Task SaveConfig()

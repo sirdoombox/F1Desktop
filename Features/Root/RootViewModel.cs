@@ -25,10 +25,10 @@ public sealed class RootViewModel : Conductor<IScreen>.Collection.AllActive
         _notification = notification;
         _firstRunWindow = firstRunWindow;
         _cfg = cfg;
-        _cfg.OnConfigLoaded += OnGlobalConfigLoaded;
+        _cfg.OnGlobalConfigFirstLoaded += OnGlobalConfigFirstLoaded;
     }
 
-    private void OnGlobalConfigLoaded()
+    private void OnGlobalConfigFirstLoaded()
     {
         if (!_update.FirstRun && !_update.IsJustUpdated && _cfg.ShowWindowOnStartup) 
             OpenDefault();
