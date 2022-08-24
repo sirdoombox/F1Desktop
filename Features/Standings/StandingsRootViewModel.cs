@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using F1Desktop.Enums;
 using F1Desktop.Features.Base;
 using F1Desktop.Models.Config;
 using F1Desktop.Models.ErgastAPI.ConstructorStandings;
@@ -53,17 +54,23 @@ public class StandingsRootViewModel : FeatureBaseWithConfig<StandingsConfig>
     protected override async void OnFeatureFirstOpened() => 
         await LoadData();
 
+    public Task RefreshData() => LoadData();
+
     private async Task LoadData()
     {
         FeatureLoading = true;
         var cTask = _api.GetAsync<ConstructorStandingsRoot>();
         var dTask = _api.GetAsync<DriverStandingsRoot>();
         await Task.WhenAll(cTask, dTask);
+        var constructors = cTask.GetAwaiter().GetResult();
+        var drivers = dTask.GetAwaiter().GetResult();
+        if (constructors.status != ApiRequestStatus.Success && drivers.status != ApiRequestStatus.Success)
+            return;
         var countries = await _data.LoadJsonResourceAsync<List<CountryData>>();
         DriverStandings.InitStandings(
-            dTask.Result.Data.StandingsTable.StandingsLists[0].DriverStandings, countries);
+            drivers.result.Data.StandingsTable.StandingsLists[0].DriverStandings, countries);
         ConstructorStandings.InitStandings(
-            cTask.Result.Data.StandingsTable.StandingsLists[0].ConstructorStandings, countries);
+            constructors.result.Data.StandingsTable.StandingsLists[0].ConstructorStandings, countries);
         FeatureLoading = false;
     }
 

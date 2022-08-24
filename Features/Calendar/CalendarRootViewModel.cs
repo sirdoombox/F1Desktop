@@ -80,15 +80,18 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
 
     protected override async void OnFeatureFirstOpened() => await LoadData();
 
+    public Task RefreshData() => LoadData();
+    
     private async Task LoadData()
     {
         FeatureLoading = true;
+        NextRace = null;
         Races.Clear();
         var data = await _api.GetAsync<ScheduleRoot>();
-        if (data is null) return;
-        var races = data.ScheduleData.RaceTable.Races
+        if (data.status != ApiRequestStatus.Success) return;
+        var races = data.result.ScheduleData.RaceTable.Races
             .OrderBy(x => x.DateTime)
-            .Select(x => new RaceViewModel(x, data.ScheduleData.Total, _global));
+            .Select(x => new RaceViewModel(x, data.result.ScheduleData.Total, _global));
         foreach (var race in races)
         {
             Races.Add(race);

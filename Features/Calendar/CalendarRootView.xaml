@@ -53,19 +53,9 @@
                     <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
                             Grid.Column="1"
                             ToolTipService.InitialShowDelay="0"
-                            Command="{s:Action ForceRefresh}">
+                            ToolTip="Refresh"
+                            Command="{s:Action RefreshData}">
                         <iconPacks:PackIconMaterial Kind="Cached" />
-                        <Button.ToolTip>
-                            <TextBlock>
-                                <Run Text="Updated At: " />
-                                <Run
-                                    Text="{Binding CachedAt, StringFormat={x:Static misc:Constants+UI.LongTimeFormat24Hour}}" />
-                                <LineBreak />
-                                <Run Text="Next Update: " />
-                                <Run
-                                    Text="{Binding CacheInvalidAt, StringFormat={x:Static misc:Constants+UI.LongTimeFormat24Hour}}" />
-                            </TextBlock>
-                        </Button.ToolTip>
                     </Button>
                 </Grid>
             </Border>
