@@ -34,7 +34,7 @@ public class ErgastAPIService
         _hourlyRateLimiter = new FixedWindowRateLimiter(new FixedWindowRateLimiterOptions(
             200, QueueProcessingOrder.OldestFirst, 200, TimeSpan.FromHours(1)));
         _secondRateLimiter = new FixedWindowRateLimiter(new FixedWindowRateLimiterOptions(
-            4, QueueProcessingOrder.OldestFirst, 10, TimeSpan.FromSeconds(1)));
+            4, QueueProcessingOrder.OldestFirst, 12, TimeSpan.FromSeconds(1)));
     }
     
     /// <summary>
