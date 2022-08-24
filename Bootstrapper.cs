@@ -88,6 +88,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             Version = _version
         });
 
+        builder.Bind<WindowViewModel>().ToSelf().InSingletonScope();
         builder.Bind<ErgastAPIService>().ToSelf().InSingletonScope();
         builder.Bind<NewsRssService>().ToSelf().InSingletonScope();
         builder.Bind<NotificationService>().ToSelf().InSingletonScope();
@@ -128,6 +129,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         _log.Fatal(e, "");
         if (_hasProvidedCrashFeedback) return;
         _hasProvidedCrashFeedback = true;
+        ((Window)Container.Get<WindowViewModel>().View).Hide();
         Dispose();
         MessageBox.Show("See C:\\Users\\USERNAME\\AppData\\Roaming\\F1Desktop\\Logs for technical information.", 
             "F1 Desktop Has Crashed Unexpectedly");
