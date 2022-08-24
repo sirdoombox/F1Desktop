@@ -1,9 +1,14 @@
 ﻿using MahApps.Metro.IconPacks;
+using Serilog;
+using StyletIoC;
 
 namespace F1Desktop.Features.Base;
 
-public abstract class FeatureBase : Screen
+public abstract class FeatureBase : Screen, IInjectionAware
 {
+    [Inject]
+    protected ILogger Logger { get; set; }
+    
     private bool _featureLoading;
     public bool FeatureLoading
     {
@@ -36,12 +41,18 @@ public abstract class FeatureBase : Screen
         ScreenExtensions.TryDeactivate(this);
         OnFeatureHidden();
     }
-
+    
+    public void ParametersInjected() => OnPropertiesInjected();
+    
     protected virtual void OnFeatureHidden()
     {
     }
 
     protected virtual void OnFeatureFirstOpened()
+    {
+    }
+
+    protected virtual void OnPropertiesInjected()
     {
     }
 }

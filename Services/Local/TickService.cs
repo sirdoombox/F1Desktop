@@ -1,8 +1,9 @@
-﻿using FluentScheduler;
+﻿using F1Desktop.Services.Base;
+using FluentScheduler;
 
 namespace F1Desktop.Services.Local;
 
-public class TickService
+public class TickService : ServiceBase
 {
     public Action OneSecond { get; set; }
     public Action TenSeconds { get; set; }

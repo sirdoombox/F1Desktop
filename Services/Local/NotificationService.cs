@@ -1,8 +1,9 @@
-﻿using H.NotifyIcon;
+﻿using F1Desktop.Services.Base;
+using H.NotifyIcon;
 
 namespace F1Desktop.Services.Local;
 
-public class NotificationService
+public class NotificationService : ServiceBase
 {
     private TaskbarIcon _icon;
     private readonly Func<TaskbarIcon> _tryGetIcon;

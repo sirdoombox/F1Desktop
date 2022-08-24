@@ -1,10 +1,11 @@
 ﻿using System.IO;
 using System.Reflection;
 using F1Desktop.Misc;
+using F1Desktop.Services.Base;
 
 namespace F1Desktop.Services.Local;
 
-public class RegistryService
+public class RegistryService : ServiceBase
 {
     private readonly GlobalConfigService _config;
     private readonly UpdateService _update;

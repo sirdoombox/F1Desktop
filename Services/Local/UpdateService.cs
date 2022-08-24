@@ -15,7 +15,7 @@ public class UpdateService : IDisposable
     public bool IsPortable => !_mgr.IsInstalledApp;
     public Action<string> OnUpdateAvailable { get; set; }
     
-    private IReadOnlyList<string> changelog;
+    private IReadOnlyList<string> _changelog;
     
     private readonly UpdateManager _mgr;
     private readonly IAppTools _appTools;
@@ -45,12 +45,12 @@ public class UpdateService : IDisposable
 
     public async Task<IReadOnlyList<string>> GetChangeLog()
     {
-        if (changelog != null) return changelog;
+        if (_changelog != null) return _changelog;
         if (IsPortable)
-            changelog = Enumerable.Range(1, 10).Select(x => $"- Debug Change {x}.").ToList();
+            _changelog = Enumerable.Range(1, 10).Select(x => $"- Debug Change {x}.").ToList();
         else
-            changelog = await _dataResource.LoadChangelogForVersion(Version).ToListAsync();
-        return changelog;
+            _changelog = await _dataResource.LoadChangelogForVersion(Version).ToListAsync();
+        return _changelog;
     }
 
     public void ApplyUpdate() =>

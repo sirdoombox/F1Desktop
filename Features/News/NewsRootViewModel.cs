@@ -45,8 +45,8 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
     private readonly NewsRssService _rss;
     private readonly GlobalConfigService _global;
 
-    public NewsRootViewModel(IConfigService cfg, NewsRssService rss, GlobalConfigService global)
-        : base("News", PackIconMaterialKind.Newspaper, cfg, 3)
+    public NewsRootViewModel(NewsRssService rss, GlobalConfigService global)
+        : base("News", PackIconMaterialKind.Newspaper, 3)
     {
         _rss = rss;
         _global = global;

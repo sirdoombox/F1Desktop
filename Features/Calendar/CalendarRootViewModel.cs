@@ -60,10 +60,9 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
 
     public CalendarRootViewModel(ErgastAPIService api,
         NotificationService notifications,
-        IConfigService configService,
         GlobalConfigService global,
         TickService tick)
-        : base("Calendar", PackIconMaterialKind.Calendar, configService, 0)
+        : base("Calendar", PackIconMaterialKind.Calendar, 0)
     {
         _api = api;
         _notifications = notifications;

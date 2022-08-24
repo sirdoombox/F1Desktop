@@ -5,15 +5,15 @@ using F1Desktop.Attributes;
 using F1Desktop.Misc;
 using F1Desktop.Misc.JsonConverters;
 using F1Desktop.Models.Base;
+using F1Desktop.Services.Base;
 using F1Desktop.Services.Interfaces;
 
 namespace F1Desktop.Services.Local;
 
-public class LocalDataService : IConfigService
+public class LocalDataService : ServiceBase, IConfigService
 {
     private static readonly JsonSerializerOptions IndentedJsonOptions;
     private static readonly JsonSerializerOptions DefaultJsonOptions;
-    
     
     static LocalDataService()
     {

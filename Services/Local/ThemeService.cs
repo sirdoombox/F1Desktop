@@ -1,10 +1,11 @@
 ﻿using System.Windows;
 using AdonisUI;
+using F1Desktop.Services.Base;
 using H.NotifyIcon;
 
 namespace F1Desktop.Services.Local;
 
-public class ThemeService
+public class ThemeService : ServiceBase
 {
     private TaskbarIcon _icon;
     private readonly Func<TaskbarIcon> _tryGetIcon;

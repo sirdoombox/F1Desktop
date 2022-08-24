@@ -4,11 +4,12 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using F1Desktop.Models.Config;
+using F1Desktop.Services.Base;
 using F1Desktop.Services.Interfaces;
 
 namespace F1Desktop.Services.Local;
 
-public class GlobalConfigService
+public class GlobalConfigService : ServiceBase
 {
     public Action<string> OnPropertyChanged { get; set; }
     public Action OnConfigLoaded { get; set; }

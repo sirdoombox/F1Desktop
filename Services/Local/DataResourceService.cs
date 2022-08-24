@@ -3,10 +3,11 @@ using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
 using F1Desktop.Attributes;
+using F1Desktop.Services.Base;
 
 namespace F1Desktop.Services.Local;
 
-public class DataResourceService
+public class DataResourceService : ServiceBase
 {
     private readonly Dictionary<Type, object> _jsonResourceCache = new();
 

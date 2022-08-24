@@ -5,6 +5,7 @@ using F1Desktop.Models.Base;
 using F1Desktop.Services.Interfaces;
 using JetBrains.Annotations;
 using MahApps.Metro.IconPacks;
+using StyletIoC;
 
 namespace F1Desktop.Features.Base;
 
@@ -12,21 +13,26 @@ namespace F1Desktop.Features.Base;
 public abstract class FeatureBaseWithConfig<TConfig> : FeatureBase where TConfig : ConfigBase, new()
 {
     protected TConfig Config { get; private set; }
-    private readonly IConfigService _configService;
+    
+    [Inject]
+    [UsedImplicitly(ImplicitUseKindFlags.Assign)]
+    protected IConfigService ConfigService { get; set; }
 
-    protected FeatureBaseWithConfig(string displayName, PackIconMaterialKind icon, IConfigService configService,
-        byte order = 0)
+    protected FeatureBaseWithConfig(string displayName, PackIconMaterialKind icon, byte order = 0) 
         : base(displayName, icon, order)
     {
         DisplayName = displayName;
-        _configService = configService;
-        _configService.OnGlobalConfigReset += async () => await HandleGlobalConfigReset();
+    }
+
+    protected override void OnPropertiesInjected()
+    {
+        ConfigService.OnGlobalConfigReset += async () => await HandleGlobalConfigReset();
     }
 
     private async Task HandleGlobalConfigReset()
     {
         Config.Default();
-        await _configService.WriteConfigToDiskAsync<TConfig>();
+        await ConfigService.WriteConfigToDiskAsync<TConfig>();
         OnConfigLoaded();
         OnGlobalConfigReset();
     }
@@ -34,7 +40,7 @@ public abstract class FeatureBaseWithConfig<TConfig> : FeatureBase where TConfig
 
     public override async void ShowFeature()
     {
-        Config ??= await _configService.GetConfigAsync<TConfig>();
+        Config ??= await ConfigService.GetConfigAsync<TConfig>();
         base.ShowFeature();
         OnConfigLoaded();
     }
@@ -55,10 +61,10 @@ public abstract class FeatureBaseWithConfig<TConfig> : FeatureBase where TConfig
     }
 
     protected override async void OnClose() =>
-        await _configService.WriteConfigToDiskAsync<TConfig>();
+        await ConfigService.WriteConfigToDiskAsync<TConfig>();
 
     protected override async void OnFeatureHidden() =>
-        await _configService.WriteConfigToDiskAsync<TConfig>();
+        await ConfigService.WriteConfigToDiskAsync<TConfig>();
 
     protected virtual void OnGlobalConfigReset()
     {

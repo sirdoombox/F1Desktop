@@ -32,11 +32,10 @@ public class StandingsRootViewModel : FeatureBaseWithConfig<StandingsConfig>
     private readonly ErgastAPIService _api;
     private readonly DataResourceService _data;
 
-    public StandingsRootViewModel(IConfigService configService,
-        ErgastAPIService api,
+    public StandingsRootViewModel(ErgastAPIService api,
         Func<StandingsTableViewModel> standingsTable,
         DataResourceService dataResourceService)
-        : base("Standings", PackIconMaterialKind.PodiumGold, configService, 2)
+        : base("Standings", PackIconMaterialKind.PodiumGold, 2)
     {
         _api = api;
         _data = dataResourceService;
