@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.Runtime.ExceptionServices;
+using System.Windows;
 using System.Windows.Threading;
 using F1Desktop.Features.Base;
 using F1Desktop.Features.Root;
@@ -69,12 +70,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         base.Start(args);
     }
 
-    private void CurrentDomainOnFirstChanceException(object sender, FirstChanceExceptionEventArgs e) =>
-        _log.Fatal(e.Exception, "");
-
-    protected override void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e) =>
-        _log.Fatal(e.Exception, "");
-
     protected override void OnLaunch() =>
         _icon = Application.MainWindow.GetChildOfType<TaskbarIcon>();
 
@@ -92,7 +87,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             JustUpdated = _justUpdated,
             Version = _version
         });
-        
+
         builder.Bind<ErgastAPIService>().ToSelf().InSingletonScope();
         builder.Bind<NewsRssService>().ToSelf().InSingletonScope();
         builder.Bind<NotificationService>().ToSelf().InSingletonScope();
@@ -118,6 +113,24 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         Container.Get<ThemeService>();
         // Install updates
         await Container.Get<UpdateService>().Update();
+    }
+    
+    private bool _hasProvidedCrashFeedback;
+
+    private void CurrentDomainOnFirstChanceException(object sender, FirstChanceExceptionEventArgs e) =>
+        HandleException(e.Exception);
+
+    protected override void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e) =>
+        HandleException(e.Exception);
+
+    private void HandleException(Exception e)
+    {
+        _log.Fatal(e, "");
+        if (_hasProvidedCrashFeedback) return;
+        _hasProvidedCrashFeedback = true;
+        Dispose();
+        MessageBox.Show("See C:\\Users\\USERNAME\\AppData\\Roaming\\F1Desktop\\Logs for technical information.", 
+            "F1 Desktop Has Crashed Unexpectedly");
     }
 
     public override void Dispose()

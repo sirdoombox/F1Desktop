@@ -4,7 +4,6 @@ using F1Desktop.Features.Base;
 using F1Desktop.Models.Config;
 using F1Desktop.Models.ErgastAPI.ConstructorStandings;
 using F1Desktop.Models.ErgastAPI.DriverStandings;
-using F1Desktop.Models.ErgastAPI.Schedule;
 using F1Desktop.Models.Resources;
 using F1Desktop.Services.Interfaces;
 using F1Desktop.Services.Local;
