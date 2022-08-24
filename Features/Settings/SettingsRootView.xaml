@@ -7,6 +7,7 @@
       xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
       xmlns:s="https://github.com/canton7/Stylet"
       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:misc="clr-namespace:F1Desktop.Misc"
       mc:Ignorable="d"
       x:Name="SettingsGrid"
       d:DataContext="{d:DesignInstance local:SettingsRootViewModel}">
@@ -28,32 +29,46 @@
     </Grid.RowDefinitions>
     <StackPanel Grid.Row="1" Grid.Column="0" 
                 HorizontalAlignment="Left"
-                VerticalAlignment="Bottom">
+                VerticalAlignment="Bottom"
+                Orientation="Horizontal">
         <StackPanel.Resources>
             <Style TargetType="Button" BasedOn="{StaticResource {x:Static adonisUi:Styles.AccentButton}}">
                 <Setter Property="Margin" Value="8 0 0 8"/>
                 <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                <Setter Property="ToolTipService.InitialShowDelay" Value="{x:Static misc:Constants+UI.GlobalToolTipDelay}"/>
             </Style>
             <Style TargetType="TextBlock">
                 <Setter Property="Margin" Value="5 0 0 0"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
         </StackPanel.Resources>
-        <Button Command="{s:Action OpenGithubRepo}">
+        <Button Command="{s:Action OpenGithubRepo}"
+                ToolTip="View Source on GitHub">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
                     <iconPacks:PackIconMaterial Kind="Github" 
                                                 DockPanel.Dock="Left"/>
-                    <TextBlock Text="View Source On Github"/>
+                    <TextBlock Text="Source"/>
                 </StackPanel>
             </Button.Content>
         </Button>
-        <Button Command="{s:Action OpenChangelog}">
+        <Button Command="{s:Action OpenChangelog}"
+                ToolTip="View Changelog">
             <Button.Content>
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" >
                     <iconPacks:PackIconMaterial Kind="FormatListBulleted"
                                                 DockPanel.Dock="Left"/>
-                    <TextBlock Text="{Binding Version, StringFormat='v{0} - View Changelog'}"/>
+                    <TextBlock Text="{Binding Version}"/>
+                </StackPanel>
+            </Button.Content>
+        </Button>
+        <Button Command="{s:Action CheckForUpdate}"
+                ToolTip="Check For Update">
+            <Button.Content>
+                <StackPanel Orientation="Horizontal" >
+                    <iconPacks:PackIconMaterial Kind="Update"
+                                                DockPanel.Dock="Left"/>
+                    <TextBlock Text="Update"/>
                 </StackPanel>
             </Button.Content>
         </Button>

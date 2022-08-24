@@ -129,7 +129,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         _log.Fatal(e, "");
         if (_hasProvidedCrashFeedback) return;
         _hasProvidedCrashFeedback = true;
-        ((Window)Container.Get<WindowViewModel>().View).Hide();
+        Container.Get<WindowViewModel>().View.AsWindow().Hide();
         Dispose();
         MessageBox.Show("See C:\\Users\\USERNAME\\AppData\\Roaming\\F1Desktop\\Logs for technical information.", 
             "F1 Desktop Has Crashed Unexpectedly");

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using F1Desktop.Misc.Extensions;
 using F1Desktop.Services.Local;
 using JetBrains.Annotations;
 
@@ -32,7 +33,7 @@ public sealed class RootViewModel : Conductor<IScreen>.Collection.AllActive
         {
             _firstRunWindow.OnFirstRunClosed += OpenDefault;
             _wm.ShowWindow(_firstRunWindow);
-            ((Window)_firstRunWindow.View).Activate();
+            _firstRunWindow.View.AsWindow().Activate();
         }
         else if (_update.IsJustUpdated)
         {
@@ -47,14 +48,14 @@ public sealed class RootViewModel : Conductor<IScreen>.Collection.AllActive
     public void OpenWindow(Type toOpen)
     {
         _wm.ShowWindow(_window);
-        ((Window)_window.View).Activate();
+        _window.View.AsWindow().Activate();
         _window.OpenFeature(toOpen);
     }
 
     public void OpenDefault()
     {
         _wm.ShowWindow(_window);
-        ((Window)_window.View).Activate();
+        _window.View.AsWindow().Activate();
         _window.OpenFeature(_cfg.LastOpenedFeature);
     }
 

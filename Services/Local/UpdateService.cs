@@ -34,12 +34,13 @@ public class UpdateService : IDisposable
         _version = startupState.Version;
     }
 
-    public async Task Update()
+    public async Task<bool> Update()
     {
-        if (IsPortable) return;
+        if (IsPortable) return false;
         var newVersion = await _mgr.UpdateApp();
-        if (newVersion == null) return;
+        if (newVersion == null) return false;
         OnUpdateAvailable?.Invoke(newVersion.Version.ToString());
+        return true;
     }
 
     public async Task<IReadOnlyList<string>> GetChangeLog()

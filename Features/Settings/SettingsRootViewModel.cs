@@ -59,12 +59,14 @@ public class SettingsRootViewModel : FeatureBase
 
     private readonly GlobalConfigService _config;
     private readonly UpdateService _update;
+    private readonly NotificationService _notification;
 
-    public SettingsRootViewModel(GlobalConfigService config, CreditsViewModel credits, UpdateService update)
+    public SettingsRootViewModel(GlobalConfigService config, CreditsViewModel credits, UpdateService update, NotificationService notification)
         : base("Settings", PackIconMaterialKind.Cog, byte.MaxValue)
     {
-        _update = update;
         _config = config;
+        _update = update;
+        _notification = notification;
         Credits = credits;
         Version = _update.Version;
         _config.OnPropertyChanged += _ => OnGlobalPropertyChanged();
@@ -74,12 +76,19 @@ public class SettingsRootViewModel : FeatureBase
     public void OpenGithubRepo() => 
         UrlHelper.Open(Constants.Url.GitHubRepo);
 
-    public async void OpenChangelog()
+    public async Task OpenChangelog()
     {
         var changeLog = MessageBoxModels.ChangeLog;
         changeLog.Caption = $"Changelog for version: v{_update.Version}";
         changeLog.Text = string.Join("\r\n", await _update.GetChangeLog());
         MessageBox.Show(changeLog);
+    }
+
+    public async Task CheckForUpdate()
+    {
+        var updateAvailable = await _update.Update();
+        if(!updateAvailable)
+            _notification.ShowNotification("Up To Date", "F1 Desktop is currently up to date.");
     }
 
     public Task ResetToDefault() =>
