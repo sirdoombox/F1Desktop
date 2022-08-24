@@ -6,7 +6,7 @@ namespace F1Desktop.Models.ErgastAPI.DriverStandings;
 
 [ApiEndpoint("current/driverStandings.json")]
 [Filename("Drivers.dat")]
-public class DriverStandingsRoot : CachedDataBase
+public class DriverStandingsRoot : ErgastApiBase
 {
     [JsonPropertyName("MRData")]
     public DriverStandingsData Data { get; set; }

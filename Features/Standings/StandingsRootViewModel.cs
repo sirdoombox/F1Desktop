@@ -12,7 +12,7 @@ using MahApps.Metro.IconPacks;
 
 namespace F1Desktop.Features.Standings;
 
-public class StandingsRootViewModel : FeatureBaseWIthConfigAndCache<StandingsConfig>
+public class StandingsRootViewModel : FeatureBaseWithConfig<StandingsConfig>
 {
     public StandingsTableViewModel DriverStandings { get; }
     public StandingsTableViewModel ConstructorStandings { get; }
@@ -51,42 +51,20 @@ public class StandingsRootViewModel : FeatureBaseWIthConfigAndCache<StandingsCon
     }
 
     protected override async void OnFeatureFirstOpened() => 
-        await LoadData(false);
+        await LoadData();
 
-    public override async void ForceRefresh() => 
-        await LoadData(true);
-
-    private async Task LoadData(bool invalidate)
+    private async Task LoadData()
     {
-        // Can't run tasks concurrently right now, they both require the same data to generate the cache invalid time
-        // Consider an in-memory cache for these and pre-cache the schedule root ahead of time.
-        // var cTask = _api.GetAsync<ConstructorStandingsRoot, ScheduleRoot>((s,_) => GetCacheInvalidTime(s));
-        // var dTask = _api.GetAsync<DriverStandingsRoot, ScheduleRoot>((s,_) => GetCacheInvalidTime(s));
-        // await Task.WhenAll(cTask, dTask);
-        // var countries = await _data.LoadJsonResourceAsync<List<CountryData>>();
-        // DriverStandings.InitStandings(
-        //     dTask.Result.Data.StandingsTable.StandingsLists[0].DriverStandings, countries);
-        // ConstructorStandings.InitStandings(
-        //     cTask.Result.Data.StandingsTable.StandingsLists[0].ConstructorStandings, countries);
-        
         FeatureLoading = true;
-        var constructors = await _api.GetAsync<ConstructorStandingsRoot, ScheduleRoot>((s,_) => GetCacheInvalidTime(s), invalidate);
-        var drivers = await _api.GetAsync<DriverStandingsRoot, ScheduleRoot>((s,_) => GetCacheInvalidTime(s), invalidate);
+        var cTask = _api.GetAsync<ConstructorStandingsRoot>();
+        var dTask = _api.GetAsync<DriverStandingsRoot>();
+        await Task.WhenAll(cTask, dTask);
         var countries = await _data.LoadJsonResourceAsync<List<CountryData>>();
         DriverStandings.InitStandings(
-            drivers.Data.StandingsTable.StandingsLists[0].DriverStandings, countries);
+            dTask.Result.Data.StandingsTable.StandingsLists[0].DriverStandings, countries);
         ConstructorStandings.InitStandings(
-            constructors.Data.StandingsTable.StandingsLists[0].ConstructorStandings, countries);
-        CachedAt = drivers.CacheTime;
-        CacheInvalidAt = drivers.CacheInvalidAt;
+            cTask.Result.Data.StandingsTable.StandingsLists[0].ConstructorStandings, countries);
         FeatureLoading = false;
-    }
-
-    private static DateTimeOffset GetCacheInvalidTime(ScheduleRoot schedule)
-    {
-        return schedule.ScheduleData.RaceTable.Races
-            .OrderBy(x => x.DateTime)
-            .First(x => x.IsUpcoming).DateTime + TimeSpan.FromHours(8);
     }
 
     public void TogglePointsDiffFromLeader() => 

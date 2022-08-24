@@ -11,14 +11,12 @@ public static class Constants
         public const string Exe = $"{Name}.exe";
 
         public static string DataPath { get; }
-        public static string CachePath { get; }
         public static string ConfigPath { get; }
         public static string LogsPath { get; }
         
         static App()
         {
             DataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Name);
-            CachePath = Path.Combine(DataPath, "Cache");
             ConfigPath = Path.Combine(DataPath, "Data");
             LogsPath = Path.Combine(DataPath, "Logs");
         }

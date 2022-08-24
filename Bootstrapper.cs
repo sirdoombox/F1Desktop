@@ -82,7 +82,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     {
         var localDataService = new LocalDataService();
         builder.Bind<IConfigService>().ToInstance(localDataService);
-        builder.Bind<IDataCacheService>().ToInstance(localDataService);
 
         builder.Bind<TaskbarIcon>().ToFactory(_ => _icon);
 

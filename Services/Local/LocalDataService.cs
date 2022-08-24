@@ -9,7 +9,7 @@ using F1Desktop.Services.Interfaces;
 
 namespace F1Desktop.Services.Local;
 
-public class LocalDataService : IDataCacheService, IConfigService
+public class LocalDataService : IConfigService
 {
     private static readonly JsonSerializerOptions IndentedJsonOptions;
     private static readonly JsonSerializerOptions DefaultJsonOptions;
@@ -34,25 +34,7 @@ public class LocalDataService : IDataCacheService, IConfigService
 
     public LocalDataService()
     {
-        Directory.CreateDirectory(Constants.App.CachePath);
         Directory.CreateDirectory(Constants.App.ConfigPath);
-    }
-
-    public async Task<(T, bool)> TryGetCacheAsync<T>() where T : CachedDataBase
-    {
-        var data = await TryReadDataFromFile<T>(Constants.App.CachePath);
-        return data is null 
-            ? (null, false) 
-            : (data, data.CacheInvalidAt >= DateTimeOffset.Now);
-    }
-
-    public async Task WriteCacheToDisk<T>(T cache, Func<T,DateTimeOffset> setCacheInvalid = null) where T : CachedDataBase
-    {
-        if (cache is null) return;
-        cache.CacheTime = DateTimeOffset.Now;
-        if(setCacheInvalid != null) 
-            cache.CacheInvalidAt = setCacheInvalid(cache);
-        await WriteDataToFile(Constants.App.CachePath, cache);
     }
 
     public async Task<T> GetConfigAsync<T>() where T : ConfigBase, new()

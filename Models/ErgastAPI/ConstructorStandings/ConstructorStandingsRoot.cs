@@ -6,7 +6,7 @@ namespace F1Desktop.Models.ErgastAPI.ConstructorStandings;
 
 [ApiEndpoint("current/constructorStandings.json")]
 [Filename("Constructor.dat")]
-public class ConstructorStandingsRoot : CachedDataBase
+public class ConstructorStandingsRoot : ErgastApiBase
 {
     [JsonPropertyName("MRData")]
     public ConstructorStandingsData Data { get; set; }

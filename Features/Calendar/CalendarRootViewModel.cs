@@ -13,7 +13,7 @@ using MahApps.Metro.IconPacks;
 namespace F1Desktop.Features.Calendar;
 
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-public class CalendarRootViewModel : FeatureBaseWIthConfigAndCache<CalendarConfig>
+public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
 {
     public BindableCollection<RaceViewModel> Races { get; } = new();
 
@@ -78,19 +78,13 @@ public class CalendarRootViewModel : FeatureBaseWIthConfigAndCache<CalendarConfi
         EnableNotifications = Config.EnableNotifications;
     }
 
-    protected override async void OnFeatureFirstOpened() => await LoadData(false);
+    protected override async void OnFeatureFirstOpened() => await LoadData();
 
-    public override async void ForceRefresh() => await LoadData(true);
-
-    private async Task LoadData(bool invalidate)
+    private async Task LoadData()
     {
+        FeatureLoading = true;
         Races.Clear();
-        
-        var data = await _api.GetAsync<ScheduleRoot>(schedule => 
-            schedule.ScheduleData.RaceTable.Races
-                .OrderBy(x => x.DateTime)
-                .First(x => x.IsUpcoming).DateTime + TimeSpan.FromHours(2), invalidate);
-        
+        var data = await _api.GetAsync<ScheduleRoot>();
         if (data is null) return;
         var races = data.ScheduleData.RaceTable.Races
             .OrderBy(x => x.DateTime)
@@ -100,9 +94,6 @@ public class CalendarRootViewModel : FeatureBaseWIthConfigAndCache<CalendarConfi
             Races.Add(race);
             await Task.Delay(5);
         }
-
-        CachedAt = data.CacheTime;
-        CacheInvalidAt = data.CacheInvalidAt;
         FeatureLoading = false;
         UpdateTimers();
     }

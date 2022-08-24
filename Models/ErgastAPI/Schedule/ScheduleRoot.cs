@@ -6,7 +6,7 @@ namespace F1Desktop.Models.ErgastAPI.Schedule;
 
 [ApiEndpoint("current.json")]
 [Filename("Schedule.dat")]
-public class ScheduleRoot : CachedDataBase
+public class ScheduleRoot : ErgastApiBase
 {
     [JsonPropertyName("MRData")]
     public ScheduleData ScheduleData { get; set; }
