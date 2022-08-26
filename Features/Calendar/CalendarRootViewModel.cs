@@ -145,7 +145,7 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
             _notifications.ScheduleNotification(this,
                 NextRace.SessionTime - NotificationTime,
                 NextRace.Name,
-                () => $"Lights Out In {NextRace.SessionTime:m} Minutes");
+                () => $"Lights Out In {(NextRace.SessionTime - DateTimeOffset.Now).Minutes} Minutes");
         }
 
         if (sessionChanged && NextRace.NextSession.Type != SessionType.Race)
@@ -153,7 +153,7 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
             _notifications.ScheduleNotification(this,
                 NextRace.NextSession.SessionTime - NotificationTime,
                 NextRace.Name,
-                () => $"{NextRace.NextSession.Name} Starts In {NextRace.NextSession.SessionTime:m} Minutes.");
+                () => $"{NextRace.NextSession.Name} Starts In {(NextRace.NextSession.SessionTime - DateTimeOffset.Now).Minutes} Minutes.");
         }
     }
 }
