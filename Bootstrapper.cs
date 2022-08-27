@@ -38,22 +38,22 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     {
         if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(AppContext.BaseDirectory)).Length > 1)
             Process.GetCurrentProcess().Kill();
-
+        
         AppDomain.CurrentDomain.FirstChanceException += CurrentDomainOnFirstChanceException;
 
         _log = new LoggerConfiguration()
-            .WriteTo.File(Path.Combine(Constants.App.LogsPath, "Log-.log"), 
+            .WriteTo.File(Path.Combine(Constants.App.LogsPath, "Log-.log"),
                 rollingInterval: RollingInterval.Hour,
                 retainedFileCountLimit: 5)
             .CreateLogger();
 
         SquirrelLocator.CurrentMutable.Register(() => new SquirrelLogger(_log), typeof(Squirrel.SimpleSplat.ILogger));
 
-        if (args.Any(x => x.Contains("just-updated"))) 
+        if (args.Any(x => x.Contains("just-updated")))
             _justUpdated = true;
 
         SquirrelAwareApp.HandleEvents(
-            onInitialInstall: (_, t) => 
+            onInitialInstall: (_, t) =>
                 t.CreateShortcutForThisExe(ShortcutLocation.StartMenu),
             onAppUninstall: (_, t) =>
             {
@@ -116,7 +116,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         // Install updates
         await Container.Get<UpdateService>().Update();
     }
-    
+
     private bool _hasProvidedCrashFeedback;
 
     private void CurrentDomainOnFirstChanceException(object sender, FirstChanceExceptionEventArgs e) =>
@@ -127,19 +127,22 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
     private void HandleException(Exception e)
     {
+#if DEBUG
+        return; // prevent handling exceptions when debugging, it's annoying.
+#endif
         _log.Fatal(e, "");
         if (_hasProvidedCrashFeedback) return;
         _hasProvidedCrashFeedback = true;
-        Container.Get<WindowViewModel>().View.AsWindow().Hide();
+        Execute.OnUIThread(() => Container.Get<WindowViewModel>().View.AsWindow().Hide());
         Dispose();
-        MessageBox.Show("See C:\\Users\\USERNAME\\AppData\\Roaming\\F1Desktop\\Logs for technical information.", 
+        MessageBox.Show("See C:\\Users\\USERNAME\\AppData\\Roaming\\F1Desktop\\Logs for technical information.",
             "F1 Desktop Has Crashed Unexpectedly");
     }
 
     public override void Dispose()
     {
         GC.SuppressFinalize(this);
-        _icon.Dispose();
+        _icon?.Dispose();
         JobManager.Stop();
         base.Dispose();
     }

@@ -14,19 +14,15 @@ public class UpdateService : IDisposable
     public bool FirstRun { get; }
     public bool IsPortable => !_mgr.IsInstalledApp;
     public Action<string> OnUpdateAvailable { get; set; }
-    
-    private IReadOnlyList<string> _changelog;
-    
+
     private readonly UpdateManager _mgr;
     private readonly IAppTools _appTools;
-    private readonly DataResourceService _dataResource;
     private readonly SemanticVersion _version;
     
-    public UpdateService(StartupState startupState, DataResourceService dataResource)
+    public UpdateService(StartupState startupState)
     {
         var githubSource = new GithubSource(Constants.Url.GitHubRepo, string.Empty, false);
         _mgr = new UpdateManager(githubSource);
-        _dataResource = dataResource;
         if (IsPortable) return;
         _appTools = startupState.AppTools;
         FirstRun = startupState.FirstRun;
@@ -41,16 +37,6 @@ public class UpdateService : IDisposable
         if (newVersion == null) return false;
         OnUpdateAvailable?.Invoke(newVersion.Version.ToString());
         return true;
-    }
-
-    public async Task<IReadOnlyList<string>> GetChangeLog()
-    {
-        if (_changelog != null) return _changelog;
-        if (IsPortable)
-            _changelog = Enumerable.Range(1, 10).Select(x => $"- Debug Change {x}.").ToList();
-        else
-            _changelog = await _dataResource.LoadChangelogForVersion(Version).ToListAsync();
-        return _changelog;
     }
 
     public void ApplyUpdate() =>

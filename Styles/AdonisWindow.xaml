@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI">
+    <Style TargetType="controls:AdonisWindow" 
+           x:Key="Styles.AdonisWindow.Modal">
+        <Setter Property="ResizeMode" Value="NoResize"/>
+        <Setter Property="TitleVisibility" Value="Collapsed"/>
+        <Setter Property="IconVisibility" Value="Collapsed"/>
+        <Setter Property="ShowInTaskbar" Value="False"/>
+        <Setter Property="PlaceTitleBarOverContent" Value="True"/>
+    </Style>
+</ResourceDictionary>

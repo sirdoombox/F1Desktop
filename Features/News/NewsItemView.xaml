@@ -14,7 +14,7 @@
         d:DataContext="{d:DesignInstance local:NewsItemViewModel}"
         Margin="{adonisUi:Space 1.5, 0.5}"
         Padding="{adonisUi:Space 2, 2}"
-        Style="{DynamicResource Styles.HoverableBorder}"
+        Style="{DynamicResource Styles.Border.Hoverable}"
         MouseLeftButtonDown="{s:Action OpenArticle}">
     <Grid>
         <Grid.ColumnDefinitions>

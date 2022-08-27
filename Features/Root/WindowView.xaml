@@ -55,7 +55,7 @@
                          SelectedItem="{Binding ActiveFeature}"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                         ItemContainerStyle="{DynamicResource Styles.NavigationListBoxItem}">
+                         ItemContainerStyle="{DynamicResource Styles.ListBoxItem.Navigation}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="{adonisUi:Space 0, 2}">

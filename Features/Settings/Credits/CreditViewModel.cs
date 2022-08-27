@@ -1,7 +1,7 @@
 ﻿using F1Desktop.Misc;
 using F1Desktop.Models.Resources;
 
-namespace F1Desktop.Features.Settings;
+namespace F1Desktop.Features.Settings.Credits;
 
 public class CreditViewModel : PropertyChangedBase
 {

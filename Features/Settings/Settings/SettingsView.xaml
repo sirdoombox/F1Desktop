@@ -1,0 +1,43 @@
+﻿<StackPanel x:Class="F1Desktop.Features.Settings.Settings.SettingsView"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:local="clr-namespace:F1Desktop.Features.Settings.Settings"
+            xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+            xmlns:s="https://github.com/canton7/Stylet"
+            mc:Ignorable="d"
+            d:DataContext="{d:DesignInstance local:SettingsViewModel}">
+    <StackPanel.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="DockPanel.Dock" Value="Right" />
+            <Setter Property="Margin" Value="{adonisUi:Space 1, 1}" />
+        </Style>
+        <Style TargetType="DockPanel">
+            <Setter Property="Margin" Value="{adonisUi:Space 1, 1}" />
+        </Style>
+    </StackPanel.Resources>
+    <DockPanel>
+        <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"
+                      IsChecked="{Binding IsLight}" />
+        <TextBlock Text="Enable Light Theme" />
+    </DockPanel>
+    <DockPanel>
+        <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"
+                      IsChecked="{Binding Use24HourClock}" />
+        <TextBlock Text="Use 24 Hour Clock" />
+    </DockPanel>
+    <DockPanel>
+        <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"
+                      IsChecked="{Binding StartWithWindows}" />
+        <TextBlock Text="Start With Windows" />
+    </DockPanel>
+    <DockPanel>
+        <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"
+                      IsChecked="{Binding ShowWindowOnStartup}" />
+        <TextBlock Text="Show Window On Startup" />
+    </DockPanel>
+    <Button Content="Reset Settings To Default"
+            Margin="{adonisUi:Space 2,0}"
+            Command="{s:Action ResetToDefault}" />
+</StackPanel>

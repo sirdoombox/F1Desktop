@@ -15,7 +15,7 @@
         <RowDefinition Height="*" />
     </Grid.RowDefinitions>
     <Border Grid.Row="0"
-            Style="{DynamicResource Styles.ToolbarBorder}">
+            Style="{DynamicResource Styles.Border.Toolbar}">
         <UniformGrid Rows="1" HorizontalAlignment="Left">
             <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
                     Content="Refresh"

@@ -30,7 +30,7 @@
                     <Setter Property="Grid.Row" Value="0" />
                 </Style>
             </Grid.Resources>
-            <Border Style="{DynamicResource Styles.ToolbarBorder}" Grid.ColumnSpan="2">
+            <Border Style="{DynamicResource Styles.Border.Toolbar}" Grid.ColumnSpan="2">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />

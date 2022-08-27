@@ -31,7 +31,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Border Grid.Row="0"
-                    Style="{DynamicResource Styles.ToolbarBorder}">
+                    Style="{DynamicResource Styles.Border.Toolbar}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -92,7 +92,7 @@
                     <DataTemplate>
                         <Border x:Name="Border"
                                 Margin="{adonisUi:Space 1.5, 0.5}"
-                                Style="{DynamicResource Styles.HoverableBorder.NoInteraction}">
+                                Style="{DynamicResource Styles.Border.Hoverable.NoInteraction}">
                             <Border.Visibility>
                                 <MultiBinding Converter="{StaticResource MultiBoolToVisibility}">
                                     <Binding RelativeSource="{RelativeSource AncestorType=Grid}"

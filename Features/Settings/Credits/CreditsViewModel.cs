@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
+using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.Resources;
 using F1Desktop.Services.Local;
 
-namespace F1Desktop.Features.Settings;
+namespace F1Desktop.Features.Settings.Credits;
 
 public class CreditsViewModel : PropertyChangedBase
 {
@@ -20,4 +21,7 @@ public class CreditsViewModel : PropertyChangedBase
         var data = await _resource.LoadJsonResourceAsync<List<CreditData>>();
         Credits.AddRange(data.Select(x => new CreditViewModel(x)));
     }
+
+    public void OnDeactivated(object sender, EventArgs e) =>
+        sender.AsWindow().TryClose();
 }

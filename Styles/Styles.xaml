@@ -4,18 +4,16 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Styles/CountdownControl.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Styles/CountdownElement.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/Styles/CountdownElement.Hollow.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/Styles/HighlightableTextBlock.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Styles/TextBlock.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Styles/TransitioningContentControl.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/Styles/NavigationListBoxItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Styles/ListBoxItem.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Styles/ContentSwitcher.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/Styles/ToolbarBorder.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/Styles/HoverableBorder.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Styles/ToolbarToggleMenu.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/Styles/BorderSeparator.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Styles/Border.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Styles/AdonisWindow.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     <Style BasedOn="{StaticResource Styles.CountdownElement}" TargetType="{x:Type controls:CountdownElement}" />
     <Style BasedOn="{StaticResource Styles.CountdownControl}" TargetType="{x:Type controls:CountdownControl}" />
-    <Style BasedOn="{StaticResource Styles.HighlightableTextBlock}"
+    <Style BasedOn="{StaticResource Styles.TextBlock.Highlightable}"
            TargetType="{x:Type controls:HighlightableTextBlock}" />
 </ResourceDictionary>

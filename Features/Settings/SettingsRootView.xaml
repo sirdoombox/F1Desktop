@@ -11,107 +11,63 @@
       mc:Ignorable="d"
       x:Name="SettingsGrid"
       d:DataContext="{d:DesignInstance local:SettingsRootViewModel}">
-    <Grid.Resources>
-        <Style x:Key="HeaderStyle" TargetType="TextBlock">
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="FontSize" Value="16" />
-            <Setter Property="FontWeight" Value="Bold" />
-        </Style>
-    </Grid.Resources>
-    <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="1*" />
-        <ColumnDefinition Width="Auto" />
-        <ColumnDefinition Width="1*" />
-    </Grid.ColumnDefinitions>
-    <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="*" />
-    </Grid.RowDefinitions>
-    <StackPanel Grid.Row="1" Grid.Column="0" 
+    <StackPanel Grid.Row="1"
+                Grid.Column="0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"
                 Orientation="Horizontal">
         <StackPanel.Resources>
             <Style TargetType="Button" BasedOn="{StaticResource {x:Static adonisUi:Styles.AccentButton}}">
-                <Setter Property="Margin" Value="8 0 0 8"/>
-                <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                <Setter Property="ToolTipService.InitialShowDelay" Value="{x:Static misc:Constants+UI.GlobalToolTipDelay}"/>
+                <Setter Property="Margin" Value="8 0 0 8" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="ToolTipService.InitialShowDelay"
+                        Value="{x:Static misc:Constants+UI.GlobalToolTipDelay}" />
             </Style>
             <Style TargetType="TextBlock">
-                <Setter Property="Margin" Value="5 0 0 0"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="5 0 0 0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
             </Style>
         </StackPanel.Resources>
         <Button Command="{s:Action OpenGithubRepo}"
                 ToolTip="View Source on GitHub">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconMaterial Kind="Github" 
-                                                DockPanel.Dock="Left"/>
-                    <TextBlock Text="Source"/>
-                </StackPanel>
-            </Button.Content>
-        </Button>
-        <Button Command="{s:Action OpenChangelog}"
-                ToolTip="View Changelog">
-            <Button.Content>
-                <StackPanel Orientation="Horizontal" >
-                    <iconPacks:PackIconMaterial Kind="FormatListBulleted"
-                                                DockPanel.Dock="Left"/>
-                    <TextBlock Text="{Binding Version}"/>
+                    <iconPacks:PackIconMaterial Kind="Github"
+                                                DockPanel.Dock="Left" />
+                    <TextBlock Text="Source" />
                 </StackPanel>
             </Button.Content>
         </Button>
         <Button Command="{s:Action CheckForUpdate}"
                 ToolTip="Check For Update">
             <Button.Content>
-                <StackPanel Orientation="Horizontal" >
+                <StackPanel Orientation="Horizontal">
                     <iconPacks:PackIconMaterial Kind="Update"
-                                                DockPanel.Dock="Left"/>
-                    <TextBlock Text="Update"/>
+                                                DockPanel.Dock="Left" />
+                    <TextBlock Text="{Binding Version, StringFormat='Ver. {0}'}" />
+                </StackPanel>
+            </Button.Content>
+        </Button>
+        <Button Command="{s:Action OpenChangelogWindow}"
+                ToolTip="View Changelog">
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <iconPacks:PackIconMaterial Kind="FormatListBulleted"
+                                                DockPanel.Dock="Left" />
+                    <TextBlock Text="Changelog" />
+                </StackPanel>
+            </Button.Content>
+        </Button>
+        <Button Command="{s:Action OpenCreditsWindow}"
+                ToolTip="View Credits">
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <iconPacks:PackIconMaterial Kind="Star"
+                                                DockPanel.Dock="Left" />
+                    <TextBlock Text="Credits" />
                 </StackPanel>
             </Button.Content>
         </Button>
     </StackPanel>
-    <TextBlock Grid.Row="0" Grid.Column="0" Text="Settings" Style="{DynamicResource HeaderStyle}" />
-    <StackPanel Grid.Row="1" Grid.Column="0">
-        <StackPanel.Resources>
-            <Style TargetType="TextBlock">
-                <Setter Property="DockPanel.Dock" Value="Right" />
-                <Setter Property="Margin" Value="{adonisUi:Space 1, 1}" />
-            </Style>
-            <Style TargetType="DockPanel">
-                <Setter Property="Margin" Value="{adonisUi:Space 1, 1}" />
-            </Style>
-        </StackPanel.Resources>
-        <DockPanel>
-            <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"
-                          IsChecked="{Binding IsLight}" />
-            <TextBlock Text="Enable Light Theme" />
-        </DockPanel>
-        <DockPanel>
-            <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"
-                          IsChecked="{Binding Use24HourClock}" />
-            <TextBlock Text="Use 24 Hour Clock" />
-        </DockPanel>
-        <DockPanel>
-            <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"
-                          IsChecked="{Binding StartWithWindows}" />
-            <TextBlock Text="Start With Windows" />
-        </DockPanel>
-        <DockPanel>
-            <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"
-                          IsChecked="{Binding ShowWindowOnStartup}" />
-            <TextBlock Text="Show Window On Startup" />
-        </DockPanel>
-        <Button Content="Reset Settings To Default"
-                Margin="{adonisUi:Space 2,0}"
-                Command="{s:Action ResetToDefault}"/>
-    </StackPanel>
-    <Border Grid.RowSpan="2"
-            Grid.Row="0"
-            Grid.Column="1"
-            Style="{DynamicResource Styles.Border.Separator.Vertical}" />
-    <TextBlock Grid.Row="0" Grid.Column="2" Text="Credits" Style="{DynamicResource HeaderStyle}" />
-    <ContentControl Grid.Row="1" Grid.Column="2" s:View.Model="{Binding Credits}" />
+    <ContentControl s:View.Model="{Binding Settings}" />
 </Grid>
