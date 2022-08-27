@@ -48,7 +48,7 @@ public class SettingsRootViewModel : FeatureBase
     {
         var updateAvailable = await _update.Update();
         if(!updateAvailable)
-            _notification.ShowNotification("Up To Date", "F1 Desktop is currently up to date.");
+            _notification.ShowNotification("Up To Date", "F1 Desktop is currently up to date.", null);
     }
 
     public void OpenCreditsWindow() => _windowManager.ShowWindow(Credits);

@@ -36,6 +36,9 @@ public sealed class RootViewModel : Conductor<IScreen>.Collection.AllActive
 
     protected override void OnInitialActivate()
     {
+        _notification.ShowNotification("Update Installed.", 
+            $"Update {_update.Version} Successfully Installed",
+            OpenDefault);
         if (_update.FirstRun)
         {
             _firstRunWindow.OnFirstRunClosed += OpenDefault;
