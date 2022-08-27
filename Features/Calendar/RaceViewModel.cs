@@ -67,6 +67,7 @@ public class RaceViewModel : SessionViewModelBase, IViewAware
 
         if (DateTimeOffset.Now < NextSession.SessionTime) return false;
         NextSession.IsNext = false;
+        NextSession.IsUpcoming = false;
         NextSession = _content.Sessions.GetNextSession();
         return true;
     }

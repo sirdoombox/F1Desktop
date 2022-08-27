@@ -112,6 +112,7 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         else if (DateTimeOffset.Now >= NextRace.SessionTime)
         {
             NextRace.IsNext = false;
+            NextRace.IsUpcoming = false;
             NextRace = Races.GetNextSession();
             hasNextRaceChanged = true;
         }

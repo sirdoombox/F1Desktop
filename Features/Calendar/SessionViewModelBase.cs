@@ -13,7 +13,12 @@ public abstract class SessionViewModelBase : PropertyChangedBase
 
     public DateTimeOffset SessionTime { get; }
 
-    public bool IsUpcoming { get; }
+    private bool _isUpcoming;
+    public bool IsUpcoming
+    {
+        get => _isUpcoming;
+        set => SetAndNotify(ref _isUpcoming, value);
+    }
 
     private bool _use24HourClock;
     public bool Use24HourClock
