@@ -3,7 +3,7 @@ using AdonisUI.Controls;
 using F1Desktop.Features.Base;
 using F1Desktop.Features.Settings.Changelogs;
 using F1Desktop.Features.Settings.Credits;
-using F1Desktop.Features.Settings.Settings;
+using F1Desktop.Features.Settings.Settings.Base;
 using F1Desktop.Misc;
 using F1Desktop.Services.Local;
 using MahApps.Metro.IconPacks;
@@ -14,7 +14,8 @@ public class SettingsRootViewModel : FeatureBase
 {
     public string Version { get; }
 
-    public SettingsViewModel Settings { get; }
+    public List<SetingsCategoryViewModelBase> Categories { get; }
+    
     public CreditsViewModel Credits { get; }
     public ChangelogsViewModel Changelogs { get; }
 
@@ -24,7 +25,8 @@ public class SettingsRootViewModel : FeatureBase
     private readonly IWindowManager _windowManager;
 
     public SettingsRootViewModel(GlobalConfigService config, UpdateService update, NotificationService notification, 
-        SettingsViewModel settings, CreditsViewModel credits, ChangelogsViewModel changelogs, IWindowManager windowManager)
+        IEnumerable<SetingsCategoryViewModelBase> categories, 
+        CreditsViewModel credits, ChangelogsViewModel changelogs, IWindowManager windowManager)
         : base("Settings", PackIconMaterialKind.Cog, byte.MaxValue)
     {
         _config = config;
@@ -32,7 +34,7 @@ public class SettingsRootViewModel : FeatureBase
         _notification = notification;
         _windowManager = windowManager;
 
-        Settings = settings;
+        Categories = categories.ToList();
         Credits = credits;
         Changelogs = changelogs;
             
@@ -53,6 +55,11 @@ public class SettingsRootViewModel : FeatureBase
 
     public void OpenChangelogWindow() => _windowManager.ShowWindow(Changelogs);
 
+    public Task ResetToDefault() =>
+        MessageBox.Show(MessageBoxModels.ResetToDefault) == MessageBoxResult.Yes 
+            ? _config.ResetDefault() 
+            : Task.CompletedTask;
+    
     protected override async void OnFeatureFirstOpened()
     {
         var credits = Credits.LoadCredits();

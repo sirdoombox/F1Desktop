@@ -1,4 +1,4 @@
-﻿<StackPanel x:Class="F1Desktop.Features.Settings.Settings.SettingsView"
+﻿<StackPanel x:Class="F1Desktop.Features.Settings.Settings.GeneralView"
             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,7 +7,7 @@
             xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
             xmlns:s="https://github.com/canton7/Stylet"
             mc:Ignorable="d"
-            d:DataContext="{d:DesignInstance local:SettingsViewModel}">
+            d:DataContext="{d:DesignInstance local:GeneralViewModel}">
     <StackPanel.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="DockPanel.Dock" Value="Right" />
@@ -37,7 +37,4 @@
                       IsChecked="{Binding ShowWindowOnStartup}" />
         <TextBlock Text="Show Window On Startup" />
     </DockPanel>
-    <Button Content="Reset Settings To Default"
-            Margin="{adonisUi:Space 2,0}"
-            Command="{s:Action ResetToDefault}" />
 </StackPanel>

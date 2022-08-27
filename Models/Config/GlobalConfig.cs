@@ -17,6 +17,8 @@ public sealed class GlobalConfig : ConfigBase
     public Type LastOpenedFeature { get; set; }
     public bool StartWithWindows { get; set; }
     public bool ShowWindowOnStartup { get; set; }
+    public bool EnableNotifications { get; set; }
+    public bool EnableNotificationsSound { get; set; }
 
     public GlobalConfig()
     {
@@ -35,5 +37,7 @@ public sealed class GlobalConfig : ConfigBase
         Use24HourClock = true;
         StartWithWindows = true;
         ShowWindowOnStartup = true;
+        EnableNotifications = true;
+        EnableNotificationsSound = true;
     }
 }

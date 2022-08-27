@@ -85,6 +85,20 @@ public class GlobalConfigService : ServiceBase
         get => _showWindowOnStartup;
         set => SetAndNotify(ref _showWindowOnStartup, c => c.ShowWindowOnStartup, value);
     }
+    
+    private bool _enableNotifications;
+    public bool EnableNotifications
+    {
+        get => _enableNotifications;
+        set => SetAndNotify(ref _enableNotifications, c => c.EnableNotifications, value);
+    }
+    
+    private bool _enableNotificationsSound;
+    public bool EnableNotificationsSound
+    {
+        get => _enableNotificationsSound;
+        set => SetAndNotify(ref _enableNotificationsSound, c => c.EnableNotificationsSound, value);
+    }
 
     private readonly IConfigService _configService;
     private GlobalConfig _config;
@@ -126,6 +140,8 @@ public class GlobalConfigService : ServiceBase
         _lastOpenedFeature = _config.LastOpenedFeature;
         _startWithWindows = _config.StartWithWindows;
         _showWindowOnStartup = _config.ShowWindowOnStartup;
+        _enableNotifications = _config.EnableNotifications;
+        _enableNotificationsSound = _config.EnableNotificationsSound;
         OnPropertyChanged?.Invoke(null);
         if (_configLoaded) return;
         _configLoaded = true;

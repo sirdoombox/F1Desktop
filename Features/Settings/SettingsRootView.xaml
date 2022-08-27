@@ -11,63 +11,105 @@
       mc:Ignorable="d"
       x:Name="SettingsGrid"
       d:DataContext="{d:DesignInstance local:SettingsRootViewModel}">
-    <StackPanel Grid.Row="1"
-                Grid.Column="0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Bottom"
-                Orientation="Horizontal">
-        <StackPanel.Resources>
-            <Style TargetType="Button" BasedOn="{StaticResource {x:Static adonisUi:Styles.AccentButton}}">
-                <Setter Property="Margin" Value="8 0 0 8" />
-                <Setter Property="HorizontalContentAlignment" Value="Left" />
-                <Setter Property="ToolTipService.InitialShowDelay"
-                        Value="{x:Static misc:Constants+UI.GlobalToolTipDelay}" />
-            </Style>
-            <Style TargetType="TextBlock">
-                <Setter Property="Margin" Value="5 0 0 0" />
-                <Setter Property="VerticalAlignment" Value="Center" />
-            </Style>
-        </StackPanel.Resources>
-        <Button Command="{s:Action OpenGithubRepo}"
-                ToolTip="View Source on GitHub">
-            <Button.Content>
-                <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconMaterial Kind="Github"
-                                                DockPanel.Dock="Left" />
-                    <TextBlock Text="Source" />
-                </StackPanel>
-            </Button.Content>
-        </Button>
-        <Button Command="{s:Action CheckForUpdate}"
-                ToolTip="Check For Update">
-            <Button.Content>
-                <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconMaterial Kind="Update"
-                                                DockPanel.Dock="Left" />
-                    <TextBlock Text="{Binding Version, StringFormat='Ver. {0}'}" />
-                </StackPanel>
-            </Button.Content>
-        </Button>
-        <Button Command="{s:Action OpenChangelogWindow}"
-                ToolTip="View Changelog">
-            <Button.Content>
-                <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconMaterial Kind="FormatListBulleted"
-                                                DockPanel.Dock="Left" />
-                    <TextBlock Text="Changelog" />
-                </StackPanel>
-            </Button.Content>
-        </Button>
-        <Button Command="{s:Action OpenCreditsWindow}"
-                ToolTip="View Credits">
-            <Button.Content>
-                <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconMaterial Kind="Star"
-                                                DockPanel.Dock="Left" />
-                    <TextBlock Text="Credits" />
-                </StackPanel>
-            </Button.Content>
-        </Button>
-    </StackPanel>
-    <ContentControl s:View.Model="{Binding Settings}" />
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <Border Grid.Row="0" Style="{DynamicResource Styles.Border.Toolbar}">
+        <StackPanel Grid.Row="1"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="Button" BasedOn="{StaticResource {x:Static adonisUi:Styles.AccentToolbarButton}}">
+                    <Setter Property="ToolTipService.InitialShowDelay"
+                            Value="{x:Static misc:Constants+UI.GlobalToolTipDelay}" />
+                </Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="5 0 0 0" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+            </StackPanel.Resources>
+            <Button Command="{s:Action ResetToDefault}"
+                    ToolTip="Reset All Settings To Default">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <iconPacks:PackIconMaterial Kind="AlertCircleOutline"
+                                                    DockPanel.Dock="Left" />
+                        <TextBlock Text="Reset Settings" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Command="{s:Action OpenGithubRepo}"
+                    ToolTip="View Source on GitHub">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <iconPacks:PackIconMaterial Kind="Github"
+                                                    DockPanel.Dock="Left" />
+                        <TextBlock Text="Source" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Command="{s:Action CheckForUpdate}"
+                    ToolTip="Check For Update">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <iconPacks:PackIconMaterial Kind="Update"
+                                                    DockPanel.Dock="Left" />
+                        <TextBlock Text="{Binding Version, StringFormat='Ver. {0}'}" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Command="{s:Action OpenChangelogWindow}"
+                    ToolTip="View Changelog">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <iconPacks:PackIconMaterial Kind="FormatListBulleted"
+                                                    DockPanel.Dock="Left" />
+                        <TextBlock Text="Changelog" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Command="{s:Action OpenCreditsWindow}"
+                    ToolTip="View Credits">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <iconPacks:PackIconMaterial Kind="Star"
+                                                    DockPanel.Dock="Left" />
+                        <TextBlock Text="Credits" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+    </Border>
+    <ItemsControl ItemsSource="{Binding Categories}"
+                  Grid.Row="1">
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <Border Style="{DynamicResource Styles.Border.Hoverable.NoInteraction}"
+                        Margin="{adonisUi:Space 1,1}"
+                        Padding="{adonisUi:Space 1,1}"
+                        MinWidth="200">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0"
+                                   Text="{Binding Name}"
+                                   HorizontalAlignment="Center"
+                                   FontWeight="Bold"
+                                   FontSize="14" />
+                        <ContentControl Grid.Row="1"
+                                        s:View.Model="{Binding}" />
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <WrapPanel Orientation="Vertical" />
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+    </ItemsControl>
 </Grid>

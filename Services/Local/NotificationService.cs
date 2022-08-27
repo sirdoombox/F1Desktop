@@ -10,15 +10,18 @@ public class NotificationService : ServiceBase
     private readonly SortedSet<Notification> _scheduled = new();
     private readonly Dictionary<object, List<Notification>> _owners = new();
     private bool _notificationShowing;
+    private readonly GlobalConfigService _config;
 
-    public NotificationService(Func<TaskbarIcon> tryGetIcon, TickService tickService)
+    public NotificationService(Func<TaskbarIcon> tryGetIcon, TickService tickService, GlobalConfigService config)
     {
         tickService.OneSecond += Tick;
         _tryGetIcon = tryGetIcon;
+        _config = config;
     }
 
     public void ShowNotification(string title, string message, Action onNotificationClicked = null)
     {
+        if (!_config.EnableNotifications) return;
         if (!TrySetupIcon() || _notificationShowing)
         {
             ScheduleNotification(this, DateTimeOffset.Now, title, message);
@@ -28,7 +31,7 @@ public class NotificationService : ServiceBase
         if (onNotificationClicked is not null)
             _icon.TrayBalloonTipClicked += (_, _) => onNotificationClicked();
         
-        _icon.ShowNotification(title, message);
+        _icon.ShowNotification(title, message, sound: _config.EnableNotificationsSound);
     }
 
     private bool TrySetupIcon()

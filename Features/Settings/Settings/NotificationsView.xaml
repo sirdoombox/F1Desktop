@@ -1,0 +1,29 @@
+﻿<StackPanel x:Class="F1Desktop.Features.Settings.Settings.NotificationsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:F1Desktop.Features.Settings.Settings"
+             xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance local:NotificationsViewModel}">
+    <StackPanel.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="DockPanel.Dock" Value="Right" />
+            <Setter Property="Margin" Value="{adonisUi:Space 1, 1}" />
+        </Style>
+        <Style TargetType="DockPanel">
+            <Setter Property="Margin" Value="{adonisUi:Space 1, 1}" />
+        </Style>
+    </StackPanel.Resources>
+    <DockPanel>
+        <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"
+                      IsChecked="{Binding EnableNotifications}" />
+        <TextBlock Text="Enable Notifications" />
+    </DockPanel>
+    <DockPanel>
+        <ToggleButton Style="{DynamicResource {x:Static adonisUi:Styles.ToggleSwitch}}"
+                      IsChecked="{Binding EnableSound}" />
+        <TextBlock Text="Enable Sound" />
+    </DockPanel>
+</StackPanel>

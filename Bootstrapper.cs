@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Threading;
 using F1Desktop.Features.Base;
 using F1Desktop.Features.Root;
+using F1Desktop.Features.Settings.Settings.Base;
 using F1Desktop.Misc;
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Misc.Logging;
@@ -99,12 +100,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         builder.Bind<RegistryService>().ToSelf().InSingletonScope();
         builder.Bind<UpdateService>().ToSelf().InSingletonScope();
         builder.Bind<Serilog.ILogger>().ToInstance(_log);
-
-        foreach (var type in Assembly.GetExecutingAssembly().GetTypes().Where(x => x.IsSubclassOf(typeof(FeatureBase))))
-        {
-            if (type.IsAbstract) continue;
-            builder.Bind<FeatureBase>().To(type);
-        }
+        builder.BindAllImplementers<FeatureBase>();
+        builder.BindAllImplementers<SetingsCategoryViewModelBase>();
     }
 
     protected override async void Configure()
