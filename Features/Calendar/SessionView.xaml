@@ -30,7 +30,7 @@
     <controls:HighlightableTextBlock Grid.Column="1"
                                      helpers:StringFormatHelper.Format="{x:Static misc:Constants+UI.LongTimeFormat12Hour}"
                                      helpers:StringFormatHelper.AlternateFormat="{x:Static misc:Constants+UI.LongTimeFormat24Hour}"
-                                     helpers:StringFormatHelper.Value="{Binding SessionTime}"
+                                     helpers:StringFormatHelper.Value="{Binding SessionTime.LocalDateTime}"
                                      helpers:StringFormatHelper.UseAlternateFormat="{Binding Use24HourClock}"
                                      Text="{Binding Path=(helpers:StringFormatHelper.FormattedValue), Mode=TwoWay, RelativeSource={RelativeSource Self}}" />
 </Grid>
