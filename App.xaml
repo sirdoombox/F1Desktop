@@ -5,7 +5,8 @@
              xmlns:converters="clr-namespace:F1Desktop.Converters"
              xmlns:flags="clr-namespace:FamFamFam.Flags.Wpf;assembly=FamFamFam.Flags.Wpf"
              xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
-             xmlns:f1Desktop="clr-namespace:F1Desktop">
+             xmlns:f1Desktop="clr-namespace:F1Desktop"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -28,6 +29,9 @@
             <Color x:Key="{x:Static adonisUi:Colors.AccentIntenseHighlightBorderColor}">#FF0600</Color>
             <Color x:Key="{x:Static adonisUi:Colors.AccentInteractionColor}">#D70600</Color>
             <Color x:Key="{x:Static adonisUi:Colors.AccentInteractionBorderColor}">#D70600</Color>
+            
+            <system:Boolean x:Key="True">True</system:Boolean>
+            <system:Boolean x:Key="False">False</system:Boolean>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

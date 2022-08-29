@@ -9,4 +9,5 @@ public struct StartupState
     public SemanticVersion Version { get; init; }
     public bool FirstRun { get; init; }
     public bool JustUpdated { get; init; }
+    public bool Debug { get; init; }
 }

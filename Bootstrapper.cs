@@ -5,6 +5,8 @@ using System.Runtime.ExceptionServices;
 using System.Windows;
 using System.Windows.Threading;
 using F1Desktop.Features.Base;
+using F1Desktop.Features.Debug;
+using F1Desktop.Features.Debug.Base;
 using F1Desktop.Features.Root;
 using F1Desktop.Features.Settings.Settings.Base;
 using F1Desktop.Misc;
@@ -34,6 +36,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     private SemanticVersion _version;
     private bool _firstRun;
     private bool _justUpdated;
+    private bool _debug;
 
     public override void Start(string[] args)
     {
@@ -52,6 +55,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         if (args.Any(x => x.Contains("just-updated")))
             _justUpdated = true;
+        if (args.Any(x => x.Contains("debug")))
+            _debug = true;
 
         SquirrelAwareApp.HandleEvents(
             onInitialInstall: (_, t) =>
@@ -82,12 +87,13 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         builder.Bind<TaskbarIcon>().ToFactory(_ => _icon);
 
-        builder.Bind<StartupState>().ToFactory(_ => new StartupState()
+        builder.Bind<StartupState>().ToFactory(_ => new StartupState
         {
             AppTools = _appTools,
             FirstRun = _firstRun,
             JustUpdated = _justUpdated,
-            Version = _version
+            Version = _version,
+            Debug = _debug
         });
 
         builder.Bind<WindowViewModel>().ToSelf().InSingletonScope();
@@ -99,9 +105,15 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         builder.Bind<GlobalConfigService>().ToSelf().InSingletonScope();
         builder.Bind<RegistryService>().ToSelf().InSingletonScope();
         builder.Bind<UpdateService>().ToSelf().InSingletonScope();
+        
+        builder.Bind<TimeService>().ToSelf().InSingletonScope();
+        builder.Bind<ITime>().ToFactory(c => c.Get<TimeService>());
+        builder.Bind<ITimeDebug>().ToFactory(c => c.Get<TimeService>());
+        
         builder.Bind<Serilog.ILogger>().ToInstance(_log);
         builder.BindAllImplementers<FeatureBase>();
         builder.BindAllImplementers<SetingsCategoryViewModelBase>();
+        builder.BindAllImplementers<DebugFeatureBase>();
     }
 
     protected override async void Configure()
@@ -112,6 +124,14 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         Container.Get<ThemeService>();
         // Install updates
         await Container.Get<UpdateService>().Update();
+    }
+
+    protected override void Launch()
+    {
+        base.Launch();
+        if (!_debug) return;
+        var wm = Container.Get<IWindowManager>();
+        wm.ShowWindow(Container.Get<DebugWindowViewModel>());
     }
 
     private bool _hasProvidedCrashFeedback;

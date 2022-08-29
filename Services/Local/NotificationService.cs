@@ -1,20 +1,25 @@
-﻿using F1Desktop.Services.Base;
+﻿using F1Desktop.Enums;
+using F1Desktop.Services.Base;
+using F1Desktop.Services.Interfaces;
 using H.NotifyIcon;
 
 namespace F1Desktop.Services.Local;
 
 public class NotificationService : ServiceBase
 {
-    private TaskbarIcon _icon;
     private readonly Func<TaskbarIcon> _tryGetIcon;
     private readonly SortedSet<ScheduledNotification> _scheduled = new();
     private readonly Dictionary<object, List<ScheduledNotification>> _owners = new();
     private bool _notificationShowing;
+    
+    private TaskbarIcon _icon;
     private readonly GlobalConfigService _config;
+    private readonly ITime _time;
 
-    public NotificationService(Func<TaskbarIcon> tryGetIcon, TickService tickService, GlobalConfigService config)
+    public NotificationService(Func<TaskbarIcon> tryGetIcon, ITime time, GlobalConfigService config)
     {
-        tickService.OneSecond += Tick;
+        _time = time;
+        _time.RegisterTickCallback(Every.OneSecond, Tick);
         _tryGetIcon = tryGetIcon;
         _config = config;
     }
@@ -24,7 +29,7 @@ public class NotificationService : ServiceBase
         if (!_config.EnableNotifications) return;
         if (!TrySetupIcon() || _notificationShowing)
         {
-            ScheduleNotification(this, DateTimeOffset.Now, title, message, onNotificationClicked);
+            ScheduleNotification(this, _time.OffsetNow, title, message, onNotificationClicked);
             return;
         }
 
@@ -78,12 +83,12 @@ public class NotificationService : ServiceBase
         return true;
     }
 
-    private void Tick()
+    private void Tick(DateTimeOffset offsetNow)
     {
         if (_notificationShowing) return;
         var first = _scheduled.Min;
         if (first is null) return;
-        if (first.Time > DateTimeOffset.Now) return;
+        if (first.Time > offsetNow) return;
         if (first.ShouldShow?.Invoke() == true)
             ShowNotification(first.Title, first.Message(), first.OnClickedCallback);
         CancelNotification(first);

@@ -30,6 +30,8 @@ public class RaceViewModel : SessionViewModelBase, IViewAware
         get => _nextSession;
         private set => SetAndNotify(ref _nextSession, value);
     }
+    
+    public Action OnNextSessionChanged { get; set; }
 
     public RaceViewModel(Race race, int totalRaces, GlobalConfigService global) : base(race.DateTime, global)
     {
@@ -57,19 +59,21 @@ public class RaceViewModel : SessionViewModelBase, IViewAware
     /// Checks to see if the next session should change.
     /// </summary>
     /// <returns>True if the next session has changed.</returns>
-    public bool UpdateNextSession()
+    public void UpdateNextSession()
     {
         if (NextSession is null)
         {
             NextSession = _content.Sessions.GetNextSession();
-            return true;
+            OnNextSessionChanged?.Invoke();
+            return;
         }
 
-        if (DateTimeOffset.Now < NextSession.SessionTime) return false;
+        if (DateTimeOffset.Now < NextSession.SessionTime) return;
+        
         NextSession.IsNext = false;
         NextSession.IsUpcoming = false;
         NextSession = _content.Sessions.GetNextSession();
-        return true;
+        OnNextSessionChanged?.Invoke();
     }
 
     public void AttachView(UIElement view) => View = view;

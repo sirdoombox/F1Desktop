@@ -1,0 +1,57 @@
+﻿<Grid x:Class="F1Desktop.Features.Debug.TimeManipulatorView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:F1Desktop.Features.Debug"
+      xmlns:controls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
+      xmlns:s="https://github.com/canton7/Stylet"
+      xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+      mc:Ignorable="d"
+      d:DataContext="{d:DesignInstance local:TimeManipulatorViewModel}">
+      <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="{adonisUi:Space 1}"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
+      </Grid.RowDefinitions>
+      <UniformGrid Columns="5" Grid.Row="1">
+            <UniformGrid.Resources>
+                  <Style TargetType="TextBlock">
+                        <Setter Property="DockPanel.Dock" Value="Top"/>
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                  </Style>
+                  <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                        <Setter Property="Margin" Value="{adonisUi:Space 1,1}"/>
+                  </Style>
+            </UniformGrid.Resources>
+            <DockPanel>
+                  <TextBlock Text="Year"/>
+                  <TextBox Text="{Binding Year}"/>
+            </DockPanel>
+            <DockPanel>
+                  <TextBlock Text="Month"/>
+                  <TextBox Text="{Binding Month}"/>
+            </DockPanel>
+            <DockPanel>
+                  <TextBlock Text="Day"/>
+                  <TextBox Text="{Binding Day}"/>
+            </DockPanel>
+            <DockPanel>
+                  <TextBlock Text="Hour"/>
+                  <TextBox Text="{Binding Hour}"/>
+            </DockPanel>
+            <DockPanel>
+                  <TextBlock Text="Minute"/>
+                  <TextBox Text="{Binding Minute}"/>
+            </DockPanel>
+      </UniformGrid>
+      <UniformGrid Grid.Row="3" Columns="5">
+            <Button Content="+1 Hour" Command="{s:Action MoveHour}" CommandParameter="{StaticResource True}"/>
+            <Button Content="-1 Hour" Command="{s:Action MoveHour}" CommandParameter="{StaticResource False}"/>
+            <Button Content="+1 Day" Command="{s:Action MoveDay}" CommandParameter="{StaticResource True}"/>
+            <Button Content="-1 Day" Command="{s:Action MoveDay}" CommandParameter="{StaticResource False}"/>
+            <Button Content="Set Time" Command="{s:Action SetTime}"/>
+      </UniformGrid>
+</Grid>

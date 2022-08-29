@@ -55,19 +55,21 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     private readonly ErgastAPIService _api;
     private readonly NotificationService _notifications;
     private readonly GlobalConfigService _global;
+    private readonly ITime _time;
 
     private static readonly TimeSpan NotificationTime = TimeSpan.FromMinutes(30);
 
     public CalendarRootViewModel(ErgastAPIService api,
         NotificationService notifications,
         GlobalConfigService global,
-        TickService tick)
+        ITime time)
         : base("Calendar", PackIconMaterialKind.Calendar, 0)
     {
         _api = api;
         _notifications = notifications;
         _global = global;
-        tick.TenSeconds += UpdateTimers;
+        _time = time;
+        _time.RegisterTickCallback(Every.TenSeconds, UpdateTimers);
         FeatureLoading = true;
     }
 
@@ -80,7 +82,7 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     protected override async void OnFeatureFirstOpened() => await LoadData();
 
     public Task RefreshData() => LoadData();
-    
+
     private async Task LoadData()
     {
         FeatureLoading = true;
@@ -93,61 +95,43 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
             .Select(x => new RaceViewModel(x, data.result.ScheduleData.Total, _global));
         foreach (var race in races)
         {
+            race.OnNextSessionChanged += SetNotifications;
             Races.Add(race);
             await Task.Delay(5);
         }
+
         FeatureLoading = false;
-        UpdateTimers();
+        UpdateTimers(_time.OffsetNow);
     }
 
-    private void UpdateTimers()
+    private void UpdateTimers(DateTimeOffset offsetNow)
     {
         if (Races.Count <= 0) return;
-        bool hasNextRaceChanged = false, hasNextSessionChanged = false;
         if (NextRace is null)
-        {
             NextRace = Races.GetNextSession();
-            hasNextRaceChanged = true;
-        }
-        else if (DateTimeOffset.Now >= NextRace.SessionTime)
+        else if (offsetNow >= NextRace.SessionTime)
         {
             NextRace.IsNext = false;
             NextRace.IsUpcoming = false;
             NextRace = Races.GetNextSession();
-            hasNextRaceChanged = true;
         }
-
-        hasNextSessionChanged = NextRace.UpdateNextSession();
-
-        TimeUntilNextRace = NextRace.SessionTime - DateTimeOffset.Now;
-        TimeUntilNextSession = NextRace.NextSession.SessionTime - DateTimeOffset.Now;
-        SetNotifications(hasNextRaceChanged, hasNextSessionChanged);
+        NextRace.UpdateNextSession();
+        TimeUntilNextRace = NextRace.SessionTime - offsetNow;
+        TimeUntilNextSession = NextRace.NextSession.SessionTime - offsetNow;
     }
 
     public void ToggleShowPreviousRaces() =>
         ShowPreviousRaces = !ShowPreviousRaces;
 
-    public void ToggleEnableNotifications() => 
+    public void ToggleEnableNotifications() =>
         EnableNotifications = !EnableNotifications;
 
-    private void SetNotifications(bool raceChanged, bool sessionChanged)
+    private void SetNotifications()
     {
-        if (raceChanged)
-        {
-            _notifications.ScheduleNotification(this,
-                NextRace.SessionTime - NotificationTime,
-                NextRace.Name,
-                () => $"Lights Out In {(NextRace.SessionTime - DateTimeOffset.Now).Minutes} Minutes",
-                shouldShow: () => EnableNotifications);
-        }
-
-        if (sessionChanged && NextRace.NextSession.Type != SessionType.Race)
-        {
-            _notifications.ScheduleNotification(this,
-                NextRace.NextSession.SessionTime - NotificationTime,
-                NextRace.Name,
-                () => $"{NextRace.NextSession.Name} Starts In {(NextRace.NextSession.SessionTime - DateTimeOffset.Now).Minutes} Minutes.",
-                shouldShow: () => EnableNotifications);
-        }
+        _notifications.ScheduleNotification(this,
+            NextRace.NextSession.SessionTime - NotificationTime,
+            NextRace.Name,
+            () => $"{NextRace.NextSession.Name} Starts In {(NextRace.NextSession.SessionTime - _time.OffsetNow).Minutes} Minutes",
+            shouldShow: () => EnableNotifications);
     }
 }
