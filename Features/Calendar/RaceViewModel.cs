@@ -55,24 +55,31 @@ public class RaceViewModel : SessionViewModelBase, IViewAware
         RaceContent = null;
     }
 
+    public void SetWeekendFinished()
+    {
+        IsNext = false;
+        IsUpcoming = false;
+        RaceContent.SetWeekendFinished();
+    }
+
     /// <summary>
     /// Checks to see if the next session should change.
     /// </summary>
     /// <returns>True if the next session has changed.</returns>
-    public void UpdateNextSession()
+    public void UpdateNextSession(DateTimeOffset offsetNow)
     {
         if (NextSession is null)
         {
-            NextSession = _content.Sessions.GetNextSession();
+            NextSession = _content.Sessions.GetNextSession(offsetNow);
             OnNextSessionChanged?.Invoke();
             return;
         }
 
-        if (DateTimeOffset.Now < NextSession.SessionTime) return;
+        if (offsetNow < NextSession.SessionTime) return;
         
         NextSession.IsNext = false;
         NextSession.IsUpcoming = false;
-        NextSession = _content.Sessions.GetNextSession();
+        NextSession = _content.Sessions.GetNextSession(offsetNow);
         OnNextSessionChanged?.Invoke();
     }
 

@@ -6,9 +6,9 @@ namespace F1Desktop.Misc.Extensions;
 
 public static class EnumerableExtensions
 {
-    public static T GetNextSession<T>(this IEnumerable<T> collection) where T : SessionViewModelBase
+    public static T GetNextSession<T>(this IEnumerable<T> collection, DateTimeOffset offsetNow) where T : SessionViewModelBase
     {
-        var next = collection.First(x => x.SessionTime > DateTimeOffset.Now);
+        var next = collection.First(x => x.SessionTime > offsetNow);
         next.IsNext = true;
         return next;
     }

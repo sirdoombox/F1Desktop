@@ -69,7 +69,7 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         _notifications = notifications;
         _global = global;
         _time = time;
-        _time.RegisterTickCallback(Every.TenSeconds, UpdateTimers);
+        _time.RegisterTickCallback(Every.OneSecond, UpdateTimers);
         FeatureLoading = true;
     }
 
@@ -93,6 +93,7 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         var races = data.result.ScheduleData.RaceTable.Races
             .OrderBy(x => x.DateTime)
             .Select(x => new RaceViewModel(x, data.result.ScheduleData.Total, _global));
+        
         foreach (var race in races)
         {
             race.OnNextSessionChanged += SetNotifications;
@@ -108,14 +109,13 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     {
         if (Races.Count <= 0) return;
         if (NextRace is null)
-            NextRace = Races.GetNextSession();
+            NextRace = Races.GetNextSession(offsetNow);
         else if (offsetNow >= NextRace.SessionTime)
         {
-            NextRace.IsNext = false;
-            NextRace.IsUpcoming = false;
-            NextRace = Races.GetNextSession();
+            NextRace.SetWeekendFinished();
+            NextRace = Races.GetNextSession(offsetNow);
         }
-        NextRace.UpdateNextSession();
+        NextRace.UpdateNextSession(offsetNow);
         TimeUntilNextRace = NextRace.SessionTime - offsetNow;
         TimeUntilNextSession = NextRace.NextSession.SessionTime - offsetNow;
     }

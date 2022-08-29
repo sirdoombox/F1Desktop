@@ -75,11 +75,4 @@ public class FirstRunWindowViewModel : Screen
         ((Window)View).Close();
         OnFirstRunClosed?.Invoke();
     }
-
-    public void OnDeactivated(object sender, EventArgs e)
-    {
-        var window = (Window)sender;
-        window.Topmost = true;
-        window.Activate();
-    }
 }

@@ -19,6 +19,12 @@ public class RaceContentViewModel : PropertyChangedBase
         Sessions.AddRange(weekendOrder.Select(x => new SessionViewModel(x, race.Sessions[x], global)));
     }
 
+    public void SetWeekendFinished()
+    {
+        foreach (var session in Sessions)
+            session.IsNext = session.IsUpcoming = false;
+    }
+
     public void OpenWiki() => UrlHelper.Open(_race.Url);
 
     public void OpenMaps() => UrlHelper.OpenMap(_race.Circuit);

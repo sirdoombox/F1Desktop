@@ -1,4 +1,5 @@
 ﻿using F1Desktop.Enums;
+using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.Misc;
 using F1Desktop.Services.Base;
 using F1Desktop.Services.Interfaces;
@@ -10,7 +11,7 @@ public class TimeService : ServiceBase, ITimeDebug
 {
     public DateTimeOffset DebugTime { get; set; }
     
-    public DateTimeOffset OffsetNow => _isDebug ? DebugTime : DateTimeOffset.Now;
+    public DateTimeOffset OffsetNow => _isDebug ? DebugTime : DateTimeOffset.Now.RoundDown(TimeSpan.FromMinutes(1));
 
     public Action<DateTimeOffset> OneSecondTick { get; private set; }
     public Action<DateTimeOffset> TenSecondTick { get; private set; }
@@ -19,13 +20,13 @@ public class TimeService : ServiceBase, ITimeDebug
     
     public TimeService(StartupState startupState)
     {
-        DebugTime = DateTimeOffset.Now;
+        DebugTime = OffsetNow; // Set debug time to now before we actually set debug state.
         _isDebug = startupState.Debug;
         if (_isDebug) return; // prevent registering jobs when debugging.
         JobManager.Initialize();
         JobManager.Start();
-        JobManager.AddJob(() => OneSecondTick?.Invoke(DateTimeOffset.Now), s => s.ToRunEvery(1).Seconds());
-        JobManager.AddJob(() => TenSecondTick?.Invoke(DateTimeOffset.Now), s => s.ToRunEvery(10).Seconds());
+        JobManager.AddJob(() => OneSecondTick?.Invoke(OffsetNow), s => s.ToRunEvery(1).Seconds());
+        JobManager.AddJob(() => TenSecondTick?.Invoke(OffsetNow), s => s.ToRunEvery(10).Seconds());
     }
 
     public void RegisterTickCallback(Every every, Action<DateTimeOffset> callback)
