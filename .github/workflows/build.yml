@@ -24,7 +24,7 @@ jobs:
         dotnet-version: 6.0.x
     
     - name: Install Squirrel CLI
-      run: dotnet tool install --global csq --version 3.0.203-g4c20e31
+      run: dotnet tool install --global csq --version 3.0.210-g5f9f594
         
     - name: Restore Packages
       run: dotnet restore
