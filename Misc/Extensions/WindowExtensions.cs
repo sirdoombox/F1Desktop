@@ -10,8 +10,9 @@ public static class WindowExtensions
         {
             window.Close();
         }
-        catch (InvalidOperationException)
+        catch
         {
+            // Ignored
         }
     }
 }

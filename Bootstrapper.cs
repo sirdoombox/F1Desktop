@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics;
 using System.IO;
-using System.Reflection;
-using System.Runtime.ExceptionServices;
 using System.Windows;
 using System.Windows.Threading;
 using F1Desktop.Features.Base;
@@ -43,7 +41,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(AppContext.BaseDirectory)).Length > 1)
             Process.GetCurrentProcess().Kill();
         
-        AppDomain.CurrentDomain.FirstChanceException += CurrentDomainOnFirstChanceException;
+        AppDomain.CurrentDomain.UnhandledException += CurrentDomainUnhandledException;
 
         _log = new LoggerConfiguration()
             .WriteTo.File(Path.Combine(Constants.App.LogsPath, "Log-.log"),
@@ -76,6 +74,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         base.Start(args);
     }
+
+    
 
     protected override void OnLaunch() =>
         _icon = Application.MainWindow.GetChildOfType<TaskbarIcon>();
@@ -136,11 +136,11 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
     private bool _hasProvidedCrashFeedback;
 
-    private void CurrentDomainOnFirstChanceException(object sender, FirstChanceExceptionEventArgs e) =>
-        HandleException(e.Exception);
-
     protected override void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e) =>
         HandleException(e.Exception);
+
+    private void CurrentDomainUnhandledException(object sender, UnhandledExceptionEventArgs e) =>
+        HandleException((Exception)e.ExceptionObject);
 
     private void HandleException(Exception e)
     {

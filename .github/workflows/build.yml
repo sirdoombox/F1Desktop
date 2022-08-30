@@ -36,4 +36,4 @@ jobs:
       run: csq pack -u F1Desktop -v ${{github.ref_name}} -p ./bin/Publish -r ./bin/Squirrel -e F1Desktop.exe -i ./Resources/f1.ico --appIcon ./Resources/f1.ico --releaseNotes ./Resources/Changelogs/${{ github.ref_name }}.MD
       
     - name: Upload Squirrel Release
-      run: csq github-up -r ./bin/Squirrel --repoUrl https://github.com/sirdoombox/F1Desktop --token ${{ secrets.GITHUB_TOKEN }} --releaseName F1 Desktop v${{github.ref_name}} --publish
+      run: csq github-up -r ./bin/Squirrel --repoUrl https://github.com/sirdoombox/F1Desktop --token ${{ secrets.GITHUB_TOKEN }} --releaseName "F1 Desktop v${{github.ref_name}}" --publish

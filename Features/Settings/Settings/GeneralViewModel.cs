@@ -1,7 +1,4 @@
-﻿using System.Threading.Tasks;
-using AdonisUI.Controls;
-using F1Desktop.Features.Settings.Settings.Base;
-using F1Desktop.Misc;
+﻿using F1Desktop.Features.Settings.Settings.Base;
 using F1Desktop.Services.Local;
 
 namespace F1Desktop.Features.Settings.Settings;

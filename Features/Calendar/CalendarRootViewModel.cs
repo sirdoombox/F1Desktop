@@ -9,8 +9,6 @@ using F1Desktop.Services.Local;
 using F1Desktop.Services.Remote;
 using JetBrains.Annotations;
 using MahApps.Metro.IconPacks;
-using Serilog.Core;
-using Constants = F1Desktop.Misc.Constants;
 
 namespace F1Desktop.Features.Calendar;
 

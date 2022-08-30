@@ -1,5 +1,4 @@
-﻿using F1Desktop.Models.Misc;
-using MahApps.Metro.IconPacks;
+﻿using MahApps.Metro.IconPacks;
 
 namespace F1Desktop.Features.Debug.Base;
 
