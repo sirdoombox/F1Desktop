@@ -96,7 +96,7 @@ public class NotificationService : ServiceBase
         var first = _scheduled.Min;
         if (first is null) return;
         if (first.Time > offsetNow) return;
-        if (first.ShouldShow?.Invoke(offsetNow) == true)
+        if (first.ShouldShow is null || first.ShouldShow.Invoke(offsetNow))
             ShowNotification(first.Title, first.Message, first.OnClickedCallback, first.OnShow);
         CancelNotification(first);
     }

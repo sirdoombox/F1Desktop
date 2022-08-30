@@ -59,6 +59,8 @@
         <EmbeddedResource Include="Resources\Changelogs\1.2.0.MD" />
         <None Remove="Resources\Changelogs\1.2.1.MD" />
         <EmbeddedResource Include="Resources\Changelogs\1.2.1.MD" />
+        <None Remove="Resources\Changelogs\1.2.2.MD" />
+        <EmbeddedResource Include="Resources\Changelogs\1.2.2.MD" />
     </ItemGroup>
 
     <ItemGroup>
