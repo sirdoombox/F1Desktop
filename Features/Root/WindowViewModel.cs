@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using F1Desktop.Features.Base;
 using F1Desktop.Features.Settings;
+using F1Desktop.Services.Interfaces;
 using F1Desktop.Services.Local;
 using JetBrains.Annotations;
 
@@ -105,7 +107,7 @@ public sealed class WindowViewModel : Conductor<IScreen>
         GlobalConfigService globalCfg,
         IViewManager viewManager,
         UpdateService update,
-        NotificationService notification)
+        INotificationService notification)
     {
         _globalCfg = globalCfg;
         OnGlobalConfigChanged(null);

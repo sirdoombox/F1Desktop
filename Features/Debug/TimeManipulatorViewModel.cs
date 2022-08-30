@@ -63,7 +63,7 @@ public class TimeManipulatorViewModel : DebugFeatureBase
         set => SetAndNotify(ref _minuteIncrement, value);
     }
 
-    private DateTimeOffset OffsetTime => new(Year, Month, Day, Hour, Minute, 0, TimeSpan.Zero);
+    private DateTimeOffset OffsetTime => new(Year, Month, Day, Hour, Minute, 0, DateTimeOffset.Now.Offset);
     
     private readonly ITimeServiceDebug _time;
 

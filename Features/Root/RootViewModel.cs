@@ -1,7 +1,9 @@
 ﻿using System.Windows;
 using F1Desktop.Misc.Extensions;
+using F1Desktop.Services.Interfaces;
 using F1Desktop.Services.Local;
 using JetBrains.Annotations;
+using Serilog;
 
 namespace F1Desktop.Features.Root;
 
@@ -14,14 +16,16 @@ public sealed class RootViewModel : Conductor<IScreen>.Collection.AllActive
 
     private readonly GlobalConfigService _cfg;
     private readonly UpdateService _update;
-    private readonly NotificationService _notification;
-
+    private readonly INotificationService _notification;
+    private readonly ILogger _logger;
+    
     public RootViewModel(IWindowManager wm, WindowViewModel window, FirstRunWindowViewModel firstRunWindow,
-        GlobalConfigService cfg, UpdateService update, NotificationService notification)
+        GlobalConfigService cfg, UpdateService update, INotificationService notification, ILogger logger)
     {
         _wm = wm;
         _window = window;
         _update = update;
+        _logger = logger;
         _notification = notification;
         _firstRunWindow = firstRunWindow;
         _cfg = cfg;
@@ -36,9 +40,6 @@ public sealed class RootViewModel : Conductor<IScreen>.Collection.AllActive
 
     protected override void OnInitialActivate()
     {
-        _notification.ShowNotification("Update Installed.", 
-            $"Update {_update.Version} Successfully Installed",
-            OpenDefault);
         if (_update.FirstRun)
         {
             _firstRunWindow.OnFirstRunClosed += OpenDefault;
@@ -51,7 +52,7 @@ public sealed class RootViewModel : Conductor<IScreen>.Collection.AllActive
                 $"Update {_update.Version} Successfully Installed",
                 OpenDefault);
         }
-        else if (_cfg.ShowWindowOnStartup)
+        if (_cfg.ShowWindowOnStartup)
             OpenDefault();
     }
 

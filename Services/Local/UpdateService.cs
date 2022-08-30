@@ -1,13 +1,14 @@
 ﻿using System.Threading.Tasks;
 using F1Desktop.Misc;
 using F1Desktop.Models.Misc;
+using F1Desktop.Services.Base;
 using NuGet.Versioning;
 using Squirrel;
 using Squirrel.Sources;
 
 namespace F1Desktop.Services.Local;
 
-public class UpdateService : IDisposable
+public class UpdateService : ServiceBase, IDisposable
 {
     public bool IsJustUpdated { get; }
     public string Version => _version is null ? "DEBUG" : _version.ToString();
@@ -23,10 +24,10 @@ public class UpdateService : IDisposable
     {
         var githubSource = new GithubSource(Constants.Url.GitHubRepo, string.Empty, false);
         _mgr = new UpdateManager(githubSource);
+        IsJustUpdated = startupState.JustUpdated;
         if (IsPortable) return;
         _appTools = startupState.AppTools;
         FirstRun = startupState.FirstRun;
-        IsJustUpdated = startupState.JustUpdated;
         _version = startupState.Version;
     }
 

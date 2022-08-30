@@ -75,14 +75,14 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     }
 
     private readonly ErgastAPIService _api;
-    private readonly NotificationService _notifications;
+    private readonly INotificationService _notifications;
     private readonly GlobalConfigService _global;
     private readonly ITimeService _time;
 
     private static readonly TimeSpan NotificationTime = TimeSpan.FromMinutes(30);
 
     public CalendarRootViewModel(ErgastAPIService api,
-        NotificationService notifications,
+        INotificationService notifications,
         GlobalConfigService global,
         ITimeService time)
         : base("Calendar", PackIconMaterialKind.Calendar, 0)
@@ -104,7 +104,15 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         EnableWeekNotifications = Config.EnableRaceWeekNotifications;
     }
 
-    protected override async void OnFeatureFirstOpened() => await LoadData();
+    //protected override async void OnFeatureFirstOpened() => await LoadData();
+
+    //protected override async void OnInitialActivate() => await LoadData();
+
+    public override async Task LoadDataInBackground()
+    {
+        await base.LoadDataInBackground();
+        await LoadData();
+    }
 
     public Task RefreshData() => LoadData();
 

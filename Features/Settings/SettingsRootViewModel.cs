@@ -5,6 +5,7 @@ using F1Desktop.Features.Settings.Changelogs;
 using F1Desktop.Features.Settings.Credits;
 using F1Desktop.Features.Settings.Settings.Base;
 using F1Desktop.Misc;
+using F1Desktop.Services.Interfaces;
 using F1Desktop.Services.Local;
 using MahApps.Metro.IconPacks;
 
@@ -20,11 +21,11 @@ public class SettingsRootViewModel : FeatureBase
     public ChangelogsViewModel Changelogs { get; }
 
     private readonly UpdateService _update;
-    private readonly NotificationService _notification;
+    private readonly INotificationService _notification;
     private readonly GlobalConfigService _config;
     private readonly IWindowManager _windowManager;
 
-    public SettingsRootViewModel(GlobalConfigService config, UpdateService update, NotificationService notification, 
+    public SettingsRootViewModel(GlobalConfigService config, UpdateService update, INotificationService notification, 
         IEnumerable<SetingsCategoryViewModelBase> categories, 
         CreditsViewModel credits, ChangelogsViewModel changelogs, IWindowManager windowManager)
         : base("Settings", PackIconMaterialKind.Cog, byte.MaxValue)

@@ -1,4 +1,5 @@
-﻿using MahApps.Metro.IconPacks;
+﻿using System.Threading.Tasks;
+using MahApps.Metro.IconPacks;
 using Serilog;
 using StyletIoC;
 
@@ -43,6 +44,11 @@ public abstract class FeatureBase : Screen, IInjectionAware
     }
     
     public void ParametersInjected() => OnPropertiesInjected();
+
+    public virtual Task LoadDataInBackground()
+    {
+        return Task.CompletedTask;
+    }
     
     protected virtual void OnFeatureHidden()
     {

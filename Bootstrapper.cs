@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Runtime.ExceptionServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using F1Desktop.Features.Base;
@@ -28,7 +30,6 @@ namespace F1Desktop;
 
 public class Bootstrapper : Bootstrapper<RootViewModel>
 {
-    private TaskbarIcon _icon;
     private Logger _log;
     private IAppTools _appTools;
     private SemanticVersion _version;
@@ -75,17 +76,10 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         base.Start(args);
     }
 
-    
-
-    protected override void OnLaunch() =>
-        _icon = Application.MainWindow.GetChildOfType<TaskbarIcon>();
-
     protected override void ConfigureIoC(IStyletIoCBuilder builder)
     {
         var localDataService = new LocalDataService();
         builder.Bind<IConfigService>().ToInstance(localDataService);
-
-        builder.Bind<TaskbarIcon>().ToFactory(_ => _icon);
 
         builder.Bind<StartupState>().ToFactory(_ => new StartupState
         {
@@ -99,7 +93,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         builder.Bind<WindowViewModel>().ToSelf().InSingletonScope();
         builder.Bind<ErgastAPIService>().ToSelf().InSingletonScope();
         builder.Bind<NewsRssService>().ToSelf().InSingletonScope();
-        builder.Bind<NotificationService>().ToSelf().InSingletonScope();
         builder.Bind<ThemeService>().ToSelf().InSingletonScope();
         builder.Bind<DataResourceService>().ToSelf().InSingletonScope();
         builder.Bind<GlobalConfigService>().ToSelf().InSingletonScope();
@@ -109,6 +102,10 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         builder.Bind<TimeService>().ToSelf().InSingletonScope();
         builder.Bind<ITimeService>().ToFactory(c => c.Get<TimeService>());
         builder.Bind<ITimeServiceDebug>().ToFactory(c => c.Get<TimeService>());
+
+        builder.Bind<NotificationService>().ToSelf().InSingletonScope();
+        builder.Bind<INotificationService>().ToFactory(c => c.Get<NotificationService>());
+        builder.Bind<INotificationServiceDebug>().ToFactory(c => c.Get<NotificationService>());
         
         builder.Bind<Serilog.ILogger>().ToInstance(_log);
         builder.BindAllImplementers<FeatureBase>();
@@ -116,19 +113,27 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         builder.BindAllImplementers<DebugFeatureBase>();
     }
 
-    protected override async void Configure()
+    protected override void Configure()
     {
-        await Container.Get<GlobalConfigService>().LoadConfig();
         // ensure services are built - no type depends on them, but they react to GlobalConfigService changes.
         Container.Get<RegistryService>();
         Container.Get<ThemeService>();
-        // Install updates
-        await Container.Get<UpdateService>().Update();
     }
 
-    protected override void Launch()
+    protected override async void Launch()
     {
+        await Container.Get<GlobalConfigService>().LoadConfig();
+        await Container.Get<UpdateService>().Update();
+        
+        var tasks = new List<Task>();
+        foreach (var feature in Container.GetAll<FeatureBase>())
+            tasks.Add(feature.LoadDataInBackground());
+        await Task.WhenAll(tasks);
+        
         base.Launch();
+        
+        Container.Get<ThemeService>().PassIcon(Application.MainWindow.GetChildOfType<TaskbarIcon>());
+        Container.Get<NotificationService>().PassIcon(Application.MainWindow.GetChildOfType<TaskbarIcon>());
         if (!_debug) return;
         var wm = Container.Get<IWindowManager>();
         wm.ShowWindow(Container.Get<DebugWindowViewModel>());
@@ -144,14 +149,10 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
     private void HandleException(Exception e)
     {
-#if DEBUG
-        return; // prevent handling exceptions when debugging, it's annoying.
-#endif
         _log.Fatal(e, "");
         if (_hasProvidedCrashFeedback) return;
         _hasProvidedCrashFeedback = true;
-        Execute.OnUIThread(() => Container.Get<WindowViewModel>().View.AsWindow().Hide());
-        Dispose();
+        Execute.OnUIThread(() => Container.Get<WindowViewModel>()?.View?.AsWindow().Hide());
         MessageBox.Show("See C:\\Users\\USERNAME\\AppData\\Roaming\\F1Desktop\\Logs for technical information.",
             "F1 Desktop Has Crashed Unexpectedly");
     }
@@ -159,7 +160,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     public override void Dispose()
     {
         GC.SuppressFinalize(this);
-        _icon?.Dispose();
+        //_icon?.Dispose();
         JobManager.Stop();
         base.Dispose();
     }

@@ -8,25 +8,29 @@ namespace F1Desktop.Services.Local;
 public class ThemeService : ServiceBase
 {
     private TaskbarIcon _icon;
-    private readonly Func<TaskbarIcon> _tryGetIcon;
+    private GlobalConfigService _config;
 
-    public ThemeService(Func<TaskbarIcon> tryGetIcon, GlobalConfigService config)
+    public ThemeService(GlobalConfigService config)
     {
-        _tryGetIcon = tryGetIcon;
-        _icon = _tryGetIcon();
-        SetTheme(config.UseLightTheme);
-        config.OnPropertyChanged += prop =>
+        _config = config;
+        SetTheme(_config.UseLightTheme);
+        _config.OnPropertyChanged += prop =>
         {
             if (prop != nameof(GlobalConfigService.UseLightTheme)) return;
-            SetTheme(config.UseLightTheme);
+            SetTheme(_config.UseLightTheme);
         };
     }
 
     public void SetTheme(bool isLight)
     {
-        _icon ??= _tryGetIcon();
         ResourceLocator.SetColorScheme(Application.Current.Resources,
             isLight ? ResourceLocator.LightColorScheme : ResourceLocator.DarkColorScheme);
         _icon?.UpdateDefaultStyle();
+    }
+
+    public void PassIcon(TaskbarIcon icon)
+    {
+        _icon = icon;
+        SetTheme(_config.UseLightTheme);
     }
 }

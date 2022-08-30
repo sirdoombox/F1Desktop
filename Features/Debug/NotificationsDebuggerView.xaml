@@ -1,0 +1,33 @@
+﻿<Grid x:Class="F1Desktop.Features.Debug.NotificationsDebuggerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:F1Desktop.Features.Debug"
+             xmlns:s="https://github.com/canton7/Stylet"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance local:NotificationsDebuggerViewModel}">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <ListBox ItemsSource="{Binding Notifications}" Grid.Row="0">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <DataTemplate.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Margin" Value="0 5 0 0"/>
+                    </Style>
+                </DataTemplate.Resources>
+                <StackPanel>
+                    <TextBlock Margin="0" Text="{Binding OwnerType, StringFormat='Owner: {0}'}"/>
+                    <TextBlock Text="{Binding ScheduledAt, StringFormat='Scheduled At: {0}'}"/>
+                    <TextBlock Text="{Binding Title, StringFormat='Title:{0}'}"/>
+                    <TextBlock Text="{Binding Message, StringFormat='Message: {0}'}"/>
+                    <TextBlock Text="{Binding ShouldShow, StringFormat='Should Show?: {0}'}"/>
+                </StackPanel>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
+    <Button Content="Update" Grid.Row="1" Command="{s:Action Update}"/>
+</Grid>
