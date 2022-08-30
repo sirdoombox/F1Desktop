@@ -104,10 +104,6 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         EnableWeekNotifications = Config.EnableRaceWeekNotifications;
     }
 
-    //protected override async void OnFeatureFirstOpened() => await LoadData();
-
-    //protected override async void OnInitialActivate() => await LoadData();
-
     public override async Task LoadDataInBackground()
     {
         await base.LoadDataInBackground();

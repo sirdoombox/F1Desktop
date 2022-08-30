@@ -38,13 +38,6 @@ public abstract class FeatureBaseWithConfig<TConfig> : FeatureBase where TConfig
         OnGlobalConfigReset();
     }
 
-    public override async void ShowFeature()
-    {
-        //Config ??= await ConfigService.GetConfigAsync<TConfig>();
-        base.ShowFeature();
-        //OnConfigLoaded();
-    }
-
     protected override void OnActivate()
     {
         OnActivationComplete();

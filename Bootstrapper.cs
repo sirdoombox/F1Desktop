@@ -108,7 +108,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         builder.Bind<INotificationServiceDebug>().ToFactory(c => c.Get<NotificationService>());
         
         builder.Bind<Serilog.ILogger>().ToInstance(_log);
-        builder.BindAllImplementers<FeatureBase>();
+        builder.BindAllImplementers<FeatureBase>(true);
         builder.BindAllImplementers<SetingsCategoryViewModelBase>();
         builder.BindAllImplementers<DebugFeatureBase>();
     }
