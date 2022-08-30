@@ -1,5 +1,6 @@
 ﻿using F1Desktop.Misc;
 using F1Desktop.Models.ErgastAPI.Schedule;
+using F1Desktop.Services.Interfaces;
 using F1Desktop.Services.Local;
 
 namespace F1Desktop.Features.Calendar;
@@ -10,13 +11,13 @@ public class RaceContentViewModel : PropertyChangedBase
 
     private readonly Race _race;
 
-    public RaceContentViewModel(Race race, GlobalConfigService global)
+    public RaceContentViewModel(Race race, GlobalConfigService global, ITimeService time)
     {
         _race = race;
         var weekendOrder = race.IsSprintWeekend
             ? Constants.F1.SprintWeekendOrder
             : Constants.F1.NormalWeekendOrder;
-        Sessions.AddRange(weekendOrder.Select(x => new SessionViewModel(x, race.Sessions[x], global)));
+        Sessions.AddRange(weekendOrder.Select(x => new SessionViewModel(x, race.Sessions[x], global, time)));
     }
 
     public void SetWeekendFinished()

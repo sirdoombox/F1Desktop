@@ -107,8 +107,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         builder.Bind<UpdateService>().ToSelf().InSingletonScope();
         
         builder.Bind<TimeService>().ToSelf().InSingletonScope();
-        builder.Bind<ITime>().ToFactory(c => c.Get<TimeService>());
-        builder.Bind<ITimeDebug>().ToFactory(c => c.Get<TimeService>());
+        builder.Bind<ITimeService>().ToFactory(c => c.Get<TimeService>());
+        builder.Bind<ITimeServiceDebug>().ToFactory(c => c.Get<TimeService>());
         
         builder.Bind<Serilog.ILogger>().ToInstance(_log);
         builder.BindAllImplementers<FeatureBase>();

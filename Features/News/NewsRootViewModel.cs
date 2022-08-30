@@ -37,19 +37,21 @@ public class NewsRootViewModel : FeatureBaseWithConfig<NewsConfig>
         set
         {
             if (!SetAndNotifyWithConfig(ref _maxDays, c => c.MaxDays, value)) return;
-            _articleCutoff = DateTimeOffset.Now - TimeSpan.FromDays(_maxDays);
+            _articleCutoff = _time.DaysBeforeNow(MaxDays);
             RefreshFilter();
         }
     }
 
     private readonly NewsRssService _rss;
     private readonly GlobalConfigService _global;
+    private readonly ITimeService _time;
 
-    public NewsRootViewModel(NewsRssService rss, GlobalConfigService global)
+    public NewsRootViewModel(NewsRssService rss, GlobalConfigService global, ITimeService time)
         : base("News", PackIconMaterialKind.Newspaper, 3)
     {
         _rss = rss;
         _global = global;
+        _time = time;
     }
 
     protected override void OnConfigLoaded()

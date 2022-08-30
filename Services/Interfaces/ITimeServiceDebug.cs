@@ -1,6 +1,6 @@
 ﻿namespace F1Desktop.Services.Interfaces;
 
-public interface ITimeDebug : ITime
+public interface ITimeServiceDebug : ITimeService
 {
     public Action<DateTimeOffset> OneSecondTick { get; }
     public Action<DateTimeOffset> TenSecondTick { get; }

@@ -1,4 +1,5 @@
-﻿using F1Desktop.Services.Local;
+﻿using F1Desktop.Services.Interfaces;
+using F1Desktop.Services.Local;
 
 namespace F1Desktop.Features.Calendar;
 
@@ -27,10 +28,10 @@ public abstract class SessionViewModelBase : PropertyChangedBase
         set => SetAndNotify(ref _use24HourClock, value);
     }
 
-    public SessionViewModelBase(DateTimeOffset sessionTime, GlobalConfigService cfg)
+    public SessionViewModelBase(DateTimeOffset sessionTime, GlobalConfigService cfg, ITimeService time)
     {
         SessionTime = sessionTime;
-        IsUpcoming = sessionTime > DateTimeOffset.Now;
+        IsUpcoming = time.IsUpcoming(sessionTime);
         Use24HourClock = cfg.Use24HourClock;
         cfg.OnPropertyChanged += _ => Use24HourClock = cfg.Use24HourClock;
     }

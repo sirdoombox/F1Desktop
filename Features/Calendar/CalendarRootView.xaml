@@ -44,11 +44,38 @@
                                 helpers:MultiContentHelper.UseAlternateContent="{Binding ShowPreviousRaces}"
                                 MinWidth="200"
                                 Command="{s:Action ToggleShowPreviousRaces}" />
-                        <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
-                                helpers:MultiContentHelper.Content="Notifications Disabled"
-                                helpers:MultiContentHelper.AlternateContent="Notifications Enabled"
-                                helpers:MultiContentHelper.UseAlternateContent="{Binding EnableNotifications}"
-                                Command="{s:Action ToggleEnableNotifications}" />
+                        <controls:ToolbarToggleMenu ButtonText="Notifications">
+                            <controls:ToolbarToggleMenu.Resources>
+                                <Style TargetType="DockPanel">
+                                    <Setter Property="LastChildFill" Value="True"/>
+                                    <Setter Property="Margin" Value="{adonisUi:Space 1,1}"/>
+                                </Style>
+                                <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Static adonisUi:Styles.ToggleSwitch}}">
+                                    <Setter Property="DockPanel.Dock" Value="Left"/>
+                                </Style>
+                            </controls:ToolbarToggleMenu.Resources>
+                            <StackPanel>
+                                <DockPanel>
+                                    <CheckBox IsChecked="{Binding EnableNotifications}"/>
+                                    <TextBlock Text="Enable Notifications" />
+                                </DockPanel>
+                                <DockPanel>
+                                    <CheckBox IsChecked="{Binding EnableThirtyMinuteNotifications}"
+                                              IsEnabled="{Binding EnableNotifications}"/>
+                                    <TextBlock Text="Thirty Minutes Before" />
+                                </DockPanel>
+                                <DockPanel>
+                                    <CheckBox IsChecked="{Binding EnableDayNotifications}"
+                                              IsEnabled="{Binding EnableNotifications}" />
+                                    <TextBlock Text="Session Today" />
+                                </DockPanel>
+                                <DockPanel>
+                                    <CheckBox IsChecked="{Binding EnableWeekNotifications}" 
+                                              IsEnabled="{Binding EnableNotifications}"/>
+                                    <TextBlock Text="Race Week" />
+                                </DockPanel>
+                            </StackPanel>
+                        </controls:ToolbarToggleMenu>
                     </UniformGrid>
                     <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentToolbarButton}}"
                             Grid.Column="1"

@@ -7,7 +7,7 @@ using FluentScheduler;
 
 namespace F1Desktop.Services.Local;
 
-public class TimeService : ServiceBase, ITimeDebug
+public class TimeService : ServiceBase, ITimeServiceDebug
 {
     public DateTimeOffset DebugTime { get; set; }
     
@@ -44,9 +44,42 @@ public class TimeService : ServiceBase, ITimeDebug
         }
     }
 
-    public DateTimeOffset GetWeekStart(DateTimeOffset sessionStart)
+    public bool IsUpcoming(DateTimeOffset time) => 
+        time > OffsetNow;
+
+    public bool HasPassed(DateTimeOffset time) =>
+        time <= OffsetNow;
+
+    public bool IsToday(DateTimeOffset time) =>
+        IsSameDay(time, OffsetNow);
+
+    public bool IsWithinMinutesBefore(DateTimeOffset isThisTimeWithin, DateTimeOffset ofTime, int minutes) =>
+        isThisTimeWithin <= ofTime && isThisTimeWithin >= ofTime.AddMinutes(minutes);
+    
+    public bool IsSameDay(DateTimeOffset timeOne, DateTimeOffset timeTwo) =>
+        timeOne.Date == timeTwo.Date;
+
+    public bool IsSameWeek(DateTimeOffset timeOne, DateTimeOffset timeTwo) =>
+        GetWeekStart(timeOne).Date == GetWeekStart(timeTwo).Date;
+
+    public DateTimeOffset DaysBeforeNow(int days) => 
+        (OffsetNow - TimeSpan.FromDays(days)).RoundDown(TimeSpan.FromDays(1));
+
+    public DateTimeOffset StartOfDay(DateTimeOffset time) =>
+        time.RoundDown(TimeSpan.FromDays(1));
+
+    public DateTimeOffset StartOfWeek(DateTimeOffset time)
     {
-        var diff = (7 + (sessionStart.DayOfWeek - DayOfWeek.Monday)) % 7;
-        return sessionStart - new TimeSpan(diff, sessionStart.Hour, sessionStart.Minute, sessionStart.Second);
+        var diff = (7 + (time.DayOfWeek - DayOfWeek.Monday)) % 7;
+        return time - new TimeSpan(diff, time.Hour, time.Minute, time.Second);
+    }
+
+    public DateTimeOffset WeeksBeforeNow(int weeks) => 
+        (OffsetNow - TimeSpan.FromDays(weeks * 7)).RoundDown(TimeSpan.FromDays(1));
+
+    public DateTimeOffset GetWeekStart(DateTimeOffset time)
+    {
+        var diff = (7 + (time.DayOfWeek - DayOfWeek.Monday)) % 7;
+        return time - new TimeSpan(diff, time.Hour, time.Minute, time.Second);
     }
 }

@@ -12,7 +12,7 @@
       <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="{adonisUi:Space 1}"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="1*"/>
       </Grid.RowDefinitions>
@@ -47,11 +47,46 @@
                   <TextBox Text="{Binding Minute}"/>
             </DockPanel>
       </UniformGrid>
-      <UniformGrid Grid.Row="3" Columns="5">
-            <Button Content="+1 Hour" Command="{s:Action MoveHour}" CommandParameter="{StaticResource True}"/>
-            <Button Content="-1 Hour" Command="{s:Action MoveHour}" CommandParameter="{StaticResource False}"/>
-            <Button Content="+1 Day" Command="{s:Action MoveDay}" CommandParameter="{StaticResource True}"/>
-            <Button Content="-1 Day" Command="{s:Action MoveDay}" CommandParameter="{StaticResource False}"/>
-            <Button Content="Set Time" Command="{s:Action SetTime}"/>
+      <Button Grid.Row="2" Content="Set Time" Command="{s:Action SetTime}" Margin="{adonisUi:Space 1,1}"/>
+      <UniformGrid Grid.Row="3" Columns="3">
+            <UniformGrid.Resources>
+                  <Style TargetType="DockPanel">
+                        <Setter Property="LastChildFill" Value="True"/>
+                        <Setter Property="Margin" Value="{adonisUi:Space 1,1}"/>
+                  </Style>
+            </UniformGrid.Resources>
+            <DockPanel>
+                  <Button Content="+ Day" 
+                          Command="{s:Action MoveDay}" 
+                          CommandParameter="{StaticResource True}"
+                          DockPanel.Dock="Top"/>
+                  <Button Content="- Day" 
+                          Command="{s:Action MoveDay}" 
+                          CommandParameter="{StaticResource False}"
+                          DockPanel.Dock="Bottom"/>
+                  <TextBox Text="{Binding DayIncrement}"/>
+            </DockPanel>
+            <DockPanel>
+                  <Button Content="+ Hour" 
+                          Command="{s:Action MoveHour}" 
+                          CommandParameter="{StaticResource True}"
+                          DockPanel.Dock="Top"/>
+                  <Button Content="- Hour" 
+                          Command="{s:Action MoveHour}" 
+                          CommandParameter="{StaticResource False}"
+                          DockPanel.Dock="Bottom"/>
+                  <TextBox Text="{Binding HourIncrement}"/>
+            </DockPanel>
+            <DockPanel>
+                  <Button Content="+ Min" 
+                          Command="{s:Action MoveMinute}" 
+                          CommandParameter="{StaticResource True}"
+                          DockPanel.Dock="Top"/>
+                  <Button Content="- Min" 
+                          Command="{s:Action MoveMinute}" 
+                          CommandParameter="{StaticResource False}"
+                          DockPanel.Dock="Bottom"/>
+                  <TextBox Text="{Binding MinuteIncrement}"/>
+            </DockPanel>
       </UniformGrid>
 </Grid>

@@ -14,9 +14,9 @@ public class NotificationService : ServiceBase
     
     private TaskbarIcon _icon;
     private readonly GlobalConfigService _config;
-    private readonly ITime _time;
+    private readonly ITimeService _time;
 
-    public NotificationService(Func<TaskbarIcon> tryGetIcon, ITime time, GlobalConfigService config)
+    public NotificationService(Func<TaskbarIcon> tryGetIcon, ITimeService time, GlobalConfigService config)
     {
         _time = time;
         _time.RegisterTickCallback(Every.OneSecond, Tick);
@@ -24,7 +24,7 @@ public class NotificationService : ServiceBase
         _config = config;
     }
 
-    public void ShowNotification(string title, Func<string> message, Action onNotificationClicked = null)
+    public void ShowNotification(string title, Func<string> message, Action onNotificationClicked = null, Action<DateTimeOffset> onShow = null)
     {
         if (!_config.EnableNotifications) return;
         if (!TrySetupIcon() || _notificationShowing)
@@ -36,16 +36,23 @@ public class NotificationService : ServiceBase
         if (onNotificationClicked is not null)
             _icon.TrayBalloonTipClicked += (_, _) => onNotificationClicked();
 
+        void ShowHandler(object s, EventArgs e)
+        {
+            onShow?.Invoke(_time.OffsetNow);
+            _icon.TrayBalloonTipShown -= ShowHandler;
+        }
+        _icon.TrayBalloonTipShown += ShowHandler;
         _icon.ShowNotification(title, message(), sound: _config.EnableNotificationsSound);
+        
     }
 
     public void ShowNotification(string title, string message, Action onNotificationClicked = null) =>
         ShowNotification(title, () => message, onNotificationClicked);
 
     public void ScheduleNotification(object owner, DateTimeOffset time, string title, Func<string> message,
-        Action onNotificationClicked = null, Func<bool> shouldShow = null)
+        Action onNotificationClicked = null, Action<DateTimeOffset> onShow = null, Func<DateTimeOffset,bool> shouldShow = null)
     {
-        var notification = new ScheduledNotification(time, title, message, onNotificationClicked, shouldShow);
+        var notification = new ScheduledNotification(time, title, message, onNotificationClicked, onShow, shouldShow);
         if (_owners.TryGetValue(owner, out var list))
             list.Add(notification);
         else
@@ -54,8 +61,8 @@ public class NotificationService : ServiceBase
     }
 
     public void ScheduleNotification(object owner, DateTimeOffset time, string title, string message,
-        Action onNotificationClicked = null, Func<bool> shouldShow = null) =>
-        ScheduleNotification(owner, time, title, () => message, onNotificationClicked, shouldShow);
+        Action onNotificationClicked = null, Action<DateTimeOffset> onShow = null, Func<DateTimeOffset,bool> shouldShow = null) =>
+        ScheduleNotification(owner, time, title, () => message, onNotificationClicked, onShow, shouldShow);
 
     public void CancelNotification(ScheduledNotification scheduledNotification)
     {
@@ -89,8 +96,8 @@ public class NotificationService : ServiceBase
         var first = _scheduled.Min;
         if (first is null) return;
         if (first.Time > offsetNow) return;
-        if (first.ShouldShow?.Invoke() == true)
-            ShowNotification(first.Title, first.Message(), first.OnClickedCallback);
+        if (first.ShouldShow?.Invoke(offsetNow) == true)
+            ShowNotification(first.Title, first.Message, first.OnClickedCallback, first.OnShow);
         CancelNotification(first);
     }
 
@@ -100,15 +107,17 @@ public class NotificationService : ServiceBase
         public string Title { get; }
         public Func<string> Message { get; }
         public Action OnClickedCallback { get; }
-        public Func<bool> ShouldShow { get; }
+        public Action<DateTimeOffset> OnShow { get; }
+        public Func<DateTimeOffset,bool> ShouldShow { get; }
 
-        public ScheduledNotification(DateTimeOffset time, string title, Func<string> message, Action onClickedCallback,
-            Func<bool> shouldShow = null)
+        public ScheduledNotification(DateTimeOffset time, string title, Func<string> message, Action onClickedCallback, 
+            Action<DateTimeOffset> onShow, Func<DateTimeOffset,bool> shouldShow = null)
         {
             Time = time;
             Title = title;
             Message = message;
             OnClickedCallback = onClickedCallback;
+            OnShow = onShow;
             ShouldShow = shouldShow;
         }
 

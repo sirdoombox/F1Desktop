@@ -9,6 +9,8 @@ using F1Desktop.Services.Local;
 using F1Desktop.Services.Remote;
 using JetBrains.Annotations;
 using MahApps.Metro.IconPacks;
+using Serilog.Core;
+using Constants = F1Desktop.Misc.Constants;
 
 namespace F1Desktop.Features.Calendar;
 
@@ -21,14 +23,36 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     public bool ShowPreviousRaces
     {
         get => _showPreviousRaces;
-        private set => SetAndNotifyWithConfig(ref _showPreviousRaces, x => x.ShowPreviousRaces, value);
+        set => SetAndNotifyWithConfig(ref _showPreviousRaces, c => c.ShowPreviousRaces, value);
     }
 
     private bool _enableNotifications;
     public bool EnableNotifications
     {
         get => _enableNotifications;
-        private set => SetAndNotifyWithConfig(ref _enableNotifications, x => x.EnableNotifications, value);
+        set => SetAndNotifyWithConfig(ref _enableNotifications, c => c.EnableNotifications, value);
+    }
+
+    private bool _enableThirtyMinuteNotifications;
+    public bool EnableThirtyMinuteNotifications
+    {
+        get => _enableThirtyMinuteNotifications;
+        set => SetAndNotifyWithConfig(ref _enableThirtyMinuteNotifications, c => c.EnableThirtyMinuteNotifications,
+            value);
+    }
+
+    private bool _enableDayNotifications;
+    public bool EnableDayNotifications
+    {
+        get => _enableDayNotifications;
+        set => SetAndNotifyWithConfig(ref _enableDayNotifications, c => c.EnableDayNotifications, value);
+    }
+
+    private bool _enableWeekNotifications;
+    public bool EnableWeekNotifications
+    {
+        get => _enableWeekNotifications;
+        set => SetAndNotifyWithConfig(ref _enableWeekNotifications, c => c.EnableRaceWeekNotifications, value);
     }
 
     private TimeSpan _timeUntilNextSession;
@@ -55,14 +79,14 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     private readonly ErgastAPIService _api;
     private readonly NotificationService _notifications;
     private readonly GlobalConfigService _global;
-    private readonly ITime _time;
+    private readonly ITimeService _time;
 
     private static readonly TimeSpan NotificationTime = TimeSpan.FromMinutes(30);
 
     public CalendarRootViewModel(ErgastAPIService api,
         NotificationService notifications,
         GlobalConfigService global,
-        ITime time)
+        ITimeService time)
         : base("Calendar", PackIconMaterialKind.Calendar, 0)
     {
         _api = api;
@@ -77,6 +101,9 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     {
         ShowPreviousRaces = Config.ShowPreviousRaces;
         EnableNotifications = Config.EnableNotifications;
+        EnableThirtyMinuteNotifications = Config.EnableThirtyMinuteNotifications;
+        EnableDayNotifications = Config.EnableDayNotifications;
+        EnableWeekNotifications = Config.EnableRaceWeekNotifications;
     }
 
     protected override async void OnFeatureFirstOpened() => await LoadData();
@@ -92,8 +119,8 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         if (data.status != ApiRequestStatus.Success) return;
         var races = data.result.ScheduleData.RaceTable.Races
             .OrderBy(x => x.DateTime)
-            .Select(x => new RaceViewModel(x, data.result.ScheduleData.Total, _global));
-        
+            .Select(x => new RaceViewModel(x, data.result.ScheduleData.Total, _global, _time));
+
         foreach (var race in races)
         {
             race.OnNextSessionChanged += SetNotifications;
@@ -115,6 +142,7 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
             NextRace.SetWeekendFinished();
             NextRace = Races.GetNextSession(offsetNow);
         }
+
         NextRace.UpdateNextSession(offsetNow);
         TimeUntilNextRace = NextRace.SessionTime - offsetNow;
         TimeUntilNextSession = NextRace.NextSession.SessionTime - offsetNow;
@@ -123,15 +151,34 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     public void ToggleShowPreviousRaces() =>
         ShowPreviousRaces = !ShowPreviousRaces;
 
-    public void ToggleEnableNotifications() =>
-        EnableNotifications = !EnableNotifications;
-
     private void SetNotifications()
     {
         _notifications.ScheduleNotification(this,
             NextRace.NextSession.SessionTime - NotificationTime,
             NextRace.Name,
             () => $"{NextRace.NextSession.Name} Starts In {(NextRace.NextSession.SessionTime - _time.OffsetNow).Minutes} Minutes",
-            shouldShow: () => EnableNotifications);
+            shouldShow: _ => EnableNotifications
+                             && EnableThirtyMinuteNotifications);
+
+        _notifications.ScheduleNotification(this,
+            _time.StartOfDay(NextRace.NextSession.SessionTime),
+            NextRace.Name,
+            () => $"{NextRace.NextSession.Name} is today at {NextRace.NextSession.SessionTime.LocalDateTime.ToShortString(_global.Use24HourClock)}",
+            shouldShow: t => EnableNotifications
+                             && EnableDayNotifications
+                             && !_time.IsWithinMinutesBefore(t, NextRace.NextSession.SessionTime, 30)
+                             && !_time.IsSameDay(NextRace.NextSession.SessionTime, Config.DayNotificationSentFor),
+            onShow: t => Config.DayNotificationSentFor = t);
+
+        _notifications.ScheduleNotification(this,
+            _time.StartOfWeek(NextRace.NextSession.SessionTime),
+            NextRace.Name,
+            () => "It's race week!",
+            shouldShow: t => EnableNotifications
+                             && EnableWeekNotifications
+                             && !_time.IsWithinMinutesBefore(t, NextRace.NextSession.SessionTime, 30)
+                             && !_time.IsToday(NextRace.NextSession.SessionTime)
+                             && !_time.IsSameWeek(NextRace.NextSession.SessionTime, Config.RaceWeekNotificationSentFor),
+            onShow: t => Config.RaceWeekNotificationSentFor = t);
     }
 }

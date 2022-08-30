@@ -20,7 +20,4 @@ public class Session
             return _dateTime;
         }
     }
-
-    [JsonIgnore]
-    public bool IsUpcoming => DateTime >= DateTimeOffset.Now;
 }

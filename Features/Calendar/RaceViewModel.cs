@@ -2,6 +2,7 @@
 using System.Windows;
 using F1Desktop.Misc.Extensions;
 using F1Desktop.Models.ErgastAPI.Schedule;
+using F1Desktop.Services.Interfaces;
 using F1Desktop.Services.Local;
 
 namespace F1Desktop.Features.Calendar;
@@ -33,12 +34,13 @@ public class RaceViewModel : SessionViewModelBase, IViewAware
     
     public Action OnNextSessionChanged { get; set; }
 
-    public RaceViewModel(Race race, int totalRaces, GlobalConfigService global) : base(race.DateTime, global)
+    public RaceViewModel(Race race, int totalRaces, GlobalConfigService global, ITimeService time) 
+        : base(race.DateTime, global, time)
     {
         RaceNumber = race.Round;
         Name = race.RaceName;
         TotalRaces = totalRaces;
-        _content = new RaceContentViewModel(race, global);
+        _content = new RaceContentViewModel(race, global, time);
     }
 
     public void OnExpanded()

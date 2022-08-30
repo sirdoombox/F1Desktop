@@ -1,4 +1,5 @@
 ﻿using F1Desktop.Features.Debug.Base;
+using F1Desktop.Misc.Extensions;
 using F1Desktop.Services.Interfaces;
 using MahApps.Metro.IconPacks;
 
@@ -40,15 +41,36 @@ public class TimeManipulatorViewModel : DebugFeatureBase
         get => _minute;
         set => SetAndNotify(ref _minute, value);
     }
+    
+    private int _dayIncrement;
+    public int DayIncrement
+    {
+        get => _dayIncrement;
+        set => SetAndNotify(ref _dayIncrement, value);
+    }
+    
+    private int _hourIncrement;
+    public int HourIncrement
+    {
+        get => _hourIncrement;
+        set => SetAndNotify(ref _hourIncrement, value);
+    }
+    
+    private int _minuteIncrement;
+    public int MinuteIncrement
+    {
+        get => _minuteIncrement;
+        set => SetAndNotify(ref _minuteIncrement, value);
+    }
 
     private DateTimeOffset OffsetTime => new(Year, Month, Day, Hour, Minute, 0, TimeSpan.Zero);
     
-    private readonly ITimeDebug _time;
+    private readonly ITimeServiceDebug _time;
 
-    public TimeManipulatorViewModel(ITimeDebug time) : base("Time", PackIconMaterialKind.Clock)
+    public TimeManipulatorViewModel(ITimeServiceDebug time) : base("Time", PackIconMaterialKind.Clock)
     {
         _time = time;
-        SetTime(DateTimeOffset.Now);
+        SetTime(DateTimeOffset.Now.RoundDown(TimeSpan.FromMinutes(1)));
     }
 
     private void SetTime(DateTimeOffset time)
@@ -58,6 +80,7 @@ public class TimeManipulatorViewModel : DebugFeatureBase
         Month = time.Month;
         Hour = time.Hour;
         Minute = time.Minute;
+        DayIncrement = HourIncrement = MinuteIncrement = 1;
         _time.DebugTime = OffsetTime;
         _time.OneSecondTick?.Invoke(_time.OffsetNow);
         _time.TenSecondTick?.Invoke(_time.OffsetNow);
@@ -70,7 +93,12 @@ public class TimeManipulatorViewModel : DebugFeatureBase
         _time.TenSecondTick?.Invoke(_time.OffsetNow);
     }
 
-    public void MoveHour(bool isForward) => SetTime(OffsetTime.AddHours(isForward ? 1 : -1));
-
-    public void MoveDay(bool isForward) => SetTime(OffsetTime.AddDays(isForward ? 1 : -1));
+    public void MoveDay(bool isPositive) => 
+        SetTime(OffsetTime.AddDays(isPositive ? DayIncrement : -DayIncrement));
+    
+    public void MoveHour(bool isPositive) => 
+        SetTime(OffsetTime.AddHours(isPositive ? HourIncrement : -HourIncrement));
+    
+    public void MoveMinute(bool isPositive) => 
+        SetTime(OffsetTime.AddMinutes(isPositive ? MinuteIncrement : -MinuteIncrement));
 }
