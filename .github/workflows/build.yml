@@ -6,9 +6,6 @@ on:
       - '*.*.*'
 jobs:  
   build:
-    strategy:
-      matrix:
-        configuration: [Release]
     runs-on: windows-latest  
 
     steps:
@@ -38,17 +35,5 @@ jobs:
     - name: Pack Squirrel Release
       run: csq pack -u F1Desktop -v ${{github.ref_name}} -p ./bin/Publish -r ./bin/Squirrel -e F1Desktop.exe -i ./Resources/f1.ico --appIcon ./Resources/f1.ico --releaseNotes ./Resources/Changelogs/${{ github.ref_name }}.MD
       
-    - name: Trim RELEASES
-      run: (Get-Content bin/Squirrel/RELEASES | Select-Object -Skip 2) | Set-Content bin/Squirrel/RELEASES
-    
-    - name: Delete Old Versions
-      run: Get-ChildItem -Path bin/Squirrel/ -exclude *${{github.ref_name}}*,F1DesktopSetup.exe,RELEASES | Remove-Item -force
-        
-    - name: Upload Release
-      uses: svenstaro/upload-release-action@v2
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        release_name: F1 Desktop v${{github.ref_name}}
-        file_glob: true
-        file: bin/Squirrel/*
-        body: "- New users only need to download and run `F1DesktopSetup.exe`"
+    - name: Upload Squirrel Release
+      run: csq github-up -r ./bin/Squirrel --repoUrl https://github.com/sirdoombox/F1Desktop --token ${{ secrets.GITHUB_TOKEN }} --releaseName F1 Desktop v${{github.ref_name}} --publish
