@@ -32,6 +32,7 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     }
 
     private bool _enableThirtyMinuteNotifications;
+
     public bool EnableThirtyMinuteNotifications
     {
         get => _enableThirtyMinuteNotifications;
@@ -68,6 +69,7 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     }
 
     private RaceViewModel _nextRace;
+
     public RaceViewModel NextRace
     {
         get => _nextRace;
@@ -78,6 +80,7 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
     private readonly INotificationService _notifications;
     private readonly GlobalConfigService _global;
     private readonly ITimeService _time;
+    private ScheduleData _schedule;
 
     private static readonly TimeSpan NotificationTime = TimeSpan.FromMinutes(30);
 
@@ -114,14 +117,18 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
 
     private async Task LoadData()
     {
+        var data = await _api.GetAsync<ScheduleRoot>();
+        if (data.status != ApiRequestStatus.Success) return;
+        _schedule = data.result.ScheduleData;
+    }
+
+    protected override async void OnFeatureFirstOpened()
+    {
         FeatureLoading = true;
         NextRace = null;
         Races.Clear();
-        var data = await _api.GetAsync<ScheduleRoot>();
-        if (data.status != ApiRequestStatus.Success) return;
-        var races = data.result.ScheduleData.RaceTable.Races
-            .OrderBy(x => x.DateTime)
-            .Select(x => new RaceViewModel(x, data.result.ScheduleData.Total, _global, _time));
+        var races = _schedule.RaceTable.Races.OrderBy(x => x.DateTime)
+            .Select(x => new RaceViewModel(x, _schedule.Total, _global, _time));
 
         foreach (var race in races)
         {
@@ -158,14 +165,16 @@ public class CalendarRootViewModel : FeatureBaseWithConfig<CalendarConfig>
         _notifications.ScheduleNotification(this,
             NextRace.NextSession.SessionTime - NotificationTime,
             NextRace.Name,
-            () => $"{NextRace.NextSession.Name} Starts In {(NextRace.NextSession.SessionTime - _time.OffsetNow).Minutes} Minutes",
+            () =>
+                $"{NextRace.NextSession.Name} Starts In {(NextRace.NextSession.SessionTime - _time.OffsetNow).Minutes} Minutes",
             shouldShow: _ => EnableNotifications
                              && EnableThirtyMinuteNotifications);
 
         _notifications.ScheduleNotification(this,
             _time.StartOfDay(NextRace.NextSession.SessionTime),
             NextRace.Name,
-            () => $"{NextRace.NextSession.Name} is today at {NextRace.NextSession.SessionTime.LocalDateTime.ToShortString(_global.Use24HourClock)}",
+            () =>
+                $"{NextRace.NextSession.Name} is today at {NextRace.NextSession.SessionTime.LocalDateTime.ToShortString(_global.Use24HourClock)}",
             shouldShow: t => EnableNotifications
                              && EnableDayNotifications
                              && !_time.IsWithinMinutesBefore(t, NextRace.NextSession.SessionTime, 30)
